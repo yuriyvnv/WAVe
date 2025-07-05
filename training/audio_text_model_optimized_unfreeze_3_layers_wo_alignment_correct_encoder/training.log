@@ -165,3 +165,22 @@
 2025-07-05 22:07:52,531 - INFO - Epoch 10/30 - Train Loss: 0.2430, Val Loss: 0.2146, Clean Sim: 0.7095, Corrupt Sim: 0.2510, Gap: 0.4585, Time: 963.87s
 2025-07-05 22:07:52,531 - INFO - New best validation loss: 0.2146
 2025-07-05 22:07:58,043 - INFO - New best similarity gap: 0.4585
+2025-07-05 22:23:32,953 - INFO - Epoch 11: Total optimizer steps: 31
+2025-07-05 22:26:52,967 - INFO - Validation metrics:
+2025-07-05 22:26:52,968 - INFO -   Loss: 0.2132
+2025-07-05 22:26:52,968 - INFO -   Average similarity: 0.5138
+2025-07-05 22:26:52,968 - INFO -   Median similarity: 0.5340
+2025-07-05 22:26:52,968 - INFO -   Clean sample similarity: 0.5138
+2025-07-05 22:26:52,968 - INFO -   Corrupted sample similarity: 0.1609
+2025-07-05 22:26:52,968 - INFO -   Similarity gap (clean - corrupt): 0.3530
+2025-07-05 22:26:53,122 - INFO - Epoch 11/30 - Train Loss: 0.2273, Val Loss: 0.2132, Clean Sim: 0.5138, Corrupt Sim: 0.1609, Gap: 0.3530, Time: 966.67s
+2025-07-05 22:26:53,122 - INFO - New best validation loss: 0.2132
+2025-07-05 22:39:42,659 - INFO - Epoch 12: Total optimizer steps: 31
+2025-07-05 22:43:03,190 - INFO - Validation metrics:
+2025-07-05 22:43:03,190 - INFO -   Loss: 0.2192
+2025-07-05 22:43:03,190 - INFO -   Average similarity: 0.5021
+2025-07-05 22:43:03,190 - INFO -   Median similarity: 0.5111
+2025-07-05 22:43:03,190 - INFO -   Clean sample similarity: 0.5021
+2025-07-05 22:43:03,190 - INFO -   Corrupted sample similarity: 0.1796
+2025-07-05 22:43:03,190 - INFO -   Similarity gap (clean - corrupt): 0.3225
+2025-07-05 22:43:03,331 - INFO - Epoch 12/30 - Train Loss: 0.2203, Val Loss: 0.2192, Clean Sim: 0.5021, Corrupt Sim: 0.1796, Gap: 0.3225, Time: 964.79s
