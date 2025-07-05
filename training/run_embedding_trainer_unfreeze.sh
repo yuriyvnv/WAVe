@@ -6,13 +6,14 @@
 # Exit on error
 set -e
 
+
 # Default values
-DATA_DIR="/home/yperezhohin/speech_transcript_embeddings/common_voice_data"
-OUTPUT_DIR="/home/yperezhohin/speech_transcript_embeddings/audio_text_model_optimized_unfreeze_3_layers_wo_alignment_correct_encoder"
+DATA_DIR="./common_voice_data"
+OUTPUT_DIR="./audio_text_model_optimized_unfreeze_3_layers_wo_alignment_correct_encoder"
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
-BATCH_SIZE=32 # 35*76 = 760 with accumulation steps
+BATCH_SIZE=48 # 35*76 = 760 with accumulation steps
 NUM_EPOCHS=30
 LEARNING_RATE=2.1e-3
 WEIGHT_DECAY=0.01
@@ -20,7 +21,7 @@ TEMPERATURE=0.1
 MAX_TEXT_LENGTH=128
 WARMUP_STEPS=1000
 SAVE_EVERY=15
-ACC_STEPS=24
+ACC_STEPS=15
 MAX_AUDIO_LEN=480000
 SEED=42
 DEBUG=false

@@ -43,8 +43,12 @@ logger = logging.getLogger(__name__)
 # Configure environment settings
 print(f"Using GPU: {torch.cuda.get_device_name(0)}")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
+hf_token = os.getenv("HF_TOKEN")
+if hf_token:
+    os.environ["HF_TOKEN"] = hf_token
+    print("✓ HF_TOKEN found and set")
+else:
+    print("⚠ HF_TOKEN not found - some models may not be accessible")
 
 def print_memory_summary():
     if torch.cuda.is_available():
