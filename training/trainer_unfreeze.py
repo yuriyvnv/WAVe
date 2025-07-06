@@ -220,7 +220,7 @@ class WordLevelAlignmentModule(nn.Module):
     Module to align word-level representations from text with temporal segments in audio.
     Uses attention mechanism to create a soft alignment between words and audio frames.
     """
-    def __init__(self, text_hidden_dim, audio_hidden_dim, alignment_dim, num_heads=4, dropout=0.1):
+    def __init__(self, text_hidden_dim, audio_hidden_dim, alignment_dim, num_heads=12, dropout=0.1):
         super().__init__()
         
         self.text_hidden_dim = text_hidden_dim
@@ -493,9 +493,13 @@ class EnhancedAudioTextModel(nn.Module):
                 alignment_dim=projection_dim,              # 768 (your shared space)
                 dropout=dropout
             )
+            self.aligned_text_projection=EnhancedProjection(
+                input_dim=self.text_hidden_dim,
+                projection_dim=projection_dim,
+                dropout=dropout
+            )
                     
-            # Alignment scores are used directly in the loss function
-            # No need for additional weighting layers
+        
         
         # Log number of trainable parameters
         trainable_params = sum(p.numel() for p in self.parameters() if p.requires_grad)
@@ -565,7 +569,7 @@ class EnhancedAudioTextModel(nn.Module):
             aligned_pos_sentence = (aligned_pos * mask).sum(dim=1) / mask.sum(dim=1).clamp(min=1e-9)
             
             # Project and use as fused representation
-            txt_pos_fused = model.text_projection(aligned_pos_sentence)
+            txt_pos_fused = model.aligned_text_projection(aligned_pos_sentence)
             
             # Same for negative
             aligned_neg, _, _ = model.word_level_alignment(
@@ -576,7 +580,7 @@ class EnhancedAudioTextModel(nn.Module):
             )
             mask_neg = batch["attention_mask_neg"].unsqueeze(-1).expand(aligned_neg.size())
             aligned_neg_sentence = (aligned_neg * mask_neg).sum(dim=1) / mask_neg.sum(dim=1).clamp(min=1e-9)
-            txt_neg_fused = model.text_projection(aligned_neg_sentence)
+            txt_neg_fused = model.aligned_text_projection(aligned_neg_sentence)
             
             # Store scores
             model.last_alignment_scores = align_scores
