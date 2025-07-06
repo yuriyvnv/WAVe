@@ -333,8 +333,8 @@ class EnhancedAudioTextModel(nn.Module):
         text_embedding_dim=768,
         audio_embedding_dim=1024,
         dropout=0.1,
-        use_cross_modal=True,
-        use_attentive_pooling=True,
+        use_cross_modal=False,
+        use_attentive_pooling=False,
         use_word_alignment=False,  # New parameter
         freeze_encoders="partial",    # Changed to string: "full", "partial", "none"
         text_layers_to_unfreeze=5,    # New parameter for partial unfreezing
@@ -1342,7 +1342,7 @@ def train_and_evaluate_model(
     num_warmup_steps=0,
     projection_dim=768,
     use_cross_modal=True,
-    use_attentive_pooling=True,
+    use_attentive_pooling=False,
     use_word_alignment=False,  # New default: use word-level alignment
     save_every=1,
     accumulation_steps=4,  # Gradient accumulation steps
