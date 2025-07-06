@@ -552,19 +552,39 @@ class EnhancedAudioTextModel(nn.Module):
 
         # 3) word-level alignment (if enabled)
         if model.use_word_alignment:
+            # Align positive text
             aligned_pos, align_scores, _ = model.word_level_alignment(
                 text_hidden_states=txt_pos_hidden,
                 audio_hidden_states=aud_hidden,
                 text_attention_mask=batch["attention_mask_pos"],
                 audio_attention_mask=batch["attention_mask_audio"],
             )
-            # store for loss fn - this is where alignment should influence training
+            
+            # Pool to sentence level
+            mask = batch["attention_mask_pos"].unsqueeze(-1).expand(aligned_pos.size())
+            aligned_pos_sentence = (aligned_pos * mask).sum(dim=1) / mask.sum(dim=1).clamp(min=1e-9)
+            
+            # Project and use as fused representation
+            txt_pos_fused = model.text_projection(aligned_pos_sentence)
+            
+            # Same for negative
+            aligned_neg, _, _ = model.word_level_alignment(
+                text_hidden_states=txt_neg_hidden,
+                audio_hidden_states=aud_hidden,
+                text_attention_mask=batch["attention_mask_neg"],
+                audio_attention_mask=batch["attention_mask_audio"],
+            )
+            mask_neg = batch["attention_mask_neg"].unsqueeze(-1).expand(aligned_neg.size())
+            aligned_neg_sentence = (aligned_neg * mask_neg).sum(dim=1) / mask_neg.sum(dim=1).clamp(min=1e-9)
+            txt_neg_fused = model.text_projection(aligned_neg_sentence)
+            
+            # Store scores
             model.last_alignment_scores = align_scores
-
-        # 4) normalize all
+        
+        # Normalize all
         txt_pos_norm = F.normalize(txt_pos_fused, p=2, dim=1)
         txt_neg_norm = F.normalize(txt_neg_fused, p=2, dim=1)
-        aud_norm     = F.normalize(aud_fused,     p=2, dim=1)
+        aud_norm = F.normalize(aud_fused, p=2, dim=1)
 
         return txt_pos_norm, txt_neg_norm, aud_norm
 
@@ -714,7 +734,7 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
         self.alignment_weight = alignment_weight
         self.corrupt_gamma = corrupt_gamma
 
-    def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor, alignment_scores: torch.Tensor=None):
+    def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor, alignment_scores=None):
         """
         Args:
           s_pos:  [B] cosine(audio, text_pos)
@@ -723,27 +743,11 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
         Returns:
           scalar loss
         """
-        # 1) build logits and targets
-        logits = torch.stack([s_pos, s_neg], dim=1) / self.temperature  # [B,2]
-        targets = torch.zeros(logits.size(0), dtype=torch.long, device=logits.device)  # all zeros → pos is correct
-
-        # 2) per-sample CE
-        per_sample = F.cross_entropy(logits, targets, reduction="none")  # [B]
-
-        # 3) alignment weighting (optional)
-        if alignment_scores is not None:
-            # mean over tokens → [B]
-            mean_align = alignment_scores.mean(dim=1)
-            factor = 1.0 - torch.sigmoid(mean_align) * self.alignment_weight
-            per_sample = per_sample * factor
-
-        loss = per_sample.mean()
-
-        # 4) corrupt-penalty (optional)
-        if self.corrupt_gamma > 0:
-            loss = loss + self.corrupt_gamma * F.relu(s_neg).mean()
+        logits = torch.stack([s_pos, s_neg], dim=1) / self.temperature
+        targets = torch.zeros(logits.size(0), dtype=torch.long, device=logits.device)
+        per_sample = F.cross_entropy(logits, targets, reduction="none")
             
-        return loss
+        return per_sample.mean()
 
 
 # ===== COMMON VOICE DATASET CLASS =====
@@ -1077,11 +1081,11 @@ def train_epoch(
             s_pos = (aud_norm * txt_pos_norm).sum(dim=1)  # [B]
             s_neg = (aud_norm * txt_neg_norm).sum(dim=1)  # [B]
             
-            # Get alignment scores which were set by compute_pos_neg_embeddings
+            # Get alignment scores which were set by compute_pos_neg_embeddings (currently disabled) 
             alignment_scores = getattr(model, "last_alignment_scores", None)
             
             # Calculate loss
-            loss = loss_fn(s_pos, s_neg, alignment_scores=alignment_scores)
+            loss = loss_fn(s_pos, s_neg)
             return loss, s_pos, s_neg
 
         # 3) Forward pass and backward (with proper gradient accumulation)
@@ -1524,7 +1528,7 @@ def train_and_evaluate_model(
         logger.info(f"Using single learning rate: {learning_rate}")
     
     # Initialize alignment-aware InfoNCE loss with temperature parameter
-    loss_fn = AlignmentAwareInfoNCE(temperature=temperature, alignment_weight=0.5)
+    loss_fn = AlignmentAwareInfoNCE(temperature=temperature)
     
     # Initialize learning rate scheduler
     # Calculate total optimizer steps more precisely 

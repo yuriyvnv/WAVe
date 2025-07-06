@@ -289,3 +289,4 @@
 2025-07-06 22:09:09,266 - INFO -   Corrupted sample similarity: 0.2596
 2025-07-06 22:09:09,266 - INFO -   Similarity gap (clean - corrupt): 0.4159
 2025-07-06 22:09:09,436 - INFO - Epoch 23/30 - Train Loss: 0.0474, Val Loss: 0.1206, Clean Sim: 0.6755, Corrupt Sim: 0.2596, Gap: 0.4159, Time: 4491.15s
+2025-07-06 23:13:46,693 - INFO - Epoch 24: Total optimizer steps: 29
