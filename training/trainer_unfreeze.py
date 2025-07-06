@@ -1684,8 +1684,8 @@ def train_and_evaluate_model(
             # Plot and save similarity distributions periodically
             if epoch % 5 == 0 or epoch == num_epochs:
                 # Generate validation dataset with clean and corrupted examples
-                clean_sim = []
-                corrupt_sim = []
+                clean_sim_hr = []
+                corrupt_sim_hr = []
                 
                 # Get detailed similarities from validation set
                 model.eval()
@@ -1695,13 +1695,20 @@ def train_and_evaluate_model(
                                 for k, v in batch.items()}
                         
                         txt_pos_emb, txt_neg_emb, aud_emb = model(batch)  # Returns 3 values
-                        clean_sim.extend((aud_emb * txt_pos_emb).sum(dim=1).cpu().numpy())
-                        corrupt_sim.extend((aud_emb * txt_neg_emb).sum(dim=1).cpu().numpy())
+                        s_pos = (aud_emb * txt_pos_emb).sum(dim=1)
+                        s_neg = (aud_emb * txt_neg_emb).sum(dim=1)
+                        
+                        # Convert to human readable
+                        s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="prob")
+                        s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="prob")
+                        
+                        clean_sim_hr.extend(s_pos_hr.cpu().numpy())
+                        corrupt_sim_hr.extend(s_neg_hr.cpu().numpy())
                 
                 # Plot distributions
                 plot_similarity_distributions(
-                    clean_sim, 
-                    corrupt_sim, 
+                    clean_sim_hr, 
+                    corrupt_sim_hr, 
                     output_path=os.path.join(output_dir, f"similarity_dist_epoch_{epoch}.png")
                 )
                 
@@ -1764,8 +1771,8 @@ def train_and_evaluate_model(
         test_results["best_loss_model"] = test_metrics
         
         # Plot test set distributions for the best loss model
-        clean_sim = []
-        corrupt_sim = []
+        clean_sim_hr = []
+        corrupt_sim_hr = []
         
         # Get detailed similarities from test set
         model.eval()
@@ -1775,15 +1782,22 @@ def train_and_evaluate_model(
                         for k, v in batch.items()}
                 
                 txt_pos_emb, txt_neg_emb, aud_emb = model(batch)  # Returns 3 values
-                clean_sim.extend((aud_emb * txt_pos_emb).sum(dim=1).cpu().numpy())
-                corrupt_sim.extend((aud_emb * txt_neg_emb).sum(dim=1).cpu().numpy())
+                s_pos = (aud_emb * txt_pos_emb).sum(dim=1)
+                s_neg = (aud_emb * txt_neg_emb).sum(dim=1)
+                
+                # Convert to human readable
+                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="prob")
+                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="prob")
+                
+                clean_sim_hr.extend(s_pos_hr.cpu().numpy())
+                corrupt_sim_hr.extend(s_neg_hr.cpu().numpy())
                 
               
         
         # Plot and save distributions
         plot_similarity_distributions(
-            clean_sim, 
-            corrupt_sim, 
+            clean_sim_hr, 
+            corrupt_sim_hr, 
             output_path=os.path.join(output_dir, "test_similarity_dist_best_loss.png")
         )
     else:
@@ -1800,8 +1814,8 @@ def train_and_evaluate_model(
         test_results["best_gap_model"] = test_metrics
         
         # Plot test set distributions for the best gap model
-        clean_sim = []
-        corrupt_sim = []
+        clean_sim_hr = []
+        corrupt_sim_hr = []
         
         # Get detailed similarities from test set
         model.eval()
@@ -1811,21 +1825,47 @@ def train_and_evaluate_model(
                         for k, v in batch.items()}
                 
                 txt_pos_emb, txt_neg_emb, aud_emb = model(batch)  # Returns 3 values
-                clean_sim.extend((aud_emb * txt_pos_emb).sum(dim=1).cpu().numpy())
-                corrupt_sim.extend((aud_emb * txt_neg_emb).sum(dim=1).cpu().numpy())
+                s_pos = (aud_emb * txt_pos_emb).sum(dim=1)
+                s_neg = (aud_emb * txt_neg_emb).sum(dim=1)
+                
+                # Convert to human readable
+                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="prob")
+                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="prob")
+                
+                clean_sim_hr.extend(s_pos_hr.cpu().numpy())
+                corrupt_sim_hr.extend(s_neg_hr.cpu().numpy())
         
         # Plot and save distributions
         plot_similarity_distributions(
-            clean_sim, 
-            corrupt_sim, 
+            clean_sim_hr, 
+            corrupt_sim_hr, 
             output_path=os.path.join(output_dir, "test_similarity_dist_best_gap.png")
         )
     else:
         logger.warning("Best gap model not found")
     
+
+    def convert_numpy_types(obj):
+        """
+        Recursively convert numpy types to Python native types for JSON serialization.
+        """
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, dict):
+            return {key: convert_numpy_types(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_numpy_types(item) for item in obj]
+        else:
+            return obj
+
     # Save test metrics
     with open(os.path.join(output_dir, "test_metrics.json"), "w") as f:
-        json.dump(test_results, f, indent=2)
+        json.dump(convert_numpy_types(test_results), f, indent=2)
+
     
     logger.info("Evaluation completed!")
     
