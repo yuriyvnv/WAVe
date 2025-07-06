@@ -708,11 +708,9 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
     2-way InfoNCE implemented as CE over [s_pos, s_neg],
     with optional word-alignment weighting and a corrupt-penalty.
     """
-    def __init__(self, temperature=0.1, alignment_weight=0.3, corrupt_gamma=0.35):
+    def __init__(self, temperature=0.1):
         super().__init__()
-        self.temperature = temperature
-        self.alignment_weight = alignment_weight
-        self.corrupt_gamma = corrupt_gamma
+        self.temperature = temperature       
 
     def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor, alignment_scores: torch.Tensor=None):
         """
@@ -730,18 +728,15 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
         # 2) per-sample CE
         per_sample = F.cross_entropy(logits, targets, reduction="none")  # [B]
 
-        # 3) alignment weighting (optional)
+        # 3) alignment  
         if alignment_scores is not None:
             # mean over tokens → [B]
             mean_align = alignment_scores.mean(dim=1)
-            factor = 1.0 - torch.sigmoid(mean_align) * self.alignment_weight
+            confidence = torch.sigmoid(mean_align)
+            factor = 1.0 - confidence
             per_sample = per_sample * factor
 
         loss = per_sample.mean()
-
-        # 4) corrupt-penalty (optional)
-        if self.corrupt_gamma > 0:
-            loss = loss + self.corrupt_gamma * F.relu(s_neg).mean()
             
         return loss
 
@@ -1524,7 +1519,7 @@ def train_and_evaluate_model(
         logger.info(f"Using single learning rate: {learning_rate}")
     
     # Initialize alignment-aware InfoNCE loss with temperature parameter
-    loss_fn = AlignmentAwareInfoNCE(temperature=temperature, alignment_weight=0.5)
+    loss_fn = AlignmentAwareInfoNCE(temperature=temperature)
     
     # Initialize learning rate scheduler
     # Calculate total optimizer steps more precisely 
