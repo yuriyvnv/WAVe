@@ -2,7 +2,7 @@
 set -e  # Exit on any error
 
 echo "=== Starting training ==="
-./run_embedding_trainer_unfreeze.sh
+./run_embedding_trainer_unfreeze.sh 
 
 echo "=== Pushing logs to GitHub ==="
 
