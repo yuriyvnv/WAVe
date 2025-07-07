@@ -1994,7 +1994,7 @@ def main():
         projection_dim=args.projection_dim,
         use_cross_modal=not args.no_cross_modal,
         use_attentive_pooling=not args.no_attentive_pooling,
-        use_word_alignment=False,
+        use_word_alignment=not args.no_word_alignment,
         save_every=args.save_every,
         accumulation_steps=args.acc_steps,
         fp16=not args.no_fp16,
