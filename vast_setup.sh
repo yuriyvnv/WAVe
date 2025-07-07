@@ -22,6 +22,7 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3.11 get-pip.py
 rm get-pip.py
 
+pip install vastai
 # 4. Install UV Package Manager
 echo -e "\n[4/9] Installing UV package manager..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -37,9 +38,9 @@ uv pip install --system \
     transformers==4.50.2 \
     datasets>=3.6.0 \
     librosa==0.10.1 \
-    matplotlib>=3.10.3 \
-    numpy==2.0 \
-    python-dotenv \
+    matplotlib \
+    numpy \
+    dotenv \
     setuptools==77.0.1 \
     soundfile==0.12.1 \
     sox>=1.5.0 \
@@ -63,13 +64,7 @@ echo -e "\n[8/9] Setting up HuggingFace..."
 echo "Please login to HuggingFace:"
 huggingface-cli login
 
-# 9. Vast.ai Configuration (optional)
-echo -e "\n[9/9] Vast.ai setup (optional)..."
-read -p "Do you want to configure Vast.ai? (y/n): " configure_vast
-if [[ $configure_vast == "y" ]]; then
-    read -p "Enter your Vast.ai API key: " vast_key
-    vast auth --api-key "$vast_key"
-fi
+
 
 echo -e "\n======================================"
 echo "Setup Complete!"
