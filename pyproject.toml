@@ -19,4 +19,5 @@ dependencies = [
     "tqdm>=4.67.1",
     "transformers==4.50.2",
     "update>=0.0.1",
+    "vastai>=0.2.8",
 ]

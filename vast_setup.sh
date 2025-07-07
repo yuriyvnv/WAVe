@@ -7,10 +7,6 @@ echo "======================================"
 echo "Speech Transcript Embeddings Setup"
 echo "======================================"
 
-# 1. Clone Repository
-echo -e "\n[1/9] Cloning repository..."
-git clone https://github.com/yuriyvnv/speech_transcript_embeddings.git
-cd speech_transcript_embeddings
 
 # 2. System Update and Python Installation
 echo -e "\n[2/9] Installing Python 3.11..."
