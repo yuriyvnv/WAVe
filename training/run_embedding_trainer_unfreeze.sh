@@ -274,10 +274,6 @@ echo "================================================================"
 echo ""
 
 # Build command with appropriate flags
-<<<<<<< Updated upstream
-=======
-CMD= "ls"
->>>>>>> Stashed changes
 CMD="python trainer_unfreeze.py"
 CMD+=" --data_dir \"$DATA_DIR\""
 CMD+=" --output_dir \"$OUTPUT_DIR\""
