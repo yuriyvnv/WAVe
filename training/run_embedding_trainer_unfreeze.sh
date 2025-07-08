@@ -8,7 +8,7 @@ set -e
 
 # Default values
 DATA_DIR="./common_voice_data"
-OUTPUT_DIR="./audio_text_model_optimized_unfreeze_3_layers_wo_alignment_correct_encoder"
+OUTPUT_DIR="./3_layers_wt_alignment_correct_loss"
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
