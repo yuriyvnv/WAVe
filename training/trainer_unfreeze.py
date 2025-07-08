@@ -1094,7 +1094,7 @@ def train_epoch(
 
         # 3) Forward pass and backward (with proper gradient accumulation)
         if scaler is not None:
-            with torch.amp.autocast(device_type="cuda"):
+            with torch.amp.autocast("cuda"):
                 loss, s_pos, s_neg = _forward()
                 # Scale loss for gradient accumulation
                 scaled_loss = loss / accumulation_steps
@@ -1209,7 +1209,7 @@ def evaluate(model,
                          for k, v in batch.items()}
 
                 # Run forward pass with both positive and negative examples
-                autocast_ctx = torch.amp.autocast(device_type='cuda') if fp16 else torch.cuda.amp.autocast(enabled=False)
+                autocast_ctx = torch.amp.autocast(device_type='cuda') if fp16 else torch.amp.autocast("cuda",enabled=False)
                 with autocast_ctx:
                     # Use compute_pos_neg_embeddings to get embeddings - same as in training
                     txt_pos_emb, txt_neg_emb, aud_emb = EnhancedAudioTextModel.compute_pos_neg_embeddings(model, batch)
@@ -1341,7 +1341,7 @@ def train_and_evaluate_model(
     temperature=0.1,
     num_warmup_steps=0,
     projection_dim=768,
-    use_cross_modal=False,
+    use_cross_modal=True,
     use_attentive_pooling=False,
     use_word_alignment=False,  # New default: use word-level alignment
     save_every=1,
@@ -2000,9 +2000,9 @@ def main():
         temperature=args.temperature,
         num_warmup_steps=args.warmup_steps,
         projection_dim=args.projection_dim,
-        use_cross_modal=False,
-        use_attentive_pooling=False,
-        use_word_alignment=False,
+        use_cross_modal= args.no_cross_modal,
+        use_attentive_pooling= args.no_attentive_pooling,
+        use_word_alignment= args.no_word_alignment,
         save_every=args.save_every,
         accumulation_steps=args.acc_steps,
         fp16=not args.no_fp16,
