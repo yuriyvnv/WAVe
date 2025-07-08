@@ -9,7 +9,7 @@ by adding word-level alignment mechanisms.
 
 import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512,expandable_segments:True"
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import torch
 import logging
@@ -246,9 +246,12 @@ class WordLevelAlignmentModule(nn.Module):
         
         # Alignment confidence scorer (predicts how well each word aligns with audio)
         self.alignment_confidence = nn.Sequential(
+            nn.Linear(alignment_dim *2, alignment_dim ),
+            nn.ReLU(),
             nn.Linear(alignment_dim, alignment_dim // 2),
             nn.ReLU(),
-            nn.Linear(alignment_dim // 2, 1)
+            nn.Linear(alignment_dim // 2, 1),
+            nn.Sigmoid()
         )
     
     def forward(self, text_hidden_states, audio_hidden_states, 
@@ -305,7 +308,8 @@ class WordLevelAlignmentModule(nn.Module):
         
         # Compute confidence score for each word alignment
         # Higher score = more confident that the word aligns with some part of the audio
-        alignment_scores = self.alignment_confidence(aligned_representations).squeeze(-1)
+        confidence_input= torch.cat([text_proj, aligned_representations], dim=-1)
+        alignment_scores = self.alignment_confidence(confidence_input).squeeze(-1)
         
         # Mask out padding tokens
         if text_attention_mask is not None:
