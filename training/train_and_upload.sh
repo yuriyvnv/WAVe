@@ -2,7 +2,6 @@
 set -e  # Exit on any error
 
 echo "=== Starting training ==="
-./run_embedding_trainer_unfreeze.sh
 
 echo "=== Pushing logs to GitHub ==="
 git add .
@@ -10,6 +9,7 @@ git commit -m "Training completed: $(date)"
 git push
 
 echo "=== Uploading to Hugging Face Hub ==="
+<<<<<<< HEAD
 huggingface-cli upload yuriyvnv/3_layers_wt_alignment_correct_loss 3_layers_wt_alignment_correct_loss .
 
 # Source environment variables from the speech_transcript_embeddings folder
@@ -24,3 +24,15 @@ fi
 
 echo "=== All done! Ready to shutdown ==="
 echo "Run 'vastai stop instance <INSTANCE_ID> --api-key <API_KEY>' to terminate the instance"
+=======
+huggingface-cli upload yuriyvnv/3layers_wt_alignment_correct_loss 3layers_wt_alignment_correct_loss .
+
+
+
+
+
+
+echo "=== All done! Shutting down instance ==="
+vastai stop instance 22745726 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
+
+>>>>>>> 13dc2ffc0ae6f7b9351b566570ae276eb2d06626
