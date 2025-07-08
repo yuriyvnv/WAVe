@@ -9,7 +9,7 @@ by adding word-level alignment mechanisms.
 
 import os
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512,expandable_segments:True"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import torch
 import logging
@@ -220,7 +220,7 @@ class WordLevelAlignmentModule(nn.Module):
     Module to align word-level representations from text with temporal segments in audio.
     Uses attention mechanism to create a soft alignment between words and audio frames.
     """
-    def __init__(self, text_hidden_dim, audio_hidden_dim, alignment_dim, num_heads=12, dropout=0.1):
+    def __init__(self, text_hidden_dim, audio_hidden_dim, alignment_dim, num_heads=6, dropout=0.1):
         super().__init__()
         
         self.text_hidden_dim = text_hidden_dim
@@ -565,25 +565,34 @@ class EnhancedAudioTextModel(nn.Module):
             )
             
             # Pool to sentence level
-            mask = batch["attention_mask_pos"].unsqueeze(-1).expand(aligned_pos.size())
-            aligned_pos_sentence = (aligned_pos * mask).sum(dim=1) / mask.sum(dim=1).clamp(min=1e-9)
+            # Use alignment scores directly for pooling
+            weights = align_scores * batch["attention_mask_pos"]  # mask padding
+            weights = weights / weights.sum(dim=1, keepdim=True).clamp(min=1e-9)  # normalize to sum to 1
+            weights = weights.unsqueeze(-1)  # [B, T] -> [B, T, 1]
+
+            # Weighted sum using alignment scores
+            aligned_pos_sentence = (aligned_pos * weights).sum(dim=1)
             
             # Project and use as fused representation
             txt_pos_fused = model.aligned_text_projection(aligned_pos_sentence)
             
             # Same for negative
-            aligned_neg, _, _ = model.word_level_alignment(
+            aligned_neg, neg_align_scores, _ = model.word_level_alignment(
                 text_hidden_states=txt_neg_hidden,
                 audio_hidden_states=aud_hidden,
                 text_attention_mask=batch["attention_mask_neg"],
                 audio_attention_mask=batch["attention_mask_audio"],
             )
-            mask_neg = batch["attention_mask_neg"].unsqueeze(-1).expand(aligned_neg.size())
-            aligned_neg_sentence = (aligned_neg * mask_neg).sum(dim=1) / mask_neg.sum(dim=1).clamp(min=1e-9)
+            weights_neg = neg_align_scores * batch["attention_mask_neg"]
+            weights_neg = weights_neg / weights_neg.sum(dim=1, keepdim=True).clamp(min=1e-9)
+            weights_neg = weights_neg.unsqueeze(-1)
+            aligned_neg_sentence = (aligned_neg * weights_neg).sum(dim=1)
             txt_neg_fused = model.aligned_text_projection(aligned_neg_sentence)
             
+            
             # Store scores
-            model.last_alignment_scores = align_scores
+            model.last_pos_alignment_scores = align_scores
+            model.last_neg_alignment_scores = neg_align_scores
         
         # Normalize all
         txt_pos_norm = F.normalize(txt_pos_fused, p=2, dim=1)
@@ -1067,6 +1076,8 @@ def train_epoch(
     optimizer.zero_grad()
 
     for batch_idx, batch in enumerate(pbar):
+        pos_alignment_scores = []
+        neg_alignment_scores = []
         # 1) move to device
         for k, v in batch.items():
             if isinstance(v, torch.Tensor):
@@ -1086,8 +1097,9 @@ def train_epoch(
             s_neg = (aud_norm * txt_neg_norm).sum(dim=1)  # [B]
             
             # Get alignment scores which were set by compute_pos_neg_embeddings (currently disabled) 
-            alignment_scores = getattr(model, "last_alignment_scores", None)
-            
+            if hasattr(model, 'last_pos_alignment_scores'):
+                pos_alignment_scores.extend(model.last_pos_alignment_scores.mean(dim=1).detach().cpu().tolist())
+                neg_alignment_scores.extend(model.last_neg_alignment_scores.mean(dim=1).detach().cpu().tolist())
             # Calculate loss
             loss = loss_fn(s_pos, s_neg)
             return loss, s_pos, s_neg
@@ -1171,6 +1183,9 @@ def train_epoch(
         "corrupt_similarity": np.mean(corrupt_sims),  
         "similarity_gap": np.mean(clean_sims) - np.mean(corrupt_sims),
         "optimizer_steps": optimizer_steps,
+        "avg_pos_alignment": np.mean(pos_alignment_scores),  # new
+        "avg_neg_alignment": np.mean(neg_alignment_scores),  # new
+        "alignment_gap": np.mean(pos_alignment_scores) - np.mean(neg_alignment_scores),
     }
 
 
@@ -1195,7 +1210,8 @@ def evaluate(model,
 
     desc = f"Epoch {epoch} [{split}]" if epoch is not None else f"[{split}]"
     progress_bar = tqdm(data_loader, desc=desc)
-
+    pos_alignment_scores = []
+    neg_alignment_scores = []
     with torch.no_grad():
         for batch_idx, batch in enumerate(progress_bar):
             try:
@@ -1223,6 +1239,14 @@ def evaluate(model,
                     
                     # Calculate loss correctly
                     loss = loss_fn(s_pos, s_neg, alignment_scores=alignment_scores)
+                    if hasattr(model, 'last_pos_alignment_scores') and model.last_pos_alignment_scores is not None:
+                        pos_alignment_scores.extend(
+                            model.last_pos_alignment_scores.mean(dim=1).cpu().numpy()
+                        )
+                    if hasattr(model, 'last_neg_alignment_scores') and model.last_neg_alignment_scores is not None:
+                        neg_alignment_scores.extend(
+                            model.last_neg_alignment_scores.mean(dim=1).cpu().numpy()
+                        )
 
                 s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale='prob')
                 s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale='prob')
@@ -1291,7 +1315,10 @@ def evaluate(model,
         "std_similarity": std_similarity,
         "clean_similarity": avg_clean,
         "corrupt_similarity": avg_corrupt,
-        "similarity_gap": similarity_gap
+        "similarity_gap": similarity_gap,
+        "avg_pos_alignment": np.mean(pos_alignment_scores) if pos_alignment_scores else 0.0,
+        "avg_neg_alignment": np.mean(neg_alignment_scores) if neg_alignment_scores else 0.0,
+        "alignment_gap": np.mean(pos_alignment_scores) - np.mean(neg_alignment_scores) if pos_alignment_scores else 0.0,
     }
     return metrics, all_similarities
 
@@ -1690,7 +1717,7 @@ def train_and_evaluate_model(
                 )
             
             # Plot and save similarity distributions periodically
-            if epoch % 5 == 0 or epoch == num_epochs:
+            if epoch % 2 == 0 or epoch == num_epochs:
                 # Generate validation dataset with clean and corrupted examples
                 clean_sim_hr = []
                 corrupt_sim_hr = []
@@ -1735,7 +1762,31 @@ def train_and_evaluate_model(
                 plt.tight_layout()
                 plt.savefig(os.path.join(output_dir, "clean_corrupt_progress.png"))
                 plt.close()
-            
+                if len(val_metrics_history) > 0:
+                    epochs_so_far = list(range(1, len(val_metrics_history) + 1))
+                    
+                    val_pos_align = [m.get('avg_pos_alignment', 0) for m in val_metrics_history]
+                    val_neg_align = [m.get('avg_neg_alignment', 0) for m in val_metrics_history]
+                    
+                    plt.figure(figsize=(12, 6))
+                    plt.plot(epochs_so_far, val_pos_align, 'g-', label='Positive (Clean)', linewidth=2)
+                    plt.plot(epochs_so_far, val_neg_align, 'r-', label='Negative (Corrupt)', linewidth=2)
+                    plt.fill_between(epochs_so_far, val_pos_align, val_neg_align, 
+                                    color='lightblue', alpha=0.3, label='Alignment Gap')
+                    
+                    plt.xlabel('Epoch')
+                    plt.ylabel('Average Alignment Score')
+                    plt.title('Validation Set: Alignment Scores Over Time')
+                    plt.legend()
+                    plt.grid(alpha=0.3)
+                    plt.tight_layout()
+                    plt.savefig(os.path.join(output_dir, f"validation_alignment_epoch_{epoch}.png"))
+                    plt.close()
+                    
+                    # Log current values
+                    if val_pos_align and val_neg_align:
+                        logger.info(f"Epoch {epoch} Validation Alignment: Pos={val_pos_align[-1]:.3f}, Neg={val_neg_align[-1]:.3f}, Gap={val_pos_align[-1] - val_neg_align[-1]:.3f}")
+
         except Exception as e:
             logger.error(f"Error in epoch {epoch}: {str(e)}")
             continue
@@ -1758,6 +1809,7 @@ def train_and_evaluate_model(
             "freeze_encoders": freeze_encoders,
             "text_layers_to_unfreeze": text_layers_to_unfreeze,
             "audio_layers_to_unfreeze": audio_layers_to_unfreeze,
+            
         },
         os.path.join(output_dir, "final_model.pt")
     )
