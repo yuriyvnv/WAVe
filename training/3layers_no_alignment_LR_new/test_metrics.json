@@ -1,0 +1,26 @@
+{
+  "best_loss_model": {
+    "loss": 0.1638984185715997,
+    "avg_similarity": 0.6754336357116699,
+    "median_similarity": 0.9327878952026367,
+    "std_similarity": 0.40030691027641296,
+    "clean_similarity": 0.6754336357116699,
+    "corrupt_similarity": 0.25681251287460327,
+    "similarity_gap": 0.41862112283706665,
+    "avg_pos_alignment": 0.0,
+    "avg_neg_alignment": 0.0,
+    "alignment_gap": 0.0
+  },
+  "best_gap_model": {
+    "loss": 0.1585616613090435,
+    "avg_similarity": 0.6903528571128845,
+    "median_similarity": 0.9347754716873169,
+    "std_similarity": 0.38960909843444824,
+    "clean_similarity": 0.6903528571128845,
+    "corrupt_similarity": 0.23637232184410095,
+    "similarity_gap": 0.45398053526878357,
+    "avg_pos_alignment": 0.0,
+    "avg_neg_alignment": 0.0,
+    "alignment_gap": 0.0
+  }
+}
