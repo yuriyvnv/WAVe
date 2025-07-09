@@ -9,13 +9,13 @@ set -e
 
 # Default values
 DATA_DIR="./common_voice_data"
-OUTPUT_DIR="./3layers_wt_alignment_pooling_6"
+OUTPUT_DIR="./3layers_wt_alignment_pooling_6_sigmoid"
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
 BATCH_SIZE=48 # 35*76 = 760 with accumulation steps
 NUM_EPOCHS=30
-LEARNING_RATE=2.1e-3
+LEARNING_RATE=0.0008
 WEIGHT_DECAY=0.01
 TEMPERATURE=0.1
 MAX_TEXT_LENGTH=128

@@ -1529,7 +1529,7 @@ def train_and_evaluate_model(
     # Enhanced optimizer initialization with discriminative learning rates
     if freeze_encoders == "partial":
         # Use discriminative learning rates for partial unfreezing
-        encoder_lr = learning_rate /50  
+        encoder_lr = learning_rate /20  
         
         # Separate parameters into encoder and non-encoder groups
         encoder_params = []

@@ -9,7 +9,7 @@ git commit -m "Training completed: $(date)"
 git push
 
 echo "=== Uploading to Hugging Face Hub ==="
-huggingface-cli upload yuriyvnv/3layers_wt_alignment_pooling_6 3layers_wt_alignment_pooling_6 .
+huggingface-cli upload yuriyvnv/3layers_wt_alignment_pooling_6_sigmoid 3layers_wt_alignment_pooling_6_sigmoid .
  .
 
 
