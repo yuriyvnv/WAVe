@@ -290,3 +290,4 @@
 2025-07-09 15:12:01,157 - INFO - New best validation loss: 0.1850
 2025-07-09 15:12:07,833 - INFO - New best similarity gap: 0.3957
 2025-07-09 15:14:57,923 - INFO - Epoch 18 Validation Alignment: Pos=0.000, Neg=0.000, Gap=0.000
+2025-07-09 15:27:22,903 - INFO - Epoch 19: Total optimizer steps: 31
