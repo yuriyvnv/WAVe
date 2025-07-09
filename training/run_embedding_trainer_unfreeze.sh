@@ -9,7 +9,7 @@ set -e
 
 # Default values
 DATA_DIR="./common_voice_data"
-OUTPUT_DIR="./3layers_wt_alignment_pooling_6_sigmoid"
+OUTPUT_DIR="./3layers_no_alignment_LR_new"
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
@@ -32,7 +32,7 @@ AUDIO_LAYERS_TO_UNFREEZE=3 # New: default unfreezing 3 audio layers
 DEBUG_FLAG=""
 BUCKET_FLAG=""
 VALIDATE_GRADIENTS_FLAG=""
-NO_WORD_ALIGNMENT_FLAG=""  # New: word alignment flag
+NO_WORD_ALIGNMENT_FLAG="--no_word_alignment"  # New: word alignment flag
 
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
