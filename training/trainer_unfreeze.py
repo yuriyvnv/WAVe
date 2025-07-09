@@ -223,6 +223,7 @@ class WordLevelAlignmentModule(nn.Module):
     def __init__(self, text_hidden_dim, audio_hidden_dim, alignment_dim, num_heads=6, dropout=0.1):
         super().__init__()
         
+
         self.text_hidden_dim = text_hidden_dim
         self.audio_hidden_dim = audio_hidden_dim
         self.alignment_dim = alignment_dim
@@ -243,16 +244,18 @@ class WordLevelAlignmentModule(nn.Module):
         # Output projection and layer norm
         self.output_projection = nn.Linear(alignment_dim, alignment_dim)
         self.layer_norm = nn.LayerNorm(alignment_dim)
+        #-----------------------------------------------------
+        # new :learned temperature for the sigmoid.
+        self.log_tau= nn.Parameter(torch.zeros(1))
+        #-----------------------------------------------------
+        #NEW Gated Linear Unit value & Gate Projection
+        self.val = nn.Linear(alignment_dim*2, alignment_dim*2)
+        self.gate = nn.Linear(alignment_dim*2, alignment_dim*2)
+        #-----------------------------------------------------
+        #NEW final 1-logit scorer after GLU 
+        self.proj = nn.Linear(alignment_dim*2, 1)
+        #-----------------------------------------------------
         
-        # Alignment confidence scorer (predicts how well each word aligns with audio)
-        self.alignment_confidence = nn.Sequential(
-            nn.Linear(alignment_dim *2, alignment_dim ),
-            nn.ReLU(),
-            nn.Linear(alignment_dim, alignment_dim // 2),
-            nn.ReLU(),
-            nn.Linear(alignment_dim // 2, 1),
-            nn.Sigmoid()
-        )
     
     def forward(self, text_hidden_states, audio_hidden_states, 
                 text_attention_mask=None, audio_attention_mask=None):
@@ -306,10 +309,14 @@ class WordLevelAlignmentModule(nn.Module):
             text_hidden_states + self.output_projection(aligned_representations)
         )
         
-        # Compute confidence score for each word alignment
-        # Higher score = more confident that the word aligns with some part of the audio
-        confidence_input= torch.cat([text_proj, aligned_representations], dim=-1)
-        alignment_scores = self.alignment_confidence(confidence_input).squeeze(-1)
+        # ----- GLU confidence scorer ----------------------------------
+        x_in  = torch.cat([text_proj, aligned_representations], dim=-1)  # [B,T,2D]
+        tau   = torch.exp(self.log_tau) + 1e-6                           # scalar > 0
+        v     = self.val(x_in)                                          # value stream
+        g     = self.gate(x_in) / tau                                   # gate logits
+        gated = torch.sigmoid(g) * v                                    # GLU output
+        alignment_scores = self.proj(gated).squeeze(-1)                 # [B,T]
+        # --------------------------------------------------
         
         # Mask out padding tokens
         if text_attention_mask is not None:
