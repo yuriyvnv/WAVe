@@ -774,11 +774,16 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
         self.temperature = temperature
         # log σ² initialised to 0  →  σ = 1  (neutral)
         self.log_sigma2_align = nn.Parameter(torch.zeros(()))
+        self.last_bce_loss=0.0
+        self.last_weight=0.0
 
 
     def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor,
                  pos_align: torch.Tensor, 
-                neg_align: torch.Tensor, 
+                neg_align: torch.Tensor,
+                attention_mask_pos: torch.Tensor,
+                attention_mask_neg: torch.Tensor,
+                correctness_scores: torch.Tensor,
                 alignment_scores=None):
         """
         Args:
@@ -795,15 +800,44 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
 
         # WORD ALIGNMENT RANKING TERM 
         if pos_align is not None and neg_align is not None:
-            # convert token wise logits to probabilities and average over tokens
-            p =torch.sigmoid(pos_align).mean(dim=1)
-            n= torch.sigmoid(neg_align).mean(dim=1)
-            #soft margin ranking 
-            loss_align = F.softplus(-(p-n)).mean()
+            pos_flat = pos_align.flatten()
+            neg_flat = neg_align.flatten()
+            if attention_mask_pos is not None:
+                pos_mask= attention_mask_pos.flatten().bool()
+            else:
+                pos_mask = torch.ones_like(pos_flat, dtype=torch.bool)
+            if attention_mask_neg is not None:
+                neg_mask= attention_mask_neg.flatten().bool()
+            else:
+                neg_mask = torch.ones_like(neg_flat, dtype=torch.bool)
+                
+
+            # Concatenate and mask
+            align_logits= torch.cat([pos_flat[pos_mask], neg_flat[neg_mask]])
+            pos_labels= torch.full_like(pos_flat[pos_mask], 0.9)
+            #Negative samples get correctness-based scores
+            if correctness_scores is not None:
+                neg_labels=[]
+                batch_size= neg_align.size(0)
+                for i in range(batch_size):
+                    num_tokens = neg_mask[i * neg_align.size(1):(i + 1) * neg_align.size(1)].sum()
+                    neg_labels.append(torch.full((num_tokens,), correctness_scores[i], device=neg_align.device))
+                neg_labels = torch.cat(neg_labels)
+            else:
+                neg_labels= torch.full_like(neg_flat[neg_mask], 0.1)
+            align_labels = torch.cat([pos_labels, neg_labels])
+
+            #binary crossentropy with soft labels
+            loss_align = F.binary_cross_entropy_with_logits(align_logits, align_labels, reduction="mean")
             weight = torch.exp(-self.log_sigma2_align)
-            return loss_ce + weight * loss_align + self.log_sigma2_align
+            self.last_weight= weight.item()
+            loss_align_final = weight * loss_align
+            self.last_bce_loss= loss_align_final.item()
+            return loss_ce + loss_align_final
         
         else:
+            self.last_bce_loss=0.0
+            self.last_weight=0.0
             return loss_ce
 
 
@@ -851,11 +885,16 @@ class CommonVoiceDataset(Dataset):
     def create_corrupted_transcript(self, text):
         """
         Create a version of the transcript with random corruptions.
-        This helps the model learn to distinguish incorrect transcripts.
+        Returns: (corrupted_text, correctness_score)
+        where correctness_score indicates alignment quality (0.0 to 1.0)
         """
+        correctness=1.0
         words = text.split()
         if len(words) <= 1:
-            return text  # Don't corrupt very short texts
+            #Add a single word to the text
+            random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma", "tua", "qualquer", "coisa", "deveria", "gostaria", "imaginemos"])
+            correctness = 0.5
+            return text + " " + random_word ,  correctness
             
         # Various corruption strategies
         corruption_type = random.choice(["replace", "shuffle", "drop", "add", "partial"])
@@ -865,35 +904,54 @@ class CommonVoiceDataset(Dataset):
             replace_idx = random.randint(0, len(words) - 1)
             random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma", "tua", "qualquer", "coisa", "deveria", "gostaria", "imaginemos"])
             words[replace_idx] = random_word
+            correctness = (len(words) - 1) / len(words)
+
             
         elif corruption_type == "shuffle":
             # Shuffle words (if there are enough)
             if len(words) > 2:
+                original_words = words.copy()
                 shuffle_start = random.randint(0, len(words) - 2)
                 shuffle_end = random.randint(shuffle_start + 1, len(words) - 1)
                 shuffle_segment = words[shuffle_start:shuffle_end+1]
                 random.shuffle(shuffle_segment)
                 words[shuffle_start:shuffle_end+1] = shuffle_segment
+                # count words that stayed in original position
+                num_correct = sum(1 for i in range(len(words)) if words[i] == original_words[i])
+                correctness = num_correct / len(words)
+            else:
+                correctness = 1.0
                 
         elif corruption_type == "drop":
+            original_length = len(words)
             # Drop a random word
             drop_idx = random.randint(0, len(words) - 1)
             words.pop(drop_idx)
+            #Words before drop_idx stay aligned, after are shifted
+            correctness= drop_idx/original_length
             
         elif corruption_type == "add":
+            original_length = len(words)
             # Add a random word
             insert_idx = random.randint(0, len(words))
             random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma"])
             words.insert(insert_idx, random_word)
+            correctness= insert_idx/(original_length+1)
+
             
+
         elif corruption_type == "partial":
+            original_length = len(words)
             # Only keep part of the transcript (first or last half)
             if random.random() < 0.5:
                 words = words[:len(words)//2]
+                kept_fraction = 0.5
             else:
                 words = words[len(words)//2:]
+                kept_fraction = 0.5
+            correctness = kept_fraction
         
-        return " ".join(words)
+        return " ".join(words), correctness
 
 
     def __getitem__(self, idx):
@@ -901,7 +959,7 @@ class CommonVoiceDataset(Dataset):
         speech_array = item["audio"]["array"]
         # 1) get clean + corrupted text
         clean_text = item["sentence"]
-        corrupt_text = self.create_corrupted_transcript(clean_text)
+        corrupt_text, correctness = self.create_corrupted_transcript(clean_text)
 
         # 2) tokenize both
         pos_enc = self.tokenizer(
@@ -939,6 +997,7 @@ class CommonVoiceDataset(Dataset):
             "attention_mask_neg": neg_enc["attention_mask"].squeeze(0),
             "input_values":       waveform,
             "attention_mask_audio": audio_mask.squeeze(0) if audio_mask is not None else None,
+            "correctness":          correctness,
         }
 
 
@@ -976,6 +1035,8 @@ def custom_collate_fn(batch):
 
     # 4) Create is_corrupted flags - zeros for clean samples in evaluation
     is_corrupted = torch.zeros(B, dtype=torch.long)
+    correctness_scores = torch.tensor([b["correctness"] for b in batch], dtype=torch.float32)
+
 
     return {
         "input_ids_pos":       input_ids_pos,
@@ -984,7 +1045,8 @@ def custom_collate_fn(batch):
         "attention_mask_neg":  attention_mask_neg,
         "input_values":        padded_audio,
         "attention_mask_audio": audio_mask,
-        "is_corrupted":        is_corrupted,  # Add flag for evaluation
+        "is_corrupted":        is_corrupted,  
+        "correctness_scores":  correctness_scores,
     }
 
 
@@ -1111,6 +1173,8 @@ def train_epoch(
     model.train()
     total_loss = 0.0
     sample_count = 0
+    total_bce_loss = 0.0      # ADD THIS
+    total_weighted_bce = 0.0  # ADD THIS
     clean_sims, corrupt_sims = [], []
     
     # Track actual optimizer steps for scheduler
@@ -1149,7 +1213,10 @@ def train_epoch(
                 neg_alignment_scores.extend(model.last_neg_alignment_scores.mean(dim=1).detach().cpu().tolist())
             # Calculate loss
 
-            loss = loss_fn(s_pos, s_neg, pos_align, neg_align)
+            loss = loss_fn(s_pos, s_neg, pos_align, neg_align, 
+                           attention_mask_pos= batch["attention_mask_pos"],
+                           attention_mask_neg= batch["attention_mask_neg"],
+                           correctness_scores= batch["correctness"])
             return loss, s_pos, s_neg
 
         # 3) Forward pass and backward (with proper gradient accumulation)
@@ -1197,7 +1264,10 @@ def train_epoch(
         
         # 6) Accumulate loss for reporting (use original unscaled loss)
         batch_size = s_pos.size(0)
-        total_loss += loss.item() * batch_size  # Use original loss, not scaled
+        total_loss += loss.item() * batch_size 
+        total_bce_loss += loss_fn.last_bce_loss * batch_size  
+        total_weighted_bce += (loss_fn.last_bce_loss * loss_fn.last_weight) * batch_size  # ADD THIS
+
         sample_count += batch_size
         
         # Convert similarities to human-readable format for progress bar
@@ -1208,9 +1278,13 @@ def train_epoch(
         avg_loss = total_loss / sample_count
         avg_clean = hr_pos.mean().item()
         avg_corrupt = hr_neg.mean().item()
+        avg_bce = total_bce_loss / sample_count  # ADD THIS
+
         
         pbar.set_postfix({
             "loss": f"{avg_loss:.4f}",
+            "BCE": f"{avg_bce:.4f}",        # ADD THIS
+            "w": f"{loss_fn.last_weight:.3f}", 
             "clean_sim": f"{avg_clean:.3f}",
             "corr_sim": f"{avg_corrupt:.3f}",
             "gap": f"{(avg_clean-avg_corrupt):.3f}",
@@ -1227,6 +1301,8 @@ def train_epoch(
     
     return {
         "loss": total_loss / sample_count,
+        "bce_loss": total_bce_loss / sample_count,  # ADD THIS
+        "weighted_bce": total_weighted_bce / sample_count, 
         "clean_similarity": np.mean(clean_sims),
         "corrupt_similarity": np.mean(corrupt_sims),  
         "similarity_gap": np.mean(clean_sims) - np.mean(corrupt_sims),
@@ -1255,6 +1331,8 @@ def evaluate(model,
     clean_similarities = []
     corrupt_similarities = []
     sample_count = 0
+    total_bce_loss = 0.0      # ADD THIS
+    total_weighted_bce = 0.0  # ADD THIS
 
     desc = f"Epoch {epoch} [{split}]" if epoch is not None else f"[{split}]"
     progress_bar = tqdm(data_loader, desc=desc)
@@ -1286,7 +1364,11 @@ def evaluate(model,
                     pos_align = getattr(model, "last_pos_alignment_scores", None)
                     neg_align = getattr(model, "last_neg_alignment_scores", None)
                     # Calculate loss correctly
-                    loss = loss_fn(s_pos, s_neg, pos_align, neg_align)
+                    loss = loss_fn(s_pos, s_neg, pos_align, neg_align,
+                            attention_mask_pos=batch["attention_mask_pos"],
+                            attention_mask_neg=batch["attention_mask_neg"],
+                            correctness_scores=batch["correctness"])
+
                     if hasattr(model, 'last_pos_alignment_scores') and model.last_pos_alignment_scores is not None:
                         pos_alignment_scores.extend(
                             model.last_pos_alignment_scores.mean(dim=1).cpu().numpy()
@@ -1307,9 +1389,12 @@ def evaluate(model,
                 batch_size = aud_emb.size(0)
                 sample_count += batch_size
                 total_loss += loss.item() * batch_size
+                total_bce_loss += loss_fn.last_bce_loss * batch_size  # ADD THIS
+                total_weighted_bce += (loss_fn.last_bce_loss * loss_fn.last_weight) * batch_size  # ADD THIS
 
                 # Update progress bar
                 avg_loss = total_loss / sample_count
+                avg_bce = total_bce_loss / sample_count
                 avg_clean = np.mean(clean_similarities) if clean_similarities else 0.0
                 avg_corrupt = np.mean(corrupt_similarities) if corrupt_similarities else 0.0
                 clean_hr = to_human_readable(s_pos, temperature=0.1, scale='prob')
@@ -1317,6 +1402,7 @@ def evaluate(model,
 
                 progress_bar.set_postfix({
                     "loss": f"{avg_loss:.4f}",
+                    "BCE": f"{avg_bce:.4f}",
                     "clean_sim": f"{clean_hr.mean().item():.3f}",
                     "corrupt_sim": f"{corr_hr.mean().item():.3f}",
                     "gap": f"{(clean_hr.mean()-corr_hr.mean()).item():.3f}"
@@ -1358,6 +1444,8 @@ def evaluate(model,
 
     metrics = {
         "loss": total_loss / sample_count,
+        "bce_loss": total_bce_loss / sample_count,  # ADD THIS
+        "weighted_bce": total_weighted_bce / sample_count,
         "avg_similarity": avg_similarity,
         "median_similarity": median_similarity,
         "std_similarity": std_similarity,
