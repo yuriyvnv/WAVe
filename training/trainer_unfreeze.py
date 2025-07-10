@@ -220,7 +220,11 @@ class WordLevelAlignmentModule(nn.Module):
     Module to align word-level representations from text with temporal segments in audio.
     Uses attention mechanism to create a soft alignment between words and audio frames.
     """
-    def __init__(self, text_hidden_dim, audio_hidden_dim, alignment_dim, num_heads=6, dropout=0.1):
+    def __init__(self, text_hidden_dim, audio_hidden_dim,
+         alignment_dim,
+         num_heads=6,
+         dropout=0.1,
+         n_glu_heads:int=4):
         super().__init__()
         
 
@@ -228,6 +232,7 @@ class WordLevelAlignmentModule(nn.Module):
         self.audio_hidden_dim = audio_hidden_dim
         self.alignment_dim = alignment_dim
         self.num_heads = num_heads
+        self.n_glu_heads = n_glu_heads
         
         # Projection layers to create query (text) and key/value (audio) representations
         self.text_projection = nn.Linear(text_hidden_dim, alignment_dim)
@@ -244,16 +249,18 @@ class WordLevelAlignmentModule(nn.Module):
         # Output projection and layer norm
         self.output_projection = nn.Linear(alignment_dim, alignment_dim)
         self.layer_norm = nn.LayerNorm(alignment_dim)
+        # MULTIHEAD GLU
         #-----------------------------------------------------
         # new :learned temperature for the sigmoid.
-        self.log_tau= nn.Parameter(torch.zeros(1))
+        self.log_tau= nn.Parameter(torch.zeros(()))
         #-----------------------------------------------------
         #NEW Gated Linear Unit value & Gate Projection
-        self.val = nn.Linear(alignment_dim*2, alignment_dim*2)
-        self.gate = nn.Linear(alignment_dim*2, alignment_dim*2)
+        out_dim=alignment_dim*n_glu_heads # Head times the number of dimension projections
+        self.val = nn.Linear(alignment_dim*2, out_dim)
+        self.gate = nn.Linear(alignment_dim*2, out_dim)
         #-----------------------------------------------------
         #NEW final 1-logit scorer after GLU 
-        self.proj = nn.Linear(alignment_dim*2, 1)
+        self.proj = nn.Linear(out_dim, 1)
         #-----------------------------------------------------
         
     
@@ -290,7 +297,9 @@ class WordLevelAlignmentModule(nn.Module):
             audio_key_padding_mask = (1.0 - audio_attention_mask).bool()
         else:
             audio_key_padding_mask = None
-        
+        # prepare masks for PyTorch MHA -------------------------------
+
+        #  word→audio attention ---------------------------------------
         # Compute text-to-audio attention (words attending to relevant audio frames)
         aligned_representations, alignment_weights = self.alignment_attention(
             query=text_proj,
@@ -309,13 +318,20 @@ class WordLevelAlignmentModule(nn.Module):
             text_hidden_states + self.output_projection(aligned_representations)
         )
         
-        # ----- GLU confidence scorer ----------------------------------
+        # -----Multi head GLU confidence scorer ----------------------------------
         x_in  = torch.cat([text_proj, aligned_representations], dim=-1)  # [B,T,2D]
         tau   = torch.exp(self.log_tau) + 1e-6                           # scalar > 0
         v     = self.val(x_in)                                          # value stream
-        g     = self.gate(x_in) / tau                                   # gate logits
-        gated = torch.sigmoid(g) * v                                    # GLU output
-        alignment_scores = self.proj(gated).squeeze(-1)                 # [B,T]
+        g     = self.gate(x_in) / tau    
+        H, D = self.n_glu_heads, self.alignment_dim
+        v= v.view(batch_size, text_len, H, D)                               # gate logits
+        g= g.view(batch_size, text_len, H, D)
+        # GLU output
+        gated = torch.sigmoid(g) * v
+        gated= gated.reshape(batch_size, text_len,H*D)
+        # [B,T,H]
+        alignment_scores = self.proj(gated).squeeze(-1)
+        # [B,T]
         # --------------------------------------------------
         
         # Mask out padding tokens
@@ -346,7 +362,7 @@ class EnhancedAudioTextModel(nn.Module):
         dropout=0.1,
         use_cross_modal=False,
         use_attentive_pooling=False,
-        use_word_alignment=False,  # New parameter
+        use_word_alignment=True,  # New parameter
         freeze_encoders="partial",    # Changed to string: "full", "partial", "none"
         text_layers_to_unfreeze=5,    # New parameter for partial unfreezing
         audio_layers_to_unfreeze=5,   # New parameter for partial unfreezing
@@ -749,16 +765,21 @@ class EnhancedAudioTextModel(nn.Module):
 
 class AlignmentAwareInfoNCE(torch.nn.Module):
     """
-    2-way InfoNCE implemented as CE over [s_pos, s_neg],
-    with optional word-alignment weighting and a corrupt-penalty.
-    """
-    def __init__(self, temperature=0.1, alignment_weight=0.3, corrupt_gamma=0.35):
+   Two-way InfoNCE **plus** the Kendall-style word-alignment term.
+    A single learnable log-variance (log σ²) governs how much the
+    extra term matters, so no manual weight-picking is required.
+   """
+    def __init__(self, temperature=0.1):
         super().__init__()
         self.temperature = temperature
-        self.alignment_weight = alignment_weight
-        self.corrupt_gamma = corrupt_gamma
+        # log σ² initialised to 0  →  σ = 1  (neutral)
+        self.log_sigma2_align = nn.Parameter(torch.zeros(()))
 
-    def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor, alignment_scores=None):
+
+    def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor,
+                 pos_align: torch.Tensor, 
+                neg_align: torch.Tensor, 
+                alignment_scores=None):
         """
         Args:
           s_pos:  [B] cosine(audio, text_pos)
@@ -767,11 +788,25 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
         Returns:
           scalar loss
         """
+        # CLASSIC two way InfoNCE loss
         logits = torch.stack([s_pos, s_neg], dim=1) / self.temperature
         targets = torch.zeros(logits.size(0), dtype=torch.long, device=logits.device)
-        per_sample = F.cross_entropy(logits, targets, reduction="none")
-            
-        return per_sample.mean()
+        loss_ce = F.cross_entropy(logits, targets)
+
+        # WORD ALIGNMENT RANKING TERM 
+        if pos_align is not None and neg_align is not None:
+            # convert token wise logits to probabilities and average over tokens
+            p =torch.sigmoid(pos_align).mean(dim=1)
+            n= torch.sigmoid(neg_align).mean(dim=1)
+            #soft margin ranking 
+            loss_align = F.softplus(-(p-n)).mean()
+            weight = torch.exp(-self.log_sigma2_align)
+            return loss_ce + weight * loss_align + self.log_sigma2_align
+        
+        else:
+            return loss_ce
+
+
 
 
 # ===== COMMON VOICE DATASET CLASS =====
@@ -1106,13 +1141,15 @@ def train_epoch(
             # Compute cosine similarities
             s_pos = (aud_norm * txt_pos_norm).sum(dim=1)  # [B]
             s_neg = (aud_norm * txt_neg_norm).sum(dim=1)  # [B]
-            
+            pos_align = getattr(model, "last_pos_alignment_scores", None)
+            neg_align = getattr(model, "last_neg_alignment_scores", None)
             # Get alignment scores which were set by compute_pos_neg_embeddings (currently disabled) 
             if hasattr(model, 'last_pos_alignment_scores'):
                 pos_alignment_scores.extend(model.last_pos_alignment_scores.mean(dim=1).detach().cpu().tolist())
                 neg_alignment_scores.extend(model.last_neg_alignment_scores.mean(dim=1).detach().cpu().tolist())
             # Calculate loss
-            loss = loss_fn(s_pos, s_neg)
+
+            loss = loss_fn(s_pos, s_neg, pos_align, neg_align)
             return loss, s_pos, s_neg
 
         # 3) Forward pass and backward (with proper gradient accumulation)
@@ -1246,10 +1283,10 @@ def evaluate(model,
                     s_neg = (aud_emb * txt_neg_emb).sum(dim=1)  # [B]
                     
                     # Get alignment scores
-                    alignment_scores = getattr(model, "last_alignment_scores", None)
-                    
+                    pos_align = getattr(model, "last_pos_alignment_scores", None)
+                    neg_align = getattr(model, "last_neg_alignment_scores", None)
                     # Calculate loss correctly
-                    loss = loss_fn(s_pos, s_neg, alignment_scores=alignment_scores)
+                    loss = loss_fn(s_pos, s_neg, pos_align, neg_align)
                     if hasattr(model, 'last_pos_alignment_scores') and model.last_pos_alignment_scores is not None:
                         pos_alignment_scores.extend(
                             model.last_pos_alignment_scores.mean(dim=1).cpu().numpy()
@@ -1381,7 +1418,7 @@ def train_and_evaluate_model(
     projection_dim=768,
     use_cross_modal=True,
     use_attentive_pooling=False,
-    use_word_alignment=False,  # New default: use word-level alignment
+    use_word_alignment=True,  # New default: use word-level alignment
     save_every=1,
     accumulation_steps=4,  # Gradient accumulation steps
     fp16=True,  # Use mixed precision training
