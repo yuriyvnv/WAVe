@@ -1216,7 +1216,7 @@ def train_epoch(
             loss = loss_fn(s_pos, s_neg, pos_align, neg_align, 
                            attention_mask_pos= batch["attention_mask_pos"],
                            attention_mask_neg= batch["attention_mask_neg"],
-                           correctness_scores= batch["correctness"])
+                           correctness_scores= batch["correctness_scores"])
             return loss, s_pos, s_neg
 
         # 3) Forward pass and backward (with proper gradient accumulation)
@@ -1234,6 +1234,10 @@ def train_epoch(
 
         # 4) Optimizer step (only when accumulation is complete)
         if should_step:
+            if loss_fn.log_sigma2_align.grad is not None:
+                logger.info(f"log_σ² gradient: {loss_fn.log_sigma2_align.grad.item():.6f}")
+            else:
+                logger.warning("log_σ² has NO gradient!")
             if scaler is not None:
                 # Unscale gradients for clipping
                 scaler.unscale_(optimizer)
@@ -1251,7 +1255,10 @@ def train_epoch(
             # Update learning rate scheduler
             scheduler.step()
             optimizer_steps += 1
-            
+            # Log EVERY TIME (remove the % 10 check)
+            logger.info(f"Optimizer step {optimizer_steps}: "
+                        f"log_σ²={loss_fn.log_sigma2_align.item():.6f}, "
+                        f"weight={torch.exp(-loss_fn.log_sigma2_align).item():.6f}")
             # Reset gradients
             optimizer.zero_grad()
 
@@ -1367,7 +1374,7 @@ def evaluate(model,
                     loss = loss_fn(s_pos, s_neg, pos_align, neg_align,
                             attention_mask_pos=batch["attention_mask_pos"],
                             attention_mask_neg=batch["attention_mask_neg"],
-                            correctness_scores=batch["correctness"])
+                            correctness_scores=batch["correctness_scores"])
 
                     if hasattr(model, 'last_pos_alignment_scores') and model.last_pos_alignment_scores is not None:
                         pos_alignment_scores.extend(
@@ -1657,7 +1664,7 @@ def train_and_evaluate_model(
     
     # Initialize mixed precision training if requested
     scaler = torch.amp.GradScaler('cuda') if fp16 else None
-    
+    loss_fn = AlignmentAwareInfoNCE(temperature=temperature)
     # Enhanced optimizer initialization with discriminative learning rates
     if freeze_encoders == "partial":
         # Use discriminative learning rates for partial unfreezing
@@ -1674,12 +1681,16 @@ def train_and_evaluate_model(
                     encoder_params.append(param)
                 else:
                     non_encoder_params.append(param)
+
+        for param in loss_fn.parameters():
+            non_encoder_params.append(param)
         
         # Create parameter groups with different learning rates
         param_groups = [
             {'params': encoder_params, 'lr': encoder_lr, 'weight_decay': weight_decay},
             {'params': non_encoder_params, 'lr': learning_rate, 'weight_decay': weight_decay}
         ]
+
         
         optimizer = AdamW(param_groups)
         logger.info(f"Using discriminative learning rates: encoder_lr={encoder_lr}, main_lr={learning_rate}")
@@ -1687,15 +1698,32 @@ def train_and_evaluate_model(
         
     else:
         # Original single learning rate approach
+        all_params = list(model.parameters()) + list(loss_fn.parameters())
         optimizer = AdamW(
-            [p for p in model.parameters() if p.requires_grad],
-            lr=learning_rate,
-            weight_decay=weight_decay
-        )
+        [p for p in all_params if p.requires_grad],
+        lr=learning_rate,
+        weight_decay=weight_decay
+            )
+
         logger.info(f"Using single learning rate: {learning_rate}")
     
-    # Initialize alignment-aware InfoNCE loss with temperature parameter
-    loss_fn = AlignmentAwareInfoNCE(temperature=temperature)
+    logger.info("Checking if loss parameters are in optimizer...")
+    optimizer_params = []
+    for group in optimizer.param_groups:
+        optimizer_params.extend(group['params'])
+    # Check each loss function parameter
+    for name, param in loss_fn.named_parameters():
+        if any(param is opt_param for opt_param in optimizer_params):
+            logger.info(f"✓ {name} is in optimizer")
+        else:
+            logger.info(f"✗ {name} is NOT in optimizer!")
+
+    # Also log total counts
+    logger.info(f"Total parameters in optimizer: {len(optimizer_params)}")
+    logger.info(f"Model parameters: {sum(1 for p in model.parameters() if p.requires_grad)}")
+    logger.info(f"Loss parameters: {sum(1 for p in loss_fn.parameters())}")
+
+
     
     # Initialize learning rate scheduler
     # Calculate total optimizer steps more precisely 
