@@ -220,13 +220,19 @@ class WordLevelAlignmentModule(nn.Module):
     Module to align word-level representations from text with temporal segments in audio.
     Uses attention mechanism to create a soft alignment between words and audio frames.
     """
-    def __init__(self, text_hidden_dim, audio_hidden_dim, alignment_dim, num_heads=4, dropout=0.1):
+    def __init__(self, text_hidden_dim, audio_hidden_dim,
+         alignment_dim,
+         num_heads=6,
+         dropout=0.1,
+         n_glu_heads:int=4):
         super().__init__()
         
+
         self.text_hidden_dim = text_hidden_dim
         self.audio_hidden_dim = audio_hidden_dim
         self.alignment_dim = alignment_dim
         self.num_heads = num_heads
+        self.n_glu_heads = n_glu_heads
         
         # Projection layers to create query (text) and key/value (audio) representations
         self.text_projection = nn.Linear(text_hidden_dim, alignment_dim)
@@ -243,13 +249,20 @@ class WordLevelAlignmentModule(nn.Module):
         # Output projection and layer norm
         self.output_projection = nn.Linear(alignment_dim, alignment_dim)
         self.layer_norm = nn.LayerNorm(alignment_dim)
+        # MULTIHEAD GLU
+        #-----------------------------------------------------
+        # new :learned temperature for the sigmoid.
+        self.log_tau= nn.Parameter(torch.zeros(()))
+        #-----------------------------------------------------
+        #NEW Gated Linear Unit value & Gate Projection
+        out_dim=alignment_dim*n_glu_heads # Head times the number of dimension projections
+        self.val = nn.Linear(alignment_dim*2, out_dim)
+        self.gate = nn.Linear(alignment_dim*2, out_dim)
+        #-----------------------------------------------------
+        #NEW final 1-logit scorer after GLU 
+        self.proj = nn.Linear(out_dim, 1)
+        #-----------------------------------------------------
         
-        # Alignment confidence scorer (predicts how well each word aligns with audio)
-        self.alignment_confidence = nn.Sequential(
-            nn.Linear(alignment_dim, alignment_dim // 2),
-            nn.ReLU(),
-            nn.Linear(alignment_dim // 2, 1)
-        )
     
     def forward(self, text_hidden_states, audio_hidden_states, 
                 text_attention_mask=None, audio_attention_mask=None):
@@ -284,7 +297,9 @@ class WordLevelAlignmentModule(nn.Module):
             audio_key_padding_mask = (1.0 - audio_attention_mask).bool()
         else:
             audio_key_padding_mask = None
-        
+        # prepare masks for PyTorch MHA -------------------------------
+
+        #  word→audio attention ---------------------------------------
         # Compute text-to-audio attention (words attending to relevant audio frames)
         aligned_representations, alignment_weights = self.alignment_attention(
             query=text_proj,
@@ -303,9 +318,21 @@ class WordLevelAlignmentModule(nn.Module):
             text_hidden_states + self.output_projection(aligned_representations)
         )
         
-        # Compute confidence score for each word alignment
-        # Higher score = more confident that the word aligns with some part of the audio
-        alignment_scores = self.alignment_confidence(aligned_representations).squeeze(-1)
+        # -----Multi head GLU confidence scorer ----------------------------------
+        x_in  = torch.cat([text_proj, aligned_representations], dim=-1)  # [B,T,2D]
+        tau   = torch.exp(self.log_tau) + 1e-6                           # scalar > 0
+        v     = self.val(x_in)                                          # value stream
+        g     = self.gate(x_in) / tau    
+        H, D = self.n_glu_heads, self.alignment_dim
+        v= v.view(batch_size, text_len, H, D)                               # gate logits
+        g= g.view(batch_size, text_len, H, D)
+        # GLU output
+        gated = torch.sigmoid(g) * v
+        gated= gated.reshape(batch_size, text_len,H*D)
+        # [B,T,H]
+        alignment_scores = self.proj(gated).squeeze(-1)
+        # [B,T]
+        # --------------------------------------------------
         
         # Mask out padding tokens
         if text_attention_mask is not None:
@@ -333,9 +360,9 @@ class EnhancedAudioTextModel(nn.Module):
         text_embedding_dim=768,
         audio_embedding_dim=1024,
         dropout=0.1,
-        use_cross_modal=True,
-        use_attentive_pooling=True,
-        use_word_alignment=False,  # New parameter
+        use_cross_modal=False,
+        use_attentive_pooling=False,
+        use_word_alignment=True,  # New parameter
         freeze_encoders="partial",    # Changed to string: "full", "partial", "none"
         text_layers_to_unfreeze=5,    # New parameter for partial unfreezing
         audio_layers_to_unfreeze=5,   # New parameter for partial unfreezing
@@ -493,9 +520,13 @@ class EnhancedAudioTextModel(nn.Module):
                 alignment_dim=projection_dim,              # 768 (your shared space)
                 dropout=dropout
             )
+            self.aligned_text_projection=EnhancedProjection(
+                input_dim=self.text_hidden_dim,
+                projection_dim=projection_dim,
+                dropout=dropout
+            )
                     
-            # Alignment scores are used directly in the loss function
-            # No need for additional weighting layers
+        
         
         # Log number of trainable parameters
         trainable_params = sum(p.numel() for p in self.parameters() if p.requires_grad)
@@ -552,19 +583,48 @@ class EnhancedAudioTextModel(nn.Module):
 
         # 3) word-level alignment (if enabled)
         if model.use_word_alignment:
+            # Align positive text
             aligned_pos, align_scores, _ = model.word_level_alignment(
                 text_hidden_states=txt_pos_hidden,
                 audio_hidden_states=aud_hidden,
                 text_attention_mask=batch["attention_mask_pos"],
                 audio_attention_mask=batch["attention_mask_audio"],
             )
-            # store for loss fn - this is where alignment should influence training
-            model.last_alignment_scores = align_scores
+            
+            # Pool to sentence level
+            # Use alignment scores directly for pooling
+            weights = align_scores * batch["attention_mask_pos"]  # mask padding
+            weights = weights / weights.sum(dim=1, keepdim=True).clamp(min=1e-9)  # normalize to sum to 1
+            weights = weights.unsqueeze(-1)  # [B, T] -> [B, T, 1]
 
-        # 4) normalize all
+            # Weighted sum using alignment scores
+            aligned_pos_sentence = (aligned_pos * weights).sum(dim=1)
+            
+            # Project and use as fused representation
+            txt_pos_fused = model.aligned_text_projection(aligned_pos_sentence)
+            
+            # Same for negative
+            aligned_neg, neg_align_scores, _ = model.word_level_alignment(
+                text_hidden_states=txt_neg_hidden,
+                audio_hidden_states=aud_hidden,
+                text_attention_mask=batch["attention_mask_neg"],
+                audio_attention_mask=batch["attention_mask_audio"],
+            )
+            weights_neg = neg_align_scores * batch["attention_mask_neg"]
+            weights_neg = weights_neg / weights_neg.sum(dim=1, keepdim=True).clamp(min=1e-9)
+            weights_neg = weights_neg.unsqueeze(-1)
+            aligned_neg_sentence = (aligned_neg * weights_neg).sum(dim=1)
+            txt_neg_fused = model.aligned_text_projection(aligned_neg_sentence)
+            
+            
+            # Store scores
+            model.last_pos_alignment_scores = align_scores
+            model.last_neg_alignment_scores = neg_align_scores
+        
+        # Normalize all
         txt_pos_norm = F.normalize(txt_pos_fused, p=2, dim=1)
         txt_neg_norm = F.normalize(txt_neg_fused, p=2, dim=1)
-        aud_norm     = F.normalize(aud_fused,     p=2, dim=1)
+        aud_norm = F.normalize(aud_fused, p=2, dim=1)
 
         return txt_pos_norm, txt_neg_norm, aud_norm
 
@@ -705,16 +765,26 @@ class EnhancedAudioTextModel(nn.Module):
 
 class AlignmentAwareInfoNCE(torch.nn.Module):
     """
-    2-way InfoNCE implemented as CE over [s_pos, s_neg],
-    with optional word-alignment weighting and a corrupt-penalty.
-    """
-    def __init__(self, temperature=0.1, alignment_weight=0.3, corrupt_gamma=0.35):
+   Two-way InfoNCE **plus** the Kendall-style word-alignment term.
+    A single learnable log-variance (log σ²) governs how much the
+    extra term matters, so no manual weight-picking is required.
+   """
+    def __init__(self, temperature=0.1):
         super().__init__()
         self.temperature = temperature
-        self.alignment_weight = alignment_weight
-        self.corrupt_gamma = corrupt_gamma
+        # log σ² initialised to 0  →  σ = 1  (neutral)
+        self.log_sigma2_align = nn.Parameter(torch.zeros(()))
+        self.last_bce_loss=0.0
+        self.last_weight=0.0
 
-    def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor, alignment_scores: torch.Tensor=None):
+
+    def forward(self, s_pos: torch.Tensor, s_neg: torch.Tensor,
+                 pos_align: torch.Tensor, 
+                neg_align: torch.Tensor,
+                attention_mask_pos: torch.Tensor,
+                attention_mask_neg: torch.Tensor,
+                correctness_scores: torch.Tensor,
+                alignment_scores=None):
         """
         Args:
           s_pos:  [B] cosine(audio, text_pos)
@@ -723,27 +793,54 @@ class AlignmentAwareInfoNCE(torch.nn.Module):
         Returns:
           scalar loss
         """
-        # 1) build logits and targets
-        logits = torch.stack([s_pos, s_neg], dim=1) / self.temperature  # [B,2]
-        targets = torch.zeros(logits.size(0), dtype=torch.long, device=logits.device)  # all zeros → pos is correct
+        # CLASSIC two way InfoNCE loss
+        logits = torch.stack([s_pos, s_neg], dim=1) / self.temperature
+        targets = torch.zeros(logits.size(0), dtype=torch.long, device=logits.device)
+        loss_ce = F.cross_entropy(logits, targets)
 
-        # 2) per-sample CE
-        per_sample = F.cross_entropy(logits, targets, reduction="none")  # [B]
+        # WORD ALIGNMENT RANKING TERM 
+        if pos_align is not None and neg_align is not None:
+            pos_flat = pos_align.flatten()
+            neg_flat = neg_align.flatten()
+            if attention_mask_pos is not None:
+                pos_mask= attention_mask_pos.flatten().bool()
+            else:
+                pos_mask = torch.ones_like(pos_flat, dtype=torch.bool)
+            if attention_mask_neg is not None:
+                neg_mask= attention_mask_neg.flatten().bool()
+            else:
+                neg_mask = torch.ones_like(neg_flat, dtype=torch.bool)
+                
 
-        # 3) alignment weighting (optional)
-        if alignment_scores is not None:
-            # mean over tokens → [B]
-            mean_align = alignment_scores.mean(dim=1)
-            factor = 1.0 - torch.sigmoid(mean_align) * self.alignment_weight
-            per_sample = per_sample * factor
+            # Concatenate and mask
+            align_logits= torch.cat([pos_flat[pos_mask], neg_flat[neg_mask]])
+            pos_labels= torch.full_like(pos_flat[pos_mask], 0.9)
+            #Negative samples get correctness-based scores
+            if correctness_scores is not None:
+                neg_labels=[]
+                batch_size= neg_align.size(0)
+                for i in range(batch_size):
+                    num_tokens = neg_mask[i * neg_align.size(1):(i + 1) * neg_align.size(1)].sum()
+                    neg_labels.append(torch.full((num_tokens,), correctness_scores[i], device=neg_align.device))
+                neg_labels = torch.cat(neg_labels)
+            else:
+                neg_labels= torch.full_like(neg_flat[neg_mask], 0.1)
+            align_labels = torch.cat([pos_labels, neg_labels])
 
-        loss = per_sample.mean()
+            #binary crossentropy with soft labels
+            loss_align = F.binary_cross_entropy_with_logits(align_logits, align_labels, reduction="mean")
+            weight = torch.exp(-self.log_sigma2_align)
+            self.last_weight= weight.item()
+            loss_align_final = weight * loss_align
+            self.last_bce_loss= loss_align_final.item()
+            return loss_ce + loss_align_final
+        
+        else:
+            self.last_bce_loss=0.0
+            self.last_weight=0.0
+            return loss_ce
 
-        # 4) corrupt-penalty (optional)
-        if self.corrupt_gamma > 0:
-            loss = loss + self.corrupt_gamma * F.relu(s_neg).mean()
-            
-        return loss
+
 
 
 # ===== COMMON VOICE DATASET CLASS =====
@@ -788,11 +885,16 @@ class CommonVoiceDataset(Dataset):
     def create_corrupted_transcript(self, text):
         """
         Create a version of the transcript with random corruptions.
-        This helps the model learn to distinguish incorrect transcripts.
+        Returns: (corrupted_text, correctness_score)
+        where correctness_score indicates alignment quality (0.0 to 1.0)
         """
+        correctness=1.0
         words = text.split()
         if len(words) <= 1:
-            return text  # Don't corrupt very short texts
+            #Add a single word to the text
+            random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma", "tua", "qualquer", "coisa", "deveria", "gostaria", "imaginemos"])
+            correctness = 0.5
+            return text + " " + random_word ,  correctness
             
         # Various corruption strategies
         corruption_type = random.choice(["replace", "shuffle", "drop", "add", "partial"])
@@ -802,35 +904,54 @@ class CommonVoiceDataset(Dataset):
             replace_idx = random.randint(0, len(words) - 1)
             random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma", "tua", "qualquer", "coisa", "deveria", "gostaria", "imaginemos"])
             words[replace_idx] = random_word
+            correctness = (len(words) - 1) / len(words)
+
             
         elif corruption_type == "shuffle":
             # Shuffle words (if there are enough)
             if len(words) > 2:
+                original_words = words.copy()
                 shuffle_start = random.randint(0, len(words) - 2)
                 shuffle_end = random.randint(shuffle_start + 1, len(words) - 1)
                 shuffle_segment = words[shuffle_start:shuffle_end+1]
                 random.shuffle(shuffle_segment)
                 words[shuffle_start:shuffle_end+1] = shuffle_segment
+                # count words that stayed in original position
+                num_correct = sum(1 for i in range(len(words)) if words[i] == original_words[i])
+                correctness = num_correct / len(words)
+            else:
+                correctness = 1.0
                 
         elif corruption_type == "drop":
+            original_length = len(words)
             # Drop a random word
             drop_idx = random.randint(0, len(words) - 1)
             words.pop(drop_idx)
+            #Words before drop_idx stay aligned, after are shifted
+            correctness= drop_idx/original_length
             
         elif corruption_type == "add":
+            original_length = len(words)
             # Add a random word
             insert_idx = random.randint(0, len(words))
             random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma"])
             words.insert(insert_idx, random_word)
+            correctness= insert_idx/(original_length+1)
+
             
+
         elif corruption_type == "partial":
+            original_length = len(words)
             # Only keep part of the transcript (first or last half)
             if random.random() < 0.5:
                 words = words[:len(words)//2]
+                kept_fraction = 0.5
             else:
                 words = words[len(words)//2:]
+                kept_fraction = 0.5
+            correctness = kept_fraction
         
-        return " ".join(words)
+        return " ".join(words), correctness
 
 
     def __getitem__(self, idx):
@@ -838,7 +959,7 @@ class CommonVoiceDataset(Dataset):
         speech_array = item["audio"]["array"]
         # 1) get clean + corrupted text
         clean_text = item["sentence"]
-        corrupt_text = self.create_corrupted_transcript(clean_text)
+        corrupt_text, correctness = self.create_corrupted_transcript(clean_text)
 
         # 2) tokenize both
         pos_enc = self.tokenizer(
@@ -876,6 +997,7 @@ class CommonVoiceDataset(Dataset):
             "attention_mask_neg": neg_enc["attention_mask"].squeeze(0),
             "input_values":       waveform,
             "attention_mask_audio": audio_mask.squeeze(0) if audio_mask is not None else None,
+            "correctness":          correctness,
         }
 
 
@@ -913,6 +1035,8 @@ def custom_collate_fn(batch):
 
     # 4) Create is_corrupted flags - zeros for clean samples in evaluation
     is_corrupted = torch.zeros(B, dtype=torch.long)
+    correctness_scores = torch.tensor([b["correctness"] for b in batch], dtype=torch.float32)
+
 
     return {
         "input_ids_pos":       input_ids_pos,
@@ -921,7 +1045,8 @@ def custom_collate_fn(batch):
         "attention_mask_neg":  attention_mask_neg,
         "input_values":        padded_audio,
         "attention_mask_audio": audio_mask,
-        "is_corrupted":        is_corrupted,  # Add flag for evaluation
+        "is_corrupted":        is_corrupted,  
+        "correctness_scores":  correctness_scores,
     }
 
 
@@ -1048,6 +1173,8 @@ def train_epoch(
     model.train()
     total_loss = 0.0
     sample_count = 0
+    total_bce_loss = 0.0      # ADD THIS
+    total_weighted_bce = 0.0  # ADD THIS
     clean_sims, corrupt_sims = [], []
     
     # Track actual optimizer steps for scheduler
@@ -1059,6 +1186,8 @@ def train_epoch(
     optimizer.zero_grad()
 
     for batch_idx, batch in enumerate(pbar):
+        pos_alignment_scores = []
+        neg_alignment_scores = []
         # 1) move to device
         for k, v in batch.items():
             if isinstance(v, torch.Tensor):
@@ -1076,12 +1205,18 @@ def train_epoch(
             # Compute cosine similarities
             s_pos = (aud_norm * txt_pos_norm).sum(dim=1)  # [B]
             s_neg = (aud_norm * txt_neg_norm).sum(dim=1)  # [B]
-            
-            # Get alignment scores which were set by compute_pos_neg_embeddings
-            alignment_scores = getattr(model, "last_alignment_scores", None)
-            
+            pos_align = getattr(model, "last_pos_alignment_scores", None)
+            neg_align = getattr(model, "last_neg_alignment_scores", None)
+            # Get alignment scores which were set by compute_pos_neg_embeddings (currently disabled) 
+            if hasattr(model, 'last_pos_alignment_scores'):
+                pos_alignment_scores.extend(model.last_pos_alignment_scores.mean(dim=1).detach().cpu().tolist())
+                neg_alignment_scores.extend(model.last_neg_alignment_scores.mean(dim=1).detach().cpu().tolist())
             # Calculate loss
-            loss = loss_fn(s_pos, s_neg, alignment_scores=alignment_scores)
+
+            loss = loss_fn(s_pos, s_neg, pos_align, neg_align, 
+                           attention_mask_pos= batch["attention_mask_pos"],
+                           attention_mask_neg= batch["attention_mask_neg"],
+                           correctness_scores= batch["correctness_scores"])
             return loss, s_pos, s_neg
 
         # 3) Forward pass and backward (with proper gradient accumulation)
@@ -1099,6 +1234,10 @@ def train_epoch(
 
         # 4) Optimizer step (only when accumulation is complete)
         if should_step:
+            if loss_fn.log_sigma2_align.grad is not None:
+                logger.info(f"log_σ² gradient: {loss_fn.log_sigma2_align.grad.item():.6f}")
+            else:
+                logger.warning("log_σ² has NO gradient!")
             if scaler is not None:
                 # Unscale gradients for clipping
                 scaler.unscale_(optimizer)
@@ -1116,7 +1255,10 @@ def train_epoch(
             # Update learning rate scheduler
             scheduler.step()
             optimizer_steps += 1
-            
+            # Log EVERY TIME (remove the % 10 check)
+            logger.info(f"Optimizer step {optimizer_steps}: "
+                        f"log_σ²={loss_fn.log_sigma2_align.item():.6f}, "
+                        f"weight={torch.exp(-loss_fn.log_sigma2_align).item():.6f}")
             # Reset gradients
             optimizer.zero_grad()
 
@@ -1129,7 +1271,10 @@ def train_epoch(
         
         # 6) Accumulate loss for reporting (use original unscaled loss)
         batch_size = s_pos.size(0)
-        total_loss += loss.item() * batch_size  # Use original loss, not scaled
+        total_loss += loss.item() * batch_size 
+        total_bce_loss += loss_fn.last_bce_loss * batch_size  
+        total_weighted_bce += (loss_fn.last_bce_loss * loss_fn.last_weight) * batch_size  # ADD THIS
+
         sample_count += batch_size
         
         # Convert similarities to human-readable format for progress bar
@@ -1140,9 +1285,13 @@ def train_epoch(
         avg_loss = total_loss / sample_count
         avg_clean = hr_pos.mean().item()
         avg_corrupt = hr_neg.mean().item()
+        avg_bce = total_bce_loss / sample_count  # ADD THIS
+
         
         pbar.set_postfix({
             "loss": f"{avg_loss:.4f}",
+            "BCE": f"{avg_bce:.4f}",        # ADD THIS
+            "w": f"{loss_fn.last_weight:.3f}", 
             "clean_sim": f"{avg_clean:.3f}",
             "corr_sim": f"{avg_corrupt:.3f}",
             "gap": f"{(avg_clean-avg_corrupt):.3f}",
@@ -1159,10 +1308,15 @@ def train_epoch(
     
     return {
         "loss": total_loss / sample_count,
+        "bce_loss": total_bce_loss / sample_count,  # ADD THIS
+        "weighted_bce": total_weighted_bce / sample_count, 
         "clean_similarity": np.mean(clean_sims),
         "corrupt_similarity": np.mean(corrupt_sims),  
         "similarity_gap": np.mean(clean_sims) - np.mean(corrupt_sims),
         "optimizer_steps": optimizer_steps,
+        "avg_pos_alignment": np.mean(pos_alignment_scores),  # new
+        "avg_neg_alignment": np.mean(neg_alignment_scores),  # new
+        "alignment_gap": np.mean(pos_alignment_scores) - np.mean(neg_alignment_scores),
     }
 
 
@@ -1184,10 +1338,13 @@ def evaluate(model,
     clean_similarities = []
     corrupt_similarities = []
     sample_count = 0
+    total_bce_loss = 0.0      # ADD THIS
+    total_weighted_bce = 0.0  # ADD THIS
 
     desc = f"Epoch {epoch} [{split}]" if epoch is not None else f"[{split}]"
     progress_bar = tqdm(data_loader, desc=desc)
-
+    pos_alignment_scores = []
+    neg_alignment_scores = []
     with torch.no_grad():
         for batch_idx, batch in enumerate(progress_bar):
             try:
@@ -1211,10 +1368,22 @@ def evaluate(model,
                     s_neg = (aud_emb * txt_neg_emb).sum(dim=1)  # [B]
                     
                     # Get alignment scores
-                    alignment_scores = getattr(model, "last_alignment_scores", None)
-                    
+                    pos_align = getattr(model, "last_pos_alignment_scores", None)
+                    neg_align = getattr(model, "last_neg_alignment_scores", None)
                     # Calculate loss correctly
-                    loss = loss_fn(s_pos, s_neg, alignment_scores=alignment_scores)
+                    loss = loss_fn(s_pos, s_neg, pos_align, neg_align,
+                            attention_mask_pos=batch["attention_mask_pos"],
+                            attention_mask_neg=batch["attention_mask_neg"],
+                            correctness_scores=batch["correctness_scores"])
+
+                    if hasattr(model, 'last_pos_alignment_scores') and model.last_pos_alignment_scores is not None:
+                        pos_alignment_scores.extend(
+                            model.last_pos_alignment_scores.mean(dim=1).cpu().numpy()
+                        )
+                    if hasattr(model, 'last_neg_alignment_scores') and model.last_neg_alignment_scores is not None:
+                        neg_alignment_scores.extend(
+                            model.last_neg_alignment_scores.mean(dim=1).cpu().numpy()
+                        )
 
                 s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale='prob')
                 s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale='prob')
@@ -1227,9 +1396,12 @@ def evaluate(model,
                 batch_size = aud_emb.size(0)
                 sample_count += batch_size
                 total_loss += loss.item() * batch_size
+                total_bce_loss += loss_fn.last_bce_loss * batch_size  # ADD THIS
+                total_weighted_bce += (loss_fn.last_bce_loss * loss_fn.last_weight) * batch_size  # ADD THIS
 
                 # Update progress bar
                 avg_loss = total_loss / sample_count
+                avg_bce = total_bce_loss / sample_count
                 avg_clean = np.mean(clean_similarities) if clean_similarities else 0.0
                 avg_corrupt = np.mean(corrupt_similarities) if corrupt_similarities else 0.0
                 clean_hr = to_human_readable(s_pos, temperature=0.1, scale='prob')
@@ -1237,6 +1409,7 @@ def evaluate(model,
 
                 progress_bar.set_postfix({
                     "loss": f"{avg_loss:.4f}",
+                    "BCE": f"{avg_bce:.4f}",
                     "clean_sim": f"{clean_hr.mean().item():.3f}",
                     "corrupt_sim": f"{corr_hr.mean().item():.3f}",
                     "gap": f"{(clean_hr.mean()-corr_hr.mean()).item():.3f}"
@@ -1278,12 +1451,17 @@ def evaluate(model,
 
     metrics = {
         "loss": total_loss / sample_count,
+        "bce_loss": total_bce_loss / sample_count,  # ADD THIS
+        "weighted_bce": total_weighted_bce / sample_count,
         "avg_similarity": avg_similarity,
         "median_similarity": median_similarity,
         "std_similarity": std_similarity,
         "clean_similarity": avg_clean,
         "corrupt_similarity": avg_corrupt,
-        "similarity_gap": similarity_gap
+        "similarity_gap": similarity_gap,
+        "avg_pos_alignment": np.mean(pos_alignment_scores) if pos_alignment_scores else 0.0,
+        "avg_neg_alignment": np.mean(neg_alignment_scores) if neg_alignment_scores else 0.0,
+        "alignment_gap": np.mean(pos_alignment_scores) - np.mean(neg_alignment_scores) if pos_alignment_scores else 0.0,
     }
     return metrics, all_similarities
 
@@ -1334,8 +1512,8 @@ def train_and_evaluate_model(
     num_warmup_steps=0,
     projection_dim=768,
     use_cross_modal=True,
-    use_attentive_pooling=True,
-    use_word_alignment=False,  # New default: use word-level alignment
+    use_attentive_pooling=False,
+    use_word_alignment=True,  # New default: use word-level alignment
     save_every=1,
     accumulation_steps=4,  # Gradient accumulation steps
     fp16=True,  # Use mixed precision training
@@ -1486,11 +1664,11 @@ def train_and_evaluate_model(
     
     # Initialize mixed precision training if requested
     scaler = torch.amp.GradScaler('cuda') if fp16 else None
-    
+    loss_fn = AlignmentAwareInfoNCE(temperature=temperature)
     # Enhanced optimizer initialization with discriminative learning rates
     if freeze_encoders == "partial":
         # Use discriminative learning rates for partial unfreezing
-        encoder_lr = learning_rate /50  
+        encoder_lr = learning_rate /20  
         
         # Separate parameters into encoder and non-encoder groups
         encoder_params = []
@@ -1503,12 +1681,16 @@ def train_and_evaluate_model(
                     encoder_params.append(param)
                 else:
                     non_encoder_params.append(param)
+
+        for param in loss_fn.parameters():
+            non_encoder_params.append(param)
         
         # Create parameter groups with different learning rates
         param_groups = [
             {'params': encoder_params, 'lr': encoder_lr, 'weight_decay': weight_decay},
             {'params': non_encoder_params, 'lr': learning_rate, 'weight_decay': weight_decay}
         ]
+
         
         optimizer = AdamW(param_groups)
         logger.info(f"Using discriminative learning rates: encoder_lr={encoder_lr}, main_lr={learning_rate}")
@@ -1516,15 +1698,32 @@ def train_and_evaluate_model(
         
     else:
         # Original single learning rate approach
+        all_params = list(model.parameters()) + list(loss_fn.parameters())
         optimizer = AdamW(
-            [p for p in model.parameters() if p.requires_grad],
-            lr=learning_rate,
-            weight_decay=weight_decay
-        )
+        [p for p in all_params if p.requires_grad],
+        lr=learning_rate,
+        weight_decay=weight_decay
+            )
+
         logger.info(f"Using single learning rate: {learning_rate}")
     
-    # Initialize alignment-aware InfoNCE loss with temperature parameter
-    loss_fn = AlignmentAwareInfoNCE(temperature=temperature, alignment_weight=0.5)
+    logger.info("Checking if loss parameters are in optimizer...")
+    optimizer_params = []
+    for group in optimizer.param_groups:
+        optimizer_params.extend(group['params'])
+    # Check each loss function parameter
+    for name, param in loss_fn.named_parameters():
+        if any(param is opt_param for opt_param in optimizer_params):
+            logger.info(f"✓ {name} is in optimizer")
+        else:
+            logger.info(f"✗ {name} is NOT in optimizer!")
+
+    # Also log total counts
+    logger.info(f"Total parameters in optimizer: {len(optimizer_params)}")
+    logger.info(f"Model parameters: {sum(1 for p in model.parameters() if p.requires_grad)}")
+    logger.info(f"Loss parameters: {sum(1 for p in loss_fn.parameters())}")
+
+
     
     # Initialize learning rate scheduler
     # Calculate total optimizer steps more precisely 
@@ -1682,7 +1881,7 @@ def train_and_evaluate_model(
                 )
             
             # Plot and save similarity distributions periodically
-            if epoch % 5 == 0 or epoch == num_epochs:
+            if epoch % 2 == 0 or epoch == num_epochs:
                 # Generate validation dataset with clean and corrupted examples
                 clean_sim_hr = []
                 corrupt_sim_hr = []
@@ -1727,7 +1926,31 @@ def train_and_evaluate_model(
                 plt.tight_layout()
                 plt.savefig(os.path.join(output_dir, "clean_corrupt_progress.png"))
                 plt.close()
-            
+                if len(val_metrics_history) > 0:
+                    epochs_so_far = list(range(1, len(val_metrics_history) + 1))
+                    
+                    val_pos_align = [m.get('avg_pos_alignment', 0) for m in val_metrics_history]
+                    val_neg_align = [m.get('avg_neg_alignment', 0) for m in val_metrics_history]
+                    
+                    plt.figure(figsize=(12, 6))
+                    plt.plot(epochs_so_far, val_pos_align, 'g-', label='Positive (Clean)', linewidth=2)
+                    plt.plot(epochs_so_far, val_neg_align, 'r-', label='Negative (Corrupt)', linewidth=2)
+                    plt.fill_between(epochs_so_far, val_pos_align, val_neg_align, 
+                                    color='lightblue', alpha=0.3, label='Alignment Gap')
+                    
+                    plt.xlabel('Epoch')
+                    plt.ylabel('Average Alignment Score')
+                    plt.title('Validation Set: Alignment Scores Over Time')
+                    plt.legend()
+                    plt.grid(alpha=0.3)
+                    plt.tight_layout()
+                    plt.savefig(os.path.join(output_dir, f"validation_alignment_epoch_{epoch}.png"))
+                    plt.close()
+                    
+                    # Log current values
+                    if val_pos_align and val_neg_align:
+                        logger.info(f"Epoch {epoch} Validation Alignment: Pos={val_pos_align[-1]:.3f}, Neg={val_neg_align[-1]:.3f}, Gap={val_pos_align[-1] - val_neg_align[-1]:.3f}")
+
         except Exception as e:
             logger.error(f"Error in epoch {epoch}: {str(e)}")
             continue
@@ -1750,6 +1973,7 @@ def train_and_evaluate_model(
             "freeze_encoders": freeze_encoders,
             "text_layers_to_unfreeze": text_layers_to_unfreeze,
             "audio_layers_to_unfreeze": audio_layers_to_unfreeze,
+            
         },
         os.path.join(output_dir, "final_model.pt")
     )

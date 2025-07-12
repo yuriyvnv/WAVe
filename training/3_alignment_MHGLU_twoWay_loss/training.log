@@ -1,0 +1,2565 @@
+2025-07-10 14:08:47,126 - INFO - Training with parameters:
+2025-07-10 14:08:47,126 - INFO -   Text model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+2025-07-10 14:08:47,126 - INFO -   Audio model: facebook/w2v-bert-2.0
+2025-07-10 14:08:47,126 - INFO -   Freeze encoders: partial
+2025-07-10 14:08:47,126 - INFO -   Text layers to unfreeze: 3
+2025-07-10 14:08:47,126 - INFO -   Audio layers to unfreeze: 3
+2025-07-10 14:08:47,126 - INFO -   Use cross-modal attention: False
+2025-07-10 14:08:47,127 - INFO -   Use attentive pooling: False
+2025-07-10 14:08:47,127 - INFO -   Use word-level alignment: True
+2025-07-10 14:08:47,127 - INFO -   Batch size: 48
+2025-07-10 14:08:47,127 - INFO -   Gradient accumulation steps: 15
+2025-07-10 14:08:47,127 - INFO -   Effective batch size: 720
+2025-07-10 14:08:47,127 - INFO -   Mixed precision training: False
+2025-07-10 14:08:47,127 - INFO -   Learning rate: 0.0008
+2025-07-10 14:08:47,127 - INFO -   Temperature: 0.1
+2025-07-10 14:08:47,127 - INFO -   Projection dimension: 768
+2025-07-10 14:08:47,127 - INFO -   Training samples: 21968
+2025-07-10 14:08:47,127 - INFO -   Validation samples: 9464
+2025-07-10 14:08:47,127 - INFO -   Test samples: 9467
+2025-07-10 14:08:47,127 - INFO -   Max audio length: 480000 samples (30.00 seconds at 16kHz)
+2025-07-10 14:08:47,127 - INFO - Loading tokenizer and feature extractor...
+2025-07-10 14:08:49,554 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:08:49,554 - INFO - Creating datasets...
+2025-07-10 14:08:49,554 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:08:49,555 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:08:49,555 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:08:49,555 - INFO - Creating data loaders...
+2025-07-10 14:08:49,555 - INFO - Checking a sample batch...
+2025-07-10 14:09:17,287 - INFO -   input_ids_pos: torch.Size([48, 128])
+2025-07-10 14:09:17,287 - INFO -   attention_mask_pos: torch.Size([48, 128])
+2025-07-10 14:09:17,287 - INFO -   input_ids_neg: torch.Size([48, 128])
+2025-07-10 14:09:17,287 - INFO -   attention_mask_neg: torch.Size([48, 128])
+2025-07-10 14:09:17,288 - INFO -   input_values: torch.Size([48, 473, 160])
+2025-07-10 14:09:17,288 - INFO -   attention_mask_audio: torch.Size([48, 473])
+2025-07-10 14:09:17,288 - INFO -   is_corrupted: torch.Size([48])
+2025-07-10 14:09:17,288 - INFO -   correctness_scores: torch.Size([48])
+2025-07-10 14:09:17,288 - INFO - Initializing model...
+2025-07-10 14:10:04,370 - INFO - Text encoder hidden dim: 768
+2025-07-10 14:10:04,370 - INFO - Audio encoder hidden dim: 1024
+2025-07-10 14:10:04,370 - INFO - Partial freezing: unfreezing last 3 text layers and 3 audio layers
+2025-07-10 14:10:04,371 - INFO - Unfreezing text encoder layer 9
+2025-07-10 14:10:04,371 - INFO - Unfreezing text encoder layer 10
+2025-07-10 14:10:04,371 - INFO - Unfreezing text encoder layer 11
+2025-07-10 14:10:04,372 - INFO - Unfreezing audio encoder layer 21
+2025-07-10 14:10:04,372 - INFO - Unfreezing audio encoder layer 22
+2025-07-10 14:10:04,372 - INFO - Unfreezing audio encoder layer 23
+2025-07-10 14:10:04,482 - INFO - Model initialized with 308,221,186 trainable parameters out of 879,798,082 total
+2025-07-10 14:10:05,165 - INFO - Using discriminative learning rates: encoder_lr=4e-05, main_lr=0.0008
+2025-07-10 14:10:05,165 - INFO - Encoder parameters: 156, Non-encoder parameters: 37
+2025-07-10 14:10:05,165 - INFO - Scheduler setup:
+2025-07-10 14:10:05,165 - INFO -   Batches per epoch: 457
+2025-07-10 14:10:05,165 - INFO -   Accumulation steps: 15
+2025-07-10 14:10:05,165 - INFO -   Optimizer steps per epoch: 31
+2025-07-10 14:10:05,165 - INFO -   Total optimizer steps: 930
+2025-07-10 14:10:05,165 - INFO -   Warmup steps: 1000
+2025-07-10 14:10:05,165 - INFO - Validating gradient accumulation setup...
+2025-07-10 14:10:05,165 - INFO - Validating gradient accumulation with 15 steps...
+2025-07-10 14:10:25,924 - WARNING - Not enough test batches (10) for accumulation_steps (15)
+2025-07-10 14:10:25,924 - INFO - Starting training for 30 epochs
+2025-07-10 14:11:12,619 - ERROR - Error in epoch 1: 'correctness'
+2025-07-10 14:14:10,031 - INFO - Training with parameters:
+2025-07-10 14:14:10,031 - INFO -   Text model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+2025-07-10 14:14:10,031 - INFO -   Audio model: facebook/w2v-bert-2.0
+2025-07-10 14:14:10,031 - INFO -   Freeze encoders: partial
+2025-07-10 14:14:10,031 - INFO -   Text layers to unfreeze: 3
+2025-07-10 14:14:10,032 - INFO -   Audio layers to unfreeze: 3
+2025-07-10 14:14:10,032 - INFO -   Use cross-modal attention: False
+2025-07-10 14:14:10,032 - INFO -   Use attentive pooling: False
+2025-07-10 14:14:10,032 - INFO -   Use word-level alignment: True
+2025-07-10 14:14:10,032 - INFO -   Batch size: 48
+2025-07-10 14:14:10,032 - INFO -   Gradient accumulation steps: 15
+2025-07-10 14:14:10,032 - INFO -   Effective batch size: 720
+2025-07-10 14:14:10,032 - INFO -   Mixed precision training: False
+2025-07-10 14:14:10,032 - INFO -   Learning rate: 0.0008
+2025-07-10 14:14:10,032 - INFO -   Temperature: 0.1
+2025-07-10 14:14:10,032 - INFO -   Projection dimension: 768
+2025-07-10 14:14:10,032 - INFO -   Training samples: 21968
+2025-07-10 14:14:10,032 - INFO -   Validation samples: 9464
+2025-07-10 14:14:10,032 - INFO -   Test samples: 9467
+2025-07-10 14:14:10,032 - INFO -   Max audio length: 480000 samples (30.00 seconds at 16kHz)
+2025-07-10 14:14:10,032 - INFO - Loading tokenizer and feature extractor...
+2025-07-10 14:14:11,069 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:14:11,069 - INFO - Creating datasets...
+2025-07-10 14:14:11,070 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:14:11,070 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:14:11,070 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:14:11,070 - INFO - Creating data loaders...
+2025-07-10 14:14:11,070 - INFO - Checking a sample batch...
+2025-07-10 14:14:30,482 - INFO -   input_ids_pos: torch.Size([48, 128])
+2025-07-10 14:14:30,483 - INFO -   attention_mask_pos: torch.Size([48, 128])
+2025-07-10 14:14:30,483 - INFO -   input_ids_neg: torch.Size([48, 128])
+2025-07-10 14:14:30,483 - INFO -   attention_mask_neg: torch.Size([48, 128])
+2025-07-10 14:14:30,483 - INFO -   input_values: torch.Size([48, 473, 160])
+2025-07-10 14:14:30,483 - INFO -   attention_mask_audio: torch.Size([48, 473])
+2025-07-10 14:14:30,483 - INFO -   is_corrupted: torch.Size([48])
+2025-07-10 14:14:30,483 - INFO -   correctness_scores: torch.Size([48])
+2025-07-10 14:14:30,483 - INFO - Initializing model...
+2025-07-10 14:14:31,362 - INFO - Text encoder hidden dim: 768
+2025-07-10 14:14:31,362 - INFO - Audio encoder hidden dim: 1024
+2025-07-10 14:14:31,362 - INFO - Partial freezing: unfreezing last 3 text layers and 3 audio layers
+2025-07-10 14:14:31,363 - INFO - Unfreezing text encoder layer 9
+2025-07-10 14:14:31,363 - INFO - Unfreezing text encoder layer 10
+2025-07-10 14:14:31,363 - INFO - Unfreezing text encoder layer 11
+2025-07-10 14:14:31,364 - INFO - Unfreezing audio encoder layer 21
+2025-07-10 14:14:31,364 - INFO - Unfreezing audio encoder layer 22
+2025-07-10 14:14:31,364 - INFO - Unfreezing audio encoder layer 23
+2025-07-10 14:14:31,489 - INFO - Model initialized with 308,221,186 trainable parameters out of 879,798,082 total
+2025-07-10 14:14:32,299 - INFO - Using discriminative learning rates: encoder_lr=4e-05, main_lr=0.0008
+2025-07-10 14:14:32,299 - INFO - Encoder parameters: 156, Non-encoder parameters: 37
+2025-07-10 14:14:32,299 - INFO - Scheduler setup:
+2025-07-10 14:14:32,299 - INFO -   Batches per epoch: 457
+2025-07-10 14:14:32,299 - INFO -   Accumulation steps: 15
+2025-07-10 14:14:32,299 - INFO -   Optimizer steps per epoch: 31
+2025-07-10 14:14:32,299 - INFO -   Total optimizer steps: 930
+2025-07-10 14:14:32,299 - INFO -   Warmup steps: 1000
+2025-07-10 14:14:32,299 - INFO - Validating gradient accumulation setup...
+2025-07-10 14:14:32,299 - INFO - Validating gradient accumulation with 15 steps...
+2025-07-10 14:14:52,293 - WARNING - Not enough test batches (10) for accumulation_steps (15)
+2025-07-10 14:14:52,294 - INFO - Starting training for 30 epochs
+2025-07-10 14:27:48,777 - INFO - Epoch 1: Total optimizer steps: 31
+2025-07-10 14:31:08,722 - INFO - Validation metrics:
+2025-07-10 14:31:08,723 - INFO -   Loss: 1.0246
+2025-07-10 14:31:08,723 - INFO -   Average similarity: 0.1445
+2025-07-10 14:31:08,723 - INFO -   Median similarity: 0.0786
+2025-07-10 14:31:08,723 - INFO -   Clean sample similarity: 0.1445
+2025-07-10 14:31:08,723 - INFO -   Corrupted sample similarity: 0.0879
+2025-07-10 14:31:08,723 - INFO -   Similarity gap (clean - corrupt): 0.0566
+2025-07-10 14:31:08,840 - INFO - Epoch 1/30 - Train Loss: 1.2519, Val Loss: 1.0246, Clean Sim: 0.1445, Corrupt Sim: 0.0879, Gap: 0.0566, Time: 976.55s
+2025-07-10 14:31:08,840 - INFO - New best validation loss: 1.0246
+2025-07-10 14:31:14,641 - INFO - New best similarity gap: 0.0566
+2025-07-10 14:31:29,121 - INFO - Training with parameters:
+2025-07-10 14:31:29,121 - INFO -   Text model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+2025-07-10 14:31:29,121 - INFO -   Audio model: facebook/w2v-bert-2.0
+2025-07-10 14:31:29,121 - INFO -   Freeze encoders: partial
+2025-07-10 14:31:29,121 - INFO -   Text layers to unfreeze: 3
+2025-07-10 14:31:29,121 - INFO -   Audio layers to unfreeze: 3
+2025-07-10 14:31:29,121 - INFO -   Use cross-modal attention: False
+2025-07-10 14:31:29,121 - INFO -   Use attentive pooling: False
+2025-07-10 14:31:29,121 - INFO -   Use word-level alignment: True
+2025-07-10 14:31:29,121 - INFO -   Batch size: 48
+2025-07-10 14:31:29,121 - INFO -   Gradient accumulation steps: 15
+2025-07-10 14:31:29,121 - INFO -   Effective batch size: 720
+2025-07-10 14:31:29,121 - INFO -   Mixed precision training: False
+2025-07-10 14:31:29,121 - INFO -   Learning rate: 0.0008
+2025-07-10 14:31:29,121 - INFO -   Temperature: 0.1
+2025-07-10 14:31:29,121 - INFO -   Projection dimension: 768
+2025-07-10 14:31:29,121 - INFO -   Training samples: 21968
+2025-07-10 14:31:29,121 - INFO -   Validation samples: 9464
+2025-07-10 14:31:29,121 - INFO -   Test samples: 9467
+2025-07-10 14:31:29,122 - INFO -   Max audio length: 480000 samples (30.00 seconds at 16kHz)
+2025-07-10 14:31:29,122 - INFO - Loading tokenizer and feature extractor...
+2025-07-10 14:31:30,216 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:31:30,216 - INFO - Creating datasets...
+2025-07-10 14:31:30,216 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:31:30,216 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:31:30,217 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:31:30,217 - INFO - Creating data loaders...
+2025-07-10 14:31:30,217 - INFO - Checking a sample batch...
+2025-07-10 14:32:58,374 - INFO - Training with parameters:
+2025-07-10 14:32:58,374 - INFO -   Text model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+2025-07-10 14:32:58,374 - INFO -   Audio model: facebook/w2v-bert-2.0
+2025-07-10 14:32:58,374 - INFO -   Freeze encoders: partial
+2025-07-10 14:32:58,374 - INFO -   Text layers to unfreeze: 3
+2025-07-10 14:32:58,374 - INFO -   Audio layers to unfreeze: 3
+2025-07-10 14:32:58,374 - INFO -   Use cross-modal attention: False
+2025-07-10 14:32:58,374 - INFO -   Use attentive pooling: False
+2025-07-10 14:32:58,374 - INFO -   Use word-level alignment: True
+2025-07-10 14:32:58,374 - INFO -   Batch size: 48
+2025-07-10 14:32:58,374 - INFO -   Gradient accumulation steps: 15
+2025-07-10 14:32:58,374 - INFO -   Effective batch size: 720
+2025-07-10 14:32:58,374 - INFO -   Mixed precision training: False
+2025-07-10 14:32:58,374 - INFO -   Learning rate: 0.0008
+2025-07-10 14:32:58,374 - INFO -   Temperature: 0.1
+2025-07-10 14:32:58,374 - INFO -   Projection dimension: 768
+2025-07-10 14:32:58,374 - INFO -   Training samples: 21968
+2025-07-10 14:32:58,374 - INFO -   Validation samples: 9464
+2025-07-10 14:32:58,374 - INFO -   Test samples: 9467
+2025-07-10 14:32:58,374 - INFO -   Max audio length: 480000 samples (30.00 seconds at 16kHz)
+2025-07-10 14:32:58,374 - INFO - Loading tokenizer and feature extractor...
+2025-07-10 14:32:59,342 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:32:59,342 - INFO - Creating datasets...
+2025-07-10 14:32:59,342 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:32:59,342 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:32:59,343 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:32:59,343 - INFO - Creating data loaders...
+2025-07-10 14:32:59,343 - INFO - Checking a sample batch...
+2025-07-10 14:33:16,418 - INFO -   input_ids_pos: torch.Size([48, 128])
+2025-07-10 14:33:16,418 - INFO -   attention_mask_pos: torch.Size([48, 128])
+2025-07-10 14:33:16,418 - INFO -   input_ids_neg: torch.Size([48, 128])
+2025-07-10 14:33:16,418 - INFO -   attention_mask_neg: torch.Size([48, 128])
+2025-07-10 14:33:16,419 - INFO -   input_values: torch.Size([48, 473, 160])
+2025-07-10 14:33:16,420 - INFO -   attention_mask_audio: torch.Size([48, 473])
+2025-07-10 14:33:16,420 - INFO -   is_corrupted: torch.Size([48])
+2025-07-10 14:33:16,420 - INFO -   correctness_scores: torch.Size([48])
+2025-07-10 14:33:16,420 - INFO - Initializing model...
+2025-07-10 14:33:17,175 - INFO - Text encoder hidden dim: 768
+2025-07-10 14:33:17,175 - INFO - Audio encoder hidden dim: 1024
+2025-07-10 14:33:17,175 - INFO - Partial freezing: unfreezing last 3 text layers and 3 audio layers
+2025-07-10 14:33:17,175 - INFO - Unfreezing text encoder layer 9
+2025-07-10 14:33:17,175 - INFO - Unfreezing text encoder layer 10
+2025-07-10 14:33:17,175 - INFO - Unfreezing text encoder layer 11
+2025-07-10 14:33:17,177 - INFO - Unfreezing audio encoder layer 21
+2025-07-10 14:33:17,177 - INFO - Unfreezing audio encoder layer 22
+2025-07-10 14:33:17,177 - INFO - Unfreezing audio encoder layer 23
+2025-07-10 14:33:17,297 - INFO - Model initialized with 308,221,186 trainable parameters out of 879,798,082 total
+2025-07-10 14:33:18,208 - INFO - Using discriminative learning rates: encoder_lr=4e-05, main_lr=0.0008
+2025-07-10 14:33:18,208 - INFO - Encoder parameters: 156, Non-encoder parameters: 38
+2025-07-10 14:33:18,208 - INFO - Scheduler setup:
+2025-07-10 14:33:18,209 - INFO -   Batches per epoch: 457
+2025-07-10 14:33:18,209 - INFO -   Accumulation steps: 15
+2025-07-10 14:33:18,209 - INFO -   Optimizer steps per epoch: 31
+2025-07-10 14:33:18,209 - INFO -   Total optimizer steps: 930
+2025-07-10 14:33:18,209 - INFO -   Warmup steps: 1000
+2025-07-10 14:33:18,209 - INFO - Validating gradient accumulation setup...
+2025-07-10 14:33:18,209 - INFO - Validating gradient accumulation with 15 steps...
+2025-07-10 14:33:36,503 - WARNING - Not enough test batches (10) for accumulation_steps (15)
+2025-07-10 14:33:36,503 - INFO - Starting training for 30 epochs
+2025-07-10 14:35:17,701 - INFO - Training with parameters:
+2025-07-10 14:35:17,701 - INFO -   Text model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+2025-07-10 14:35:17,701 - INFO -   Audio model: facebook/w2v-bert-2.0
+2025-07-10 14:35:17,701 - INFO -   Freeze encoders: partial
+2025-07-10 14:35:17,701 - INFO -   Text layers to unfreeze: 3
+2025-07-10 14:35:17,701 - INFO -   Audio layers to unfreeze: 3
+2025-07-10 14:35:17,701 - INFO -   Use cross-modal attention: False
+2025-07-10 14:35:17,701 - INFO -   Use attentive pooling: False
+2025-07-10 14:35:17,701 - INFO -   Use word-level alignment: True
+2025-07-10 14:35:17,701 - INFO -   Batch size: 48
+2025-07-10 14:35:17,701 - INFO -   Gradient accumulation steps: 15
+2025-07-10 14:35:17,701 - INFO -   Effective batch size: 720
+2025-07-10 14:35:17,701 - INFO -   Mixed precision training: False
+2025-07-10 14:35:17,701 - INFO -   Learning rate: 0.0008
+2025-07-10 14:35:17,701 - INFO -   Temperature: 0.1
+2025-07-10 14:35:17,701 - INFO -   Projection dimension: 768
+2025-07-10 14:35:17,701 - INFO -   Training samples: 21968
+2025-07-10 14:35:17,701 - INFO -   Validation samples: 9464
+2025-07-10 14:35:17,701 - INFO -   Test samples: 9467
+2025-07-10 14:35:17,701 - INFO -   Max audio length: 480000 samples (30.00 seconds at 16kHz)
+2025-07-10 14:35:17,701 - INFO - Loading tokenizer and feature extractor...
+2025-07-10 14:35:18,912 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:35:18,912 - INFO - Creating datasets...
+2025-07-10 14:35:18,913 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:35:18,913 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:35:18,913 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:35:18,913 - INFO - Creating data loaders...
+2025-07-10 14:35:18,914 - INFO - Checking a sample batch...
+2025-07-10 14:35:37,087 - INFO -   input_ids_pos: torch.Size([48, 128])
+2025-07-10 14:35:37,087 - INFO -   attention_mask_pos: torch.Size([48, 128])
+2025-07-10 14:35:37,087 - INFO -   input_ids_neg: torch.Size([48, 128])
+2025-07-10 14:35:37,087 - INFO -   attention_mask_neg: torch.Size([48, 128])
+2025-07-10 14:35:37,087 - INFO -   input_values: torch.Size([48, 473, 160])
+2025-07-10 14:35:37,087 - INFO -   attention_mask_audio: torch.Size([48, 473])
+2025-07-10 14:35:37,087 - INFO -   is_corrupted: torch.Size([48])
+2025-07-10 14:35:37,087 - INFO -   correctness_scores: torch.Size([48])
+2025-07-10 14:35:37,087 - INFO - Initializing model...
+2025-07-10 14:35:37,876 - INFO - Text encoder hidden dim: 768
+2025-07-10 14:35:37,876 - INFO - Audio encoder hidden dim: 1024
+2025-07-10 14:35:37,876 - INFO - Partial freezing: unfreezing last 3 text layers and 3 audio layers
+2025-07-10 14:35:37,876 - INFO - Unfreezing text encoder layer 9
+2025-07-10 14:35:37,876 - INFO - Unfreezing text encoder layer 10
+2025-07-10 14:35:37,876 - INFO - Unfreezing text encoder layer 11
+2025-07-10 14:35:37,877 - INFO - Unfreezing audio encoder layer 21
+2025-07-10 14:35:37,877 - INFO - Unfreezing audio encoder layer 22
+2025-07-10 14:35:37,877 - INFO - Unfreezing audio encoder layer 23
+2025-07-10 14:35:37,984 - INFO - Model initialized with 308,221,186 trainable parameters out of 879,798,082 total
+2025-07-10 14:35:38,812 - INFO - Using discriminative learning rates: encoder_lr=4e-05, main_lr=0.0008
+2025-07-10 14:35:38,812 - INFO - Encoder parameters: 156, Non-encoder parameters: 38
+2025-07-10 14:35:38,812 - INFO - Checking if loss parameters are in optimizer...
+2025-07-10 14:35:38,812 - INFO - ✓ log_sigma2_align is in optimizer
+2025-07-10 14:35:38,813 - INFO - Total parameters in optimizer: 194
+2025-07-10 14:35:38,814 - INFO - Model parameters: 193
+2025-07-10 14:35:38,814 - INFO - Loss parameters: 1
+2025-07-10 14:35:38,814 - INFO - Scheduler setup:
+2025-07-10 14:35:38,814 - INFO -   Batches per epoch: 457
+2025-07-10 14:35:38,814 - INFO -   Accumulation steps: 15
+2025-07-10 14:35:38,814 - INFO -   Optimizer steps per epoch: 31
+2025-07-10 14:35:38,814 - INFO -   Total optimizer steps: 930
+2025-07-10 14:35:38,814 - INFO -   Warmup steps: 1000
+2025-07-10 14:35:38,814 - INFO - Validating gradient accumulation setup...
+2025-07-10 14:35:38,814 - INFO - Validating gradient accumulation with 15 steps...
+2025-07-10 14:35:57,487 - WARNING - Not enough test batches (10) for accumulation_steps (15)
+2025-07-10 14:35:57,487 - INFO - Starting training for 30 epochs
+2025-07-10 14:43:09,016 - INFO - Training with parameters:
+2025-07-10 14:43:09,016 - INFO -   Text model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+2025-07-10 14:43:09,016 - INFO -   Audio model: facebook/w2v-bert-2.0
+2025-07-10 14:43:09,016 - INFO -   Freeze encoders: partial
+2025-07-10 14:43:09,016 - INFO -   Text layers to unfreeze: 3
+2025-07-10 14:43:09,016 - INFO -   Audio layers to unfreeze: 3
+2025-07-10 14:43:09,016 - INFO -   Use cross-modal attention: False
+2025-07-10 14:43:09,016 - INFO -   Use attentive pooling: False
+2025-07-10 14:43:09,016 - INFO -   Use word-level alignment: True
+2025-07-10 14:43:09,016 - INFO -   Batch size: 48
+2025-07-10 14:43:09,017 - INFO -   Gradient accumulation steps: 15
+2025-07-10 14:43:09,017 - INFO -   Effective batch size: 720
+2025-07-10 14:43:09,017 - INFO -   Mixed precision training: False
+2025-07-10 14:43:09,017 - INFO -   Learning rate: 0.0008
+2025-07-10 14:43:09,017 - INFO -   Temperature: 0.1
+2025-07-10 14:43:09,017 - INFO -   Projection dimension: 768
+2025-07-10 14:43:09,017 - INFO -   Training samples: 21968
+2025-07-10 14:43:09,017 - INFO -   Validation samples: 9464
+2025-07-10 14:43:09,017 - INFO -   Test samples: 9467
+2025-07-10 14:43:09,017 - INFO -   Max audio length: 480000 samples (30.00 seconds at 16kHz)
+2025-07-10 14:43:09,017 - INFO - Loading tokenizer and feature extractor...
+2025-07-10 14:43:10,076 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:43:10,076 - INFO - Creating datasets...
+2025-07-10 14:43:10,076 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:43:10,077 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:43:10,077 - INFO - Feature extractor output keys: ['input_features', 'attention_mask']
+2025-07-10 14:43:10,077 - INFO - Creating data loaders...
+2025-07-10 14:43:10,077 - INFO - Checking a sample batch...
+2025-07-10 14:43:28,271 - INFO -   input_ids_pos: torch.Size([48, 128])
+2025-07-10 14:43:28,272 - INFO -   attention_mask_pos: torch.Size([48, 128])
+2025-07-10 14:43:28,272 - INFO -   input_ids_neg: torch.Size([48, 128])
+2025-07-10 14:43:28,272 - INFO -   attention_mask_neg: torch.Size([48, 128])
+2025-07-10 14:43:28,272 - INFO -   input_values: torch.Size([48, 473, 160])
+2025-07-10 14:43:28,272 - INFO -   attention_mask_audio: torch.Size([48, 473])
+2025-07-10 14:43:28,272 - INFO -   is_corrupted: torch.Size([48])
+2025-07-10 14:43:28,272 - INFO -   correctness_scores: torch.Size([48])
+2025-07-10 14:43:28,272 - INFO - Initializing model...
+2025-07-10 14:43:29,031 - INFO - Text encoder hidden dim: 768
+2025-07-10 14:43:29,031 - INFO - Audio encoder hidden dim: 1024
+2025-07-10 14:43:29,031 - INFO - Partial freezing: unfreezing last 3 text layers and 3 audio layers
+2025-07-10 14:43:29,032 - INFO - Unfreezing text encoder layer 9
+2025-07-10 14:43:29,032 - INFO - Unfreezing text encoder layer 10
+2025-07-10 14:43:29,032 - INFO - Unfreezing text encoder layer 11
+2025-07-10 14:43:29,033 - INFO - Unfreezing audio encoder layer 21
+2025-07-10 14:43:29,033 - INFO - Unfreezing audio encoder layer 22
+2025-07-10 14:43:29,033 - INFO - Unfreezing audio encoder layer 23
+2025-07-10 14:43:29,143 - INFO - Model initialized with 308,221,186 trainable parameters out of 879,798,082 total
+2025-07-10 14:43:30,051 - INFO - Using discriminative learning rates: encoder_lr=4e-05, main_lr=0.0008
+2025-07-10 14:43:30,051 - INFO - Encoder parameters: 156, Non-encoder parameters: 38
+2025-07-10 14:43:30,051 - INFO - Checking if loss parameters are in optimizer...
+2025-07-10 14:43:30,051 - INFO - ✓ log_sigma2_align is in optimizer
+2025-07-10 14:43:30,051 - INFO - Total parameters in optimizer: 194
+2025-07-10 14:43:30,053 - INFO - Model parameters: 193
+2025-07-10 14:43:30,053 - INFO - Loss parameters: 1
+2025-07-10 14:43:30,053 - INFO - Scheduler setup:
+2025-07-10 14:43:30,053 - INFO -   Batches per epoch: 457
+2025-07-10 14:43:30,053 - INFO -   Accumulation steps: 15
+2025-07-10 14:43:30,053 - INFO -   Optimizer steps per epoch: 31
+2025-07-10 14:43:30,053 - INFO -   Total optimizer steps: 930
+2025-07-10 14:43:30,053 - INFO -   Warmup steps: 1000
+2025-07-10 14:43:30,053 - INFO - Validating gradient accumulation setup...
+2025-07-10 14:43:30,053 - INFO - Validating gradient accumulation with 15 steps...
+2025-07-10 14:43:48,685 - WARNING - Not enough test batches (10) for accumulation_steps (15)
+2025-07-10 14:43:48,685 - INFO - Starting training for 30 epochs
+2025-07-10 14:44:57,042 - INFO - log_σ² gradient: -0.692917
+2025-07-10 14:44:57,219 - INFO - Optimizer step 1: log_σ²=0.000000, weight=1.000000
+2025-07-10 14:45:20,255 - INFO - log_σ² gradient: -0.695863
+2025-07-10 14:45:20,327 - INFO - Optimizer step 2: log_σ²=0.000001, weight=0.999999
+2025-07-10 14:45:43,849 - INFO - log_σ² gradient: -0.692190
+2025-07-10 14:45:43,928 - INFO - Optimizer step 3: log_σ²=0.000002, weight=0.999998
+2025-07-10 14:46:09,332 - INFO - log_σ² gradient: -0.691818
+2025-07-10 14:46:09,410 - INFO - Optimizer step 4: log_σ²=0.000005, weight=0.999995
+2025-07-10 14:46:35,717 - INFO - log_σ² gradient: -0.691842
+2025-07-10 14:46:35,797 - INFO - Optimizer step 5: log_σ²=0.000008, weight=0.999992
+2025-07-10 14:47:01,863 - INFO - log_σ² gradient: -0.688111
+2025-07-10 14:47:01,941 - INFO - Optimizer step 6: log_σ²=0.000012, weight=0.999988
+2025-07-10 14:47:26,008 - INFO - log_σ² gradient: -0.689173
+2025-07-10 14:47:26,079 - INFO - Optimizer step 7: log_σ²=0.000017, weight=0.999983
+2025-07-10 14:47:50,936 - INFO - log_σ² gradient: -0.684650
+2025-07-10 14:47:51,002 - INFO - Optimizer step 8: log_σ²=0.000022, weight=0.999978
+2025-07-10 14:48:15,512 - INFO - log_σ² gradient: -0.680450
+2025-07-10 14:48:15,591 - INFO - Optimizer step 9: log_σ²=0.000029, weight=0.999971
+2025-07-10 14:48:41,568 - INFO - log_σ² gradient: -0.678141
+2025-07-10 14:48:41,643 - INFO - Optimizer step 10: log_σ²=0.000036, weight=0.999964
+2025-07-10 14:49:06,737 - INFO - log_σ² gradient: -0.673729
+2025-07-10 14:49:06,815 - INFO - Optimizer step 11: log_σ²=0.000044, weight=0.999956
+2025-07-10 14:49:31,964 - INFO - log_σ² gradient: -0.671539
+2025-07-10 14:49:32,043 - INFO - Optimizer step 12: log_σ²=0.000053, weight=0.999947
+2025-07-10 14:49:56,967 - INFO - log_σ² gradient: -0.671065
+2025-07-10 14:49:57,036 - INFO - Optimizer step 13: log_σ²=0.000062, weight=0.999938
+2025-07-10 14:50:21,460 - INFO - log_σ² gradient: -0.668406
+2025-07-10 14:50:21,538 - INFO - Optimizer step 14: log_σ²=0.000073, weight=0.999927
+2025-07-10 14:50:46,211 - INFO - log_σ² gradient: -0.664372
+2025-07-10 14:50:46,293 - INFO - Optimizer step 15: log_σ²=0.000084, weight=0.999916
+2025-07-10 14:51:10,654 - INFO - log_σ² gradient: -0.660559
+2025-07-10 14:51:10,730 - INFO - Optimizer step 16: log_σ²=0.000096, weight=0.999904
+2025-07-10 14:51:37,535 - INFO - log_σ² gradient: -0.653596
+2025-07-10 14:51:37,609 - INFO - Optimizer step 17: log_σ²=0.000108, weight=0.999892
+2025-07-10 14:52:00,815 - INFO - log_σ² gradient: -0.652813
+2025-07-10 14:52:00,885 - INFO - Optimizer step 18: log_σ²=0.000122, weight=0.999878
+2025-07-10 14:52:25,599 - INFO - log_σ² gradient: -0.649483
+2025-07-10 14:52:25,670 - INFO - Optimizer step 19: log_σ²=0.000136, weight=0.999864
+2025-07-10 14:52:50,183 - INFO - log_σ² gradient: -0.640670
+2025-07-10 14:52:50,255 - INFO - Optimizer step 20: log_σ²=0.000151, weight=0.999849
+2025-07-10 14:53:15,912 - INFO - log_σ² gradient: -0.634642
+2025-07-10 14:53:15,987 - INFO - Optimizer step 21: log_σ²=0.000167, weight=0.999833
+2025-07-10 14:53:40,734 - INFO - log_σ² gradient: -0.633710
+2025-07-10 14:53:40,812 - INFO - Optimizer step 22: log_σ²=0.000183, weight=0.999817
+2025-07-10 14:54:05,851 - INFO - log_σ² gradient: -0.626418
+2025-07-10 14:54:05,929 - INFO - Optimizer step 23: log_σ²=0.000200, weight=0.999800
+2025-07-10 14:54:29,996 - INFO - log_σ² gradient: -0.617266
+2025-07-10 14:54:30,072 - INFO - Optimizer step 24: log_σ²=0.000218, weight=0.999782
+2025-07-10 14:54:54,697 - INFO - log_σ² gradient: -0.616343
+2025-07-10 14:54:54,771 - INFO - Optimizer step 25: log_σ²=0.000237, weight=0.999763
+2025-07-10 14:55:19,165 - INFO - log_σ² gradient: -0.609414
+2025-07-10 14:55:19,238 - INFO - Optimizer step 26: log_σ²=0.000256, weight=0.999744
+2025-07-10 14:55:41,931 - INFO - log_σ² gradient: -0.602047
+2025-07-10 14:55:42,007 - INFO - Optimizer step 27: log_σ²=0.000277, weight=0.999723
+2025-07-10 14:56:06,154 - INFO - log_σ² gradient: -0.601584
+2025-07-10 14:56:06,226 - INFO - Optimizer step 28: log_σ²=0.000297, weight=0.999703
+2025-07-10 14:56:30,010 - INFO - log_σ² gradient: -0.590199
+2025-07-10 14:56:30,093 - INFO - Optimizer step 29: log_σ²=0.000319, weight=0.999681
+2025-07-10 14:56:52,181 - INFO - log_σ² gradient: -0.592825
+2025-07-10 14:56:52,259 - INFO - Optimizer step 30: log_σ²=0.000341, weight=0.999659
+2025-07-10 14:57:03,019 - INFO - log_σ² gradient: -0.273802
+2025-07-10 14:57:03,081 - INFO - Optimizer step 31: log_σ²=0.000363, weight=0.999637
+2025-07-10 14:57:03,246 - INFO - Epoch 1: Total optimizer steps: 31
+2025-07-10 15:00:35,021 - INFO - Validation metrics:
+2025-07-10 15:00:35,022 - INFO -   Loss: 1.0307
+2025-07-10 15:00:35,022 - INFO -   Average similarity: 0.1485
+2025-07-10 15:00:35,022 - INFO -   Median similarity: 0.0839
+2025-07-10 15:00:35,022 - INFO -   Clean sample similarity: 0.1485
+2025-07-10 15:00:35,022 - INFO -   Corrupted sample similarity: 0.0914
+2025-07-10 15:00:35,022 - INFO -   Similarity gap (clean - corrupt): 0.0571
+2025-07-10 15:00:35,132 - INFO - Epoch 1/30 - Train Loss: 1.2621, Val Loss: 1.0307, Clean Sim: 0.1485, Corrupt Sim: 0.0914, Gap: 0.0571, Time: 1006.45s
+2025-07-10 15:00:35,132 - INFO - New best validation loss: 1.0307
+2025-07-10 15:00:42,818 - INFO - New best similarity gap: 0.0571
+2025-07-10 15:01:59,961 - INFO - log_σ² gradient: -0.589916
+2025-07-10 15:02:00,034 - INFO - Optimizer step 1: log_σ²=0.000386, weight=0.999614
+2025-07-10 15:02:26,656 - INFO - log_σ² gradient: -0.579981
+2025-07-10 15:02:26,733 - INFO - Optimizer step 2: log_σ²=0.000409, weight=0.999591
+2025-07-10 15:02:52,532 - INFO - log_σ² gradient: -0.589532
+2025-07-10 15:02:52,599 - INFO - Optimizer step 3: log_σ²=0.000433, weight=0.999567
+2025-07-10 15:03:15,543 - INFO - log_σ² gradient: -0.583195
+2025-07-10 15:03:15,614 - INFO - Optimizer step 4: log_σ²=0.000459, weight=0.999542
+2025-07-10 15:03:39,345 - INFO - log_σ² gradient: -0.589153
+2025-07-10 15:03:39,415 - INFO - Optimizer step 5: log_σ²=0.000484, weight=0.999516
+2025-07-10 15:04:05,842 - INFO - log_σ² gradient: -0.602421
+2025-07-10 15:04:05,920 - INFO - Optimizer step 6: log_σ²=0.000511, weight=0.999489
+2025-07-10 15:04:31,197 - INFO - log_σ² gradient: -0.581654
+2025-07-10 15:04:31,268 - INFO - Optimizer step 7: log_σ²=0.000538, weight=0.999462
+2025-07-10 15:04:57,434 - INFO - log_σ² gradient: -0.590047
+2025-07-10 15:04:57,512 - INFO - Optimizer step 8: log_σ²=0.000567, weight=0.999433
+2025-07-10 15:05:21,811 - INFO - log_σ² gradient: -0.590955
+2025-07-10 15:05:21,885 - INFO - Optimizer step 9: log_σ²=0.000596, weight=0.999404
+2025-07-10 15:05:46,005 - INFO - log_σ² gradient: -0.593282
+2025-07-10 15:05:46,084 - INFO - Optimizer step 10: log_σ²=0.000626, weight=0.999375
+2025-07-10 15:06:11,783 - INFO - log_σ² gradient: -0.590858
+2025-07-10 15:06:11,856 - INFO - Optimizer step 11: log_σ²=0.000656, weight=0.999344
+2025-07-10 15:06:36,267 - INFO - log_σ² gradient: -0.574171
+2025-07-10 15:06:36,349 - INFO - Optimizer step 12: log_σ²=0.000688, weight=0.999313
+2025-07-10 15:06:59,907 - INFO - log_σ² gradient: -0.570794
+2025-07-10 15:06:59,979 - INFO - Optimizer step 13: log_σ²=0.000720, weight=0.999281
+2025-07-10 15:07:24,224 - INFO - log_σ² gradient: -0.575564
+2025-07-10 15:07:24,295 - INFO - Optimizer step 14: log_σ²=0.000753, weight=0.999248
+2025-07-10 15:07:48,635 - INFO - log_σ² gradient: -0.579865
+2025-07-10 15:07:48,713 - INFO - Optimizer step 15: log_σ²=0.000786, weight=0.999214
+2025-07-10 15:08:12,965 - INFO - log_σ² gradient: -0.582150
+2025-07-10 15:08:13,029 - INFO - Optimizer step 16: log_σ²=0.000821, weight=0.999180
+2025-07-10 15:08:37,923 - INFO - log_σ² gradient: -0.591940
+2025-07-10 15:08:37,997 - INFO - Optimizer step 17: log_σ²=0.000856, weight=0.999144
+2025-07-10 15:09:01,687 - INFO - log_σ² gradient: -0.581033
+2025-07-10 15:09:01,762 - INFO - Optimizer step 18: log_σ²=0.000892, weight=0.999109
+2025-07-10 15:09:27,017 - INFO - log_σ² gradient: -0.578886
+2025-07-10 15:09:27,095 - INFO - Optimizer step 19: log_σ²=0.000929, weight=0.999072
+2025-07-10 15:09:51,073 - INFO - log_σ² gradient: -0.582442
+2025-07-10 15:09:51,138 - INFO - Optimizer step 20: log_σ²=0.000966, weight=0.999034
+2025-07-10 15:10:18,203 - INFO - log_σ² gradient: -0.582159
+2025-07-10 15:10:18,282 - INFO - Optimizer step 21: log_σ²=0.001005, weight=0.998996
+2025-07-10 15:10:46,044 - INFO - log_σ² gradient: -0.568884
+2025-07-10 15:10:46,118 - INFO - Optimizer step 22: log_σ²=0.001044, weight=0.998957
+2025-07-10 15:11:10,700 - INFO - log_σ² gradient: -0.579983
+2025-07-10 15:11:10,776 - INFO - Optimizer step 23: log_σ²=0.001083, weight=0.998917
+2025-07-10 15:11:36,451 - INFO - log_σ² gradient: -0.577635
+2025-07-10 15:11:36,528 - INFO - Optimizer step 24: log_σ²=0.001124, weight=0.998877
+2025-07-10 15:12:01,944 - INFO - log_σ² gradient: -0.571526
+2025-07-10 15:12:02,016 - INFO - Optimizer step 25: log_σ²=0.001165, weight=0.998835
+2025-07-10 15:12:26,706 - INFO - log_σ² gradient: -0.570213
+2025-07-10 15:12:26,777 - INFO - Optimizer step 26: log_σ²=0.001207, weight=0.998793
+2025-07-10 15:12:50,859 - INFO - log_σ² gradient: -0.562888
+2025-07-10 15:12:50,927 - INFO - Optimizer step 27: log_σ²=0.001250, weight=0.998751
+2025-07-10 15:13:14,390 - INFO - log_σ² gradient: -0.570238
+2025-07-10 15:13:14,464 - INFO - Optimizer step 28: log_σ²=0.001294, weight=0.998707
+2025-07-10 15:13:38,330 - INFO - log_σ² gradient: -0.586211
+2025-07-10 15:13:38,407 - INFO - Optimizer step 29: log_σ²=0.001338, weight=0.998663
+2025-07-10 15:14:02,545 - INFO - log_σ² gradient: -0.576393
+2025-07-10 15:14:02,615 - INFO - Optimizer step 30: log_σ²=0.001383, weight=0.998618
+2025-07-10 15:14:14,044 - INFO - log_σ² gradient: -0.268553
+2025-07-10 15:14:14,114 - INFO - Optimizer step 31: log_σ²=0.001427, weight=0.998574
+2025-07-10 15:14:14,281 - INFO - Epoch 2: Total optimizer steps: 31
+2025-07-10 15:17:42,056 - INFO - Validation metrics:
+2025-07-10 15:17:42,057 - INFO -   Loss: 0.8922
+2025-07-10 15:17:42,057 - INFO -   Average similarity: 0.5403
+2025-07-10 15:17:42,057 - INFO -   Median similarity: 0.6270
+2025-07-10 15:17:42,057 - INFO -   Clean sample similarity: 0.5403
+2025-07-10 15:17:42,057 - INFO -   Corrupted sample similarity: 0.3360
+2025-07-10 15:17:42,057 - INFO -   Similarity gap (clean - corrupt): 0.2043
+2025-07-10 15:17:42,224 - INFO - Epoch 2/30 - Train Loss: 0.9801, Val Loss: 0.8922, Clean Sim: 0.5403, Corrupt Sim: 0.3360, Gap: 0.2043, Time: 1012.18s
+2025-07-10 15:17:42,225 - INFO - New best validation loss: 0.8922
+2025-07-10 15:17:48,996 - INFO - New best similarity gap: 0.2043
+2025-07-10 15:20:51,099 - INFO - Epoch 2 Validation Alignment: Pos=0.097, Neg=0.091, Gap=0.006
+2025-07-10 15:22:04,315 - INFO - log_σ² gradient: -0.578207
+2025-07-10 15:22:04,395 - INFO - Optimizer step 1: log_σ²=0.001472, weight=0.998529
+2025-07-10 15:22:27,156 - INFO - log_σ² gradient: -0.576470
+2025-07-10 15:22:27,224 - INFO - Optimizer step 2: log_σ²=0.001517, weight=0.998484
+2025-07-10 15:22:49,802 - INFO - log_σ² gradient: -0.580390
+2025-07-10 15:22:49,880 - INFO - Optimizer step 3: log_σ²=0.001564, weight=0.998437
+2025-07-10 15:23:14,947 - INFO - log_σ² gradient: -0.571025
+2025-07-10 15:23:15,025 - INFO - Optimizer step 4: log_σ²=0.001612, weight=0.998390
+2025-07-10 15:23:39,787 - INFO - log_σ² gradient: -0.568302
+2025-07-10 15:23:39,862 - INFO - Optimizer step 5: log_σ²=0.001660, weight=0.998341
+2025-07-10 15:24:05,250 - INFO - log_σ² gradient: -0.569555
+2025-07-10 15:24:05,320 - INFO - Optimizer step 6: log_σ²=0.001710, weight=0.998292
+2025-07-10 15:24:31,361 - INFO - log_σ² gradient: -0.573536
+2025-07-10 15:24:31,434 - INFO - Optimizer step 7: log_σ²=0.001760, weight=0.998242
+2025-07-10 15:24:56,142 - INFO - log_σ² gradient: -0.572885
+2025-07-10 15:24:56,223 - INFO - Optimizer step 8: log_σ²=0.001811, weight=0.998191
+2025-07-10 15:25:20,126 - INFO - log_σ² gradient: -0.558845
+2025-07-10 15:25:20,202 - INFO - Optimizer step 9: log_σ²=0.001863, weight=0.998139
+2025-07-10 15:25:43,713 - INFO - log_σ² gradient: -0.560663
+2025-07-10 15:25:43,784 - INFO - Optimizer step 10: log_σ²=0.001916, weight=0.998086
+2025-07-10 15:26:07,361 - INFO - log_σ² gradient: -0.563766
+2025-07-10 15:26:07,432 - INFO - Optimizer step 11: log_σ²=0.001969, weight=0.998033
+2025-07-10 15:26:31,649 - INFO - log_σ² gradient: -0.565848
+2025-07-10 15:26:31,712 - INFO - Optimizer step 12: log_σ²=0.002024, weight=0.997978
+2025-07-10 15:26:56,443 - INFO - log_σ² gradient: -0.576774
+2025-07-10 15:26:56,518 - INFO - Optimizer step 13: log_σ²=0.002079, weight=0.997923
+2025-07-10 15:27:18,895 - INFO - log_σ² gradient: -0.576104
+2025-07-10 15:27:18,970 - INFO - Optimizer step 14: log_σ²=0.002135, weight=0.997867
+2025-07-10 15:27:44,059 - INFO - log_σ² gradient: -0.570861
+2025-07-10 15:27:44,123 - INFO - Optimizer step 15: log_σ²=0.002192, weight=0.997810
+2025-07-10 15:28:07,333 - INFO - log_σ² gradient: -0.568999
+2025-07-10 15:28:07,399 - INFO - Optimizer step 16: log_σ²=0.002250, weight=0.997752
+2025-07-10 15:28:32,532 - INFO - log_σ² gradient: -0.562618
+2025-07-10 15:28:32,599 - INFO - Optimizer step 17: log_σ²=0.002309, weight=0.997694
+2025-07-10 15:28:57,183 - INFO - log_σ² gradient: -0.555216
+2025-07-10 15:28:57,256 - INFO - Optimizer step 18: log_σ²=0.002368, weight=0.997635
+2025-07-10 15:29:21,199 - INFO - log_σ² gradient: -0.571507
+2025-07-10 15:29:21,265 - INFO - Optimizer step 19: log_σ²=0.002428, weight=0.997575
+2025-07-10 15:29:45,535 - INFO - log_σ² gradient: -0.574533
+2025-07-10 15:29:45,610 - INFO - Optimizer step 20: log_σ²=0.002490, weight=0.997514
+2025-07-10 15:30:09,763 - INFO - log_σ² gradient: -0.555783
+2025-07-10 15:30:09,841 - INFO - Optimizer step 21: log_σ²=0.002551, weight=0.997452
+2025-07-10 15:30:33,760 - INFO - log_σ² gradient: -0.570753
+2025-07-10 15:30:33,828 - INFO - Optimizer step 22: log_σ²=0.002614, weight=0.997389
+2025-07-10 15:30:58,346 - INFO - log_σ² gradient: -0.559311
+2025-07-10 15:30:58,422 - INFO - Optimizer step 23: log_σ²=0.002677, weight=0.997326
+2025-07-10 15:31:21,723 - INFO - log_σ² gradient: -0.563625
+2025-07-10 15:31:21,787 - INFO - Optimizer step 24: log_σ²=0.002742, weight=0.997262
+2025-07-10 15:31:45,719 - INFO - log_σ² gradient: -0.571170
+2025-07-10 15:31:45,791 - INFO - Optimizer step 25: log_σ²=0.002807, weight=0.997197
+2025-07-10 15:32:10,102 - INFO - log_σ² gradient: -0.558868
+2025-07-10 15:32:10,178 - INFO - Optimizer step 26: log_σ²=0.002872, weight=0.997132
+2025-07-10 15:32:35,765 - INFO - log_σ² gradient: -0.562836
+2025-07-10 15:32:35,836 - INFO - Optimizer step 27: log_σ²=0.002939, weight=0.997065
+2025-07-10 15:33:00,001 - INFO - log_σ² gradient: -0.571679
+2025-07-10 15:33:00,072 - INFO - Optimizer step 28: log_σ²=0.003006, weight=0.996998
+2025-07-10 15:33:23,522 - INFO - log_σ² gradient: -0.559068
+2025-07-10 15:33:23,598 - INFO - Optimizer step 29: log_σ²=0.003074, weight=0.996930
+2025-07-10 15:33:47,226 - INFO - log_σ² gradient: -0.550306
+2025-07-10 15:33:47,297 - INFO - Optimizer step 30: log_σ²=0.003143, weight=0.996862
+2025-07-10 15:33:58,792 - INFO - log_σ² gradient: -0.268167
+2025-07-10 15:33:58,871 - INFO - Optimizer step 31: log_σ²=0.003209, weight=0.996796
+2025-07-10 15:33:59,040 - INFO - Epoch 3: Total optimizer steps: 31
+2025-07-10 15:37:19,614 - INFO - Validation metrics:
+2025-07-10 15:37:19,614 - INFO -   Loss: 0.8290
+2025-07-10 15:37:19,614 - INFO -   Average similarity: 0.6453
+2025-07-10 15:37:19,614 - INFO -   Median similarity: 0.8567
+2025-07-10 15:37:19,614 - INFO -   Clean sample similarity: 0.6453
+2025-07-10 15:37:19,614 - INFO -   Corrupted sample similarity: 0.4012
+2025-07-10 15:37:19,614 - INFO -   Similarity gap (clean - corrupt): 0.2441
+2025-07-10 15:37:19,742 - INFO - Epoch 3/30 - Train Loss: 0.8919, Val Loss: 0.8290, Clean Sim: 0.6453, Corrupt Sim: 0.4012, Gap: 0.2441, Time: 988.64s
+2025-07-10 15:37:19,742 - INFO - New best validation loss: 0.8290
+2025-07-10 15:37:26,344 - INFO - New best similarity gap: 0.2441
+2025-07-10 15:38:45,108 - INFO - log_σ² gradient: -0.559397
+2025-07-10 15:38:45,184 - INFO - Optimizer step 1: log_σ²=0.003277, weight=0.996729
+2025-07-10 15:39:09,176 - INFO - log_σ² gradient: -0.572586
+2025-07-10 15:39:09,250 - INFO - Optimizer step 2: log_σ²=0.003345, weight=0.996660
+2025-07-10 15:39:33,980 - INFO - log_σ² gradient: -0.565342
+2025-07-10 15:39:34,054 - INFO - Optimizer step 3: log_σ²=0.003415, weight=0.996591
+2025-07-10 15:39:58,662 - INFO - log_σ² gradient: -0.563123
+2025-07-10 15:39:58,735 - INFO - Optimizer step 4: log_σ²=0.003485, weight=0.996521
+2025-07-10 15:40:22,668 - INFO - log_σ² gradient: -0.564826
+2025-07-10 15:40:22,736 - INFO - Optimizer step 5: log_σ²=0.003557, weight=0.996449
+2025-07-10 15:40:47,343 - INFO - log_σ² gradient: -0.566771
+2025-07-10 15:40:47,415 - INFO - Optimizer step 6: log_σ²=0.003630, weight=0.996377
+2025-07-10 15:41:12,866 - INFO - log_σ² gradient: -0.567160
+2025-07-10 15:41:12,930 - INFO - Optimizer step 7: log_σ²=0.003703, weight=0.996303
+2025-07-10 15:41:37,897 - INFO - log_σ² gradient: -0.564071
+2025-07-10 15:41:37,970 - INFO - Optimizer step 8: log_σ²=0.003778, weight=0.996229
+2025-07-10 15:42:02,262 - INFO - log_σ² gradient: -0.551527
+2025-07-10 15:42:02,340 - INFO - Optimizer step 9: log_σ²=0.003854, weight=0.996154
+2025-07-10 15:42:26,405 - INFO - log_σ² gradient: -0.566299
+2025-07-10 15:42:26,475 - INFO - Optimizer step 10: log_σ²=0.003930, weight=0.996078
+2025-07-10 15:42:49,803 - INFO - log_σ² gradient: -0.569711
+2025-07-10 15:42:49,869 - INFO - Optimizer step 11: log_σ²=0.004007, weight=0.996001
+2025-07-10 15:43:15,239 - INFO - log_σ² gradient: -0.554122
+2025-07-10 15:43:15,310 - INFO - Optimizer step 12: log_σ²=0.004086, weight=0.995923
+2025-07-10 15:43:40,085 - INFO - log_σ² gradient: -0.555365
+2025-07-10 15:43:40,155 - INFO - Optimizer step 13: log_σ²=0.004165, weight=0.995844
+2025-07-10 15:44:04,897 - INFO - log_σ² gradient: -0.571109
+2025-07-10 15:44:04,974 - INFO - Optimizer step 14: log_σ²=0.004245, weight=0.995764
+2025-07-10 15:44:29,819 - INFO - log_σ² gradient: -0.564269
+2025-07-10 15:44:29,892 - INFO - Optimizer step 15: log_σ²=0.004326, weight=0.995684
+2025-07-10 15:44:55,117 - INFO - log_σ² gradient: -0.568096
+2025-07-10 15:44:55,189 - INFO - Optimizer step 16: log_σ²=0.004408, weight=0.995602
+2025-07-10 15:45:20,110 - INFO - log_σ² gradient: -0.565259
+2025-07-10 15:45:20,183 - INFO - Optimizer step 17: log_σ²=0.004490, weight=0.995520
+2025-07-10 15:45:46,055 - INFO - log_σ² gradient: -0.555401
+2025-07-10 15:45:46,129 - INFO - Optimizer step 18: log_σ²=0.004574, weight=0.995437
+2025-07-10 15:46:11,909 - INFO - log_σ² gradient: -0.548517
+2025-07-10 15:46:11,987 - INFO - Optimizer step 19: log_σ²=0.004658, weight=0.995353
+2025-07-10 15:46:34,856 - INFO - log_σ² gradient: -0.554247
+2025-07-10 15:46:34,926 - INFO - Optimizer step 20: log_σ²=0.004743, weight=0.995268
+2025-07-10 15:46:58,586 - INFO - log_σ² gradient: -0.558437
+2025-07-10 15:46:58,653 - INFO - Optimizer step 21: log_σ²=0.004829, weight=0.995183
+2025-07-10 15:47:21,986 - INFO - log_σ² gradient: -0.563944
+2025-07-10 15:47:22,062 - INFO - Optimizer step 22: log_σ²=0.004915, weight=0.995097
+2025-07-10 15:47:46,871 - INFO - log_σ² gradient: -0.569697
+2025-07-10 15:47:46,936 - INFO - Optimizer step 23: log_σ²=0.005003, weight=0.995009
+2025-07-10 15:48:10,787 - INFO - log_σ² gradient: -0.561981
+2025-07-10 15:48:10,858 - INFO - Optimizer step 24: log_σ²=0.005092, weight=0.994921
+2025-07-10 15:48:34,605 - INFO - log_σ² gradient: -0.563767
+2025-07-10 15:48:34,679 - INFO - Optimizer step 25: log_σ²=0.005181, weight=0.994833
+2025-07-10 15:48:57,793 - INFO - log_σ² gradient: -0.572381
+2025-07-10 15:48:57,865 - INFO - Optimizer step 26: log_σ²=0.005271, weight=0.994743
+2025-07-10 15:49:22,882 - INFO - log_σ² gradient: -0.557778
+2025-07-10 15:49:22,957 - INFO - Optimizer step 27: log_σ²=0.005362, weight=0.994652
+2025-07-10 15:49:47,629 - INFO - log_σ² gradient: -0.550403
+2025-07-10 15:49:47,700 - INFO - Optimizer step 28: log_σ²=0.005454, weight=0.994561
+2025-07-10 15:50:12,363 - INFO - log_σ² gradient: -0.558082
+2025-07-10 15:50:12,433 - INFO - Optimizer step 29: log_σ²=0.005546, weight=0.994469
+2025-07-10 15:50:35,027 - INFO - log_σ² gradient: -0.563257
+2025-07-10 15:50:35,105 - INFO - Optimizer step 30: log_σ²=0.005640, weight=0.994376
+2025-07-10 15:50:46,220 - INFO - log_σ² gradient: -0.271958
+2025-07-10 15:50:46,287 - INFO - Optimizer step 31: log_σ²=0.005729, weight=0.994287
+2025-07-10 15:50:46,498 - INFO - Epoch 4: Total optimizer steps: 31
+2025-07-10 15:54:05,705 - INFO - Validation metrics:
+2025-07-10 15:54:05,705 - INFO -   Loss: 0.8083
+2025-07-10 15:54:05,705 - INFO -   Average similarity: 0.6493
+2025-07-10 15:54:05,705 - INFO -   Median similarity: 0.8758
+2025-07-10 15:54:05,705 - INFO -   Clean sample similarity: 0.6493
+2025-07-10 15:54:05,705 - INFO -   Corrupted sample similarity: 0.3713
+2025-07-10 15:54:05,705 - INFO -   Similarity gap (clean - corrupt): 0.2780
+2025-07-10 15:54:05,831 - INFO - Epoch 4/30 - Train Loss: 0.8501, Val Loss: 0.8083, Clean Sim: 0.6493, Corrupt Sim: 0.3713, Gap: 0.2780, Time: 991.63s
+2025-07-10 15:54:05,832 - INFO - New best validation loss: 0.8083
+2025-07-10 15:54:11,918 - INFO - New best similarity gap: 0.2780
+2025-07-10 15:56:58,215 - INFO - Epoch 4 Validation Alignment: Pos=0.113, Neg=0.100, Gap=0.013
+2025-07-10 15:58:06,574 - INFO - log_σ² gradient: -0.569854
+2025-07-10 15:58:06,646 - INFO - Optimizer step 1: log_σ²=0.005820, weight=0.994197
+2025-07-10 15:58:30,177 - INFO - log_σ² gradient: -0.559292
+2025-07-10 15:58:30,253 - INFO - Optimizer step 2: log_σ²=0.005912, weight=0.994105
+2025-07-10 15:58:54,829 - INFO - log_σ² gradient: -0.558458
+2025-07-10 15:58:54,905 - INFO - Optimizer step 3: log_σ²=0.006006, weight=0.994012
+2025-07-10 15:59:20,262 - INFO - log_σ² gradient: -0.556274
+2025-07-10 15:59:20,341 - INFO - Optimizer step 4: log_σ²=0.006100, weight=0.993919
+2025-07-10 15:59:43,766 - INFO - log_σ² gradient: -0.553982
+2025-07-10 15:59:43,840 - INFO - Optimizer step 5: log_σ²=0.006195, weight=0.993824
+2025-07-10 16:00:08,879 - INFO - log_σ² gradient: -0.558455
+2025-07-10 16:00:08,955 - INFO - Optimizer step 6: log_σ²=0.006292, weight=0.993728
+2025-07-10 16:00:32,328 - INFO - log_σ² gradient: -0.561167
+2025-07-10 16:00:32,391 - INFO - Optimizer step 7: log_σ²=0.006389, weight=0.993631
+2025-07-10 16:00:56,801 - INFO - log_σ² gradient: -0.558181
+2025-07-10 16:00:56,880 - INFO - Optimizer step 8: log_σ²=0.006488, weight=0.993533
+2025-07-10 16:01:20,369 - INFO - log_σ² gradient: -0.562367
+2025-07-10 16:01:20,441 - INFO - Optimizer step 9: log_σ²=0.006587, weight=0.993435
+2025-07-10 16:01:43,359 - INFO - log_σ² gradient: -0.562431
+2025-07-10 16:01:43,427 - INFO - Optimizer step 10: log_σ²=0.006688, weight=0.993335
+2025-07-10 16:02:07,447 - INFO - log_σ² gradient: -0.556597
+2025-07-10 16:02:07,518 - INFO - Optimizer step 11: log_σ²=0.006789, weight=0.993234
+2025-07-10 16:02:30,562 - INFO - log_σ² gradient: -0.544444
+2025-07-10 16:02:30,634 - INFO - Optimizer step 12: log_σ²=0.006891, weight=0.993132
+2025-07-10 16:02:54,322 - INFO - log_σ² gradient: -0.548111
+2025-07-10 16:02:54,394 - INFO - Optimizer step 13: log_σ²=0.006994, weight=0.993030
+2025-07-10 16:03:20,207 - INFO - log_σ² gradient: -0.556608
+2025-07-10 16:03:20,287 - INFO - Optimizer step 14: log_σ²=0.007098, weight=0.992927
+2025-07-10 16:03:44,093 - INFO - log_σ² gradient: -0.549005
+2025-07-10 16:03:44,164 - INFO - Optimizer step 15: log_σ²=0.007203, weight=0.992823
+2025-07-10 16:04:08,498 - INFO - log_σ² gradient: -0.547460
+2025-07-10 16:04:08,572 - INFO - Optimizer step 16: log_σ²=0.007308, weight=0.992719
+2025-07-10 16:04:31,481 - INFO - log_σ² gradient: -0.558622
+2025-07-10 16:04:31,542 - INFO - Optimizer step 17: log_σ²=0.007414, weight=0.992613
+2025-07-10 16:04:55,148 - INFO - log_σ² gradient: -0.560603
+2025-07-10 16:04:55,220 - INFO - Optimizer step 18: log_σ²=0.007522, weight=0.992507
+2025-07-10 16:05:18,903 - INFO - log_σ² gradient: -0.546133
+2025-07-10 16:05:18,978 - INFO - Optimizer step 19: log_σ²=0.007630, weight=0.992399
+2025-07-10 16:05:41,872 - INFO - log_σ² gradient: -0.552031
+2025-07-10 16:05:41,943 - INFO - Optimizer step 20: log_σ²=0.007738, weight=0.992291
+2025-07-10 16:06:05,442 - INFO - log_σ² gradient: -0.545588
+2025-07-10 16:06:05,513 - INFO - Optimizer step 21: log_σ²=0.007848, weight=0.992183
+2025-07-10 16:06:32,189 - INFO - log_σ² gradient: -0.559624
+2025-07-10 16:06:32,264 - INFO - Optimizer step 22: log_σ²=0.007958, weight=0.992073
+2025-07-10 16:06:55,749 - INFO - log_σ² gradient: -0.548875
+2025-07-10 16:06:55,820 - INFO - Optimizer step 23: log_σ²=0.008070, weight=0.991963
+2025-07-10 16:07:19,891 - INFO - log_σ² gradient: -0.561421
+2025-07-10 16:07:19,965 - INFO - Optimizer step 24: log_σ²=0.008182, weight=0.991852
+2025-07-10 16:07:45,055 - INFO - log_σ² gradient: -0.558281
+2025-07-10 16:07:45,134 - INFO - Optimizer step 25: log_σ²=0.008295, weight=0.991739
+2025-07-10 16:08:09,691 - INFO - log_σ² gradient: -0.552824
+2025-07-10 16:08:09,763 - INFO - Optimizer step 26: log_σ²=0.008409, weight=0.991626
+2025-07-10 16:08:34,987 - INFO - log_σ² gradient: -0.549287
+2025-07-10 16:08:35,062 - INFO - Optimizer step 27: log_σ²=0.008523, weight=0.991513
+2025-07-10 16:09:00,271 - INFO - log_σ² gradient: -0.545912
+2025-07-10 16:09:00,347 - INFO - Optimizer step 28: log_σ²=0.008639, weight=0.991398
+2025-07-10 16:09:25,166 - INFO - log_σ² gradient: -0.559556
+2025-07-10 16:09:25,248 - INFO - Optimizer step 29: log_σ²=0.008755, weight=0.991283
+2025-07-10 16:09:48,499 - INFO - log_σ² gradient: -0.553742
+2025-07-10 16:09:48,582 - INFO - Optimizer step 30: log_σ²=0.008872, weight=0.991167
+2025-07-10 16:10:00,481 - INFO - log_σ² gradient: -0.264338
+2025-07-10 16:10:00,555 - INFO - Optimizer step 31: log_σ²=0.008984, weight=0.991056
+2025-07-10 16:10:00,745 - INFO - Epoch 5: Total optimizer steps: 31
+2025-07-10 16:13:20,132 - INFO - Validation metrics:
+2025-07-10 16:13:20,132 - INFO -   Loss: 0.9651
+2025-07-10 16:13:20,132 - INFO -   Average similarity: 0.8196
+2025-07-10 16:13:20,132 - INFO -   Median similarity: 0.9827
+2025-07-10 16:13:20,132 - INFO -   Clean sample similarity: 0.8196
+2025-07-10 16:13:20,132 - INFO -   Corrupted sample similarity: 0.5286
+2025-07-10 16:13:20,133 - INFO -   Similarity gap (clean - corrupt): 0.2909
+2025-07-10 16:13:20,264 - INFO - Epoch 5/30 - Train Loss: 0.8336, Val Loss: 0.9651, Clean Sim: 0.8196, Corrupt Sim: 0.5286, Gap: 0.2909, Time: 982.05s
+2025-07-10 16:13:20,264 - INFO - New best similarity gap: 0.2909
+2025-07-10 16:14:35,436 - INFO - log_σ² gradient: -0.568017
+2025-07-10 16:14:35,502 - INFO - Optimizer step 1: log_σ²=0.009098, weight=0.990943
+2025-07-10 16:14:58,405 - INFO - log_σ² gradient: -0.566842
+2025-07-10 16:14:58,475 - INFO - Optimizer step 2: log_σ²=0.009213, weight=0.990829
+2025-07-10 16:15:22,146 - INFO - log_σ² gradient: -0.559937
+2025-07-10 16:15:22,221 - INFO - Optimizer step 3: log_σ²=0.009330, weight=0.990714
+2025-07-10 16:15:46,716 - INFO - log_σ² gradient: -0.560017
+2025-07-10 16:15:46,792 - INFO - Optimizer step 4: log_σ²=0.009448, weight=0.990597
+2025-07-10 16:16:11,065 - INFO - log_σ² gradient: -0.550409
+2025-07-10 16:16:11,138 - INFO - Optimizer step 5: log_σ²=0.009567, weight=0.990479
+2025-07-10 16:16:34,886 - INFO - log_σ² gradient: -0.557680
+2025-07-10 16:16:34,958 - INFO - Optimizer step 6: log_σ²=0.009687, weight=0.990360
+2025-07-10 16:16:59,261 - INFO - log_σ² gradient: -0.564544
+2025-07-10 16:16:59,340 - INFO - Optimizer step 7: log_σ²=0.009808, weight=0.990240
+2025-07-10 16:17:24,180 - INFO - log_σ² gradient: -0.555164
+2025-07-10 16:17:24,251 - INFO - Optimizer step 8: log_σ²=0.009931, weight=0.990118
+2025-07-10 16:17:51,754 - INFO - log_σ² gradient: -0.558366
+2025-07-10 16:17:51,836 - INFO - Optimizer step 9: log_σ²=0.010055, weight=0.989996
+2025-07-10 16:18:16,000 - INFO - log_σ² gradient: -0.558722
+2025-07-10 16:18:16,072 - INFO - Optimizer step 10: log_σ²=0.010179, weight=0.989872
+2025-07-10 16:18:39,749 - INFO - log_σ² gradient: -0.559033
+2025-07-10 16:18:39,831 - INFO - Optimizer step 11: log_σ²=0.010305, weight=0.989748
+2025-07-10 16:19:03,405 - INFO - log_σ² gradient: -0.557560
+2025-07-10 16:19:03,476 - INFO - Optimizer step 12: log_σ²=0.010432, weight=0.989622
+2025-07-10 16:19:27,427 - INFO - log_σ² gradient: -0.561552
+2025-07-10 16:19:27,506 - INFO - Optimizer step 13: log_σ²=0.010560, weight=0.989496
+2025-07-10 16:19:51,122 - INFO - log_σ² gradient: -0.553774
+2025-07-10 16:19:51,194 - INFO - Optimizer step 14: log_σ²=0.010689, weight=0.989368
+2025-07-10 16:20:16,341 - INFO - log_σ² gradient: -0.553102
+2025-07-10 16:20:16,413 - INFO - Optimizer step 15: log_σ²=0.010818, weight=0.989240
+2025-07-10 16:20:39,785 - INFO - log_σ² gradient: -0.565564
+2025-07-10 16:20:39,857 - INFO - Optimizer step 16: log_σ²=0.010949, weight=0.989111
+2025-07-10 16:21:03,546 - INFO - log_σ² gradient: -0.559742
+2025-07-10 16:21:03,626 - INFO - Optimizer step 17: log_σ²=0.011081, weight=0.988981
+2025-07-10 16:21:27,397 - INFO - log_σ² gradient: -0.545218
+2025-07-10 16:21:27,475 - INFO - Optimizer step 18: log_σ²=0.011213, weight=0.988850
+2025-07-10 16:21:52,589 - INFO - log_σ² gradient: -0.553981
+2025-07-10 16:21:52,667 - INFO - Optimizer step 19: log_σ²=0.011346, weight=0.988718
+2025-07-10 16:22:15,783 - INFO - log_σ² gradient: -0.549238
+2025-07-10 16:22:15,855 - INFO - Optimizer step 20: log_σ²=0.011480, weight=0.988586
+2025-07-10 16:22:39,039 - INFO - log_σ² gradient: -0.551211
+2025-07-10 16:22:39,114 - INFO - Optimizer step 21: log_σ²=0.011615, weight=0.988453
+2025-07-10 16:23:04,616 - INFO - log_σ² gradient: -0.567630
+2025-07-10 16:23:04,687 - INFO - Optimizer step 22: log_σ²=0.011750, weight=0.988318
+2025-07-10 16:23:29,274 - INFO - log_σ² gradient: -0.552309
+2025-07-10 16:23:29,346 - INFO - Optimizer step 23: log_σ²=0.011887, weight=0.988183
+2025-07-10 16:23:53,292 - INFO - log_σ² gradient: -0.552122
+2025-07-10 16:23:53,366 - INFO - Optimizer step 24: log_σ²=0.012024, weight=0.988048
+2025-07-10 16:24:16,599 - INFO - log_σ² gradient: -0.549074
+2025-07-10 16:24:16,671 - INFO - Optimizer step 25: log_σ²=0.012162, weight=0.987911
+2025-07-10 16:24:41,921 - INFO - log_σ² gradient: -0.547727
+2025-07-10 16:24:42,000 - INFO - Optimizer step 26: log_σ²=0.012301, weight=0.987774
+2025-07-10 16:25:06,168 - INFO - log_σ² gradient: -0.555164
+2025-07-10 16:25:06,239 - INFO - Optimizer step 27: log_σ²=0.012441, weight=0.987636
+2025-07-10 16:25:29,957 - INFO - log_σ² gradient: -0.566764
+2025-07-10 16:25:30,031 - INFO - Optimizer step 28: log_σ²=0.012581, weight=0.987497
+2025-07-10 16:25:54,327 - INFO - log_σ² gradient: -0.556580
+2025-07-10 16:25:54,401 - INFO - Optimizer step 29: log_σ²=0.012723, weight=0.987358
+2025-07-10 16:26:17,781 - INFO - log_σ² gradient: -0.560674
+2025-07-10 16:26:17,847 - INFO - Optimizer step 30: log_σ²=0.012866, weight=0.987217
+2025-07-10 16:26:29,105 - INFO - log_σ² gradient: -0.258570
+2025-07-10 16:26:29,177 - INFO - Optimizer step 31: log_σ²=0.013002, weight=0.987083
+2025-07-10 16:26:29,398 - INFO - Epoch 6: Total optimizer steps: 31
+2025-07-10 16:29:45,006 - INFO - Validation metrics:
+2025-07-10 16:29:45,007 - INFO -   Loss: 0.7663
+2025-07-10 16:29:45,007 - INFO -   Average similarity: 0.6200
+2025-07-10 16:29:45,007 - INFO -   Median similarity: 0.8402
+2025-07-10 16:29:45,007 - INFO -   Clean sample similarity: 0.6200
+2025-07-10 16:29:45,007 - INFO -   Corrupted sample similarity: 0.3285
+2025-07-10 16:29:45,007 - INFO -   Similarity gap (clean - corrupt): 0.2915
+2025-07-10 16:29:45,111 - INFO - Epoch 6/30 - Train Loss: 0.8161, Val Loss: 0.7663, Clean Sim: 0.6200, Corrupt Sim: 0.3285, Gap: 0.2915, Time: 978.76s
+2025-07-10 16:29:45,111 - INFO - New best validation loss: 0.7663
+2025-07-10 16:29:51,216 - INFO - New best similarity gap: 0.2915
+2025-07-10 16:32:38,608 - INFO - Epoch 6 Validation Alignment: Pos=0.121, Neg=0.100, Gap=0.021
+2025-07-10 16:33:45,367 - INFO - log_σ² gradient: -0.548974
+2025-07-10 16:33:45,438 - INFO - Optimizer step 1: log_σ²=0.013139, weight=0.986947
+2025-07-10 16:34:08,560 - INFO - log_σ² gradient: -0.540829
+2025-07-10 16:34:08,634 - INFO - Optimizer step 2: log_σ²=0.013277, weight=0.986810
+2025-07-10 16:34:32,645 - INFO - log_σ² gradient: -0.551093
+2025-07-10 16:34:32,723 - INFO - Optimizer step 3: log_σ²=0.013417, weight=0.986672
+2025-07-10 16:34:55,589 - INFO - log_σ² gradient: -0.557224
+2025-07-10 16:34:55,663 - INFO - Optimizer step 4: log_σ²=0.013559, weight=0.986533
+2025-07-10 16:35:19,933 - INFO - log_σ² gradient: -0.548364
+2025-07-10 16:35:20,009 - INFO - Optimizer step 5: log_σ²=0.013701, weight=0.986392
+2025-07-10 16:35:44,443 - INFO - log_σ² gradient: -0.542394
+2025-07-10 16:35:44,505 - INFO - Optimizer step 6: log_σ²=0.013844, weight=0.986251
+2025-07-10 16:36:09,619 - INFO - log_σ² gradient: -0.547385
+2025-07-10 16:36:09,694 - INFO - Optimizer step 7: log_σ²=0.013989, weight=0.986108
+2025-07-10 16:36:36,044 - INFO - log_σ² gradient: -0.560439
+2025-07-10 16:36:36,117 - INFO - Optimizer step 8: log_σ²=0.014135, weight=0.985965
+2025-07-10 16:37:00,513 - INFO - log_σ² gradient: -0.546296
+2025-07-10 16:37:00,592 - INFO - Optimizer step 9: log_σ²=0.014282, weight=0.985820
+2025-07-10 16:37:25,935 - INFO - log_σ² gradient: -0.554143
+2025-07-10 16:37:26,011 - INFO - Optimizer step 10: log_σ²=0.014430, weight=0.985674
+2025-07-10 16:37:50,437 - INFO - log_σ² gradient: -0.540571
+2025-07-10 16:37:50,506 - INFO - Optimizer step 11: log_σ²=0.014579, weight=0.985527
+2025-07-10 16:38:13,937 - INFO - log_σ² gradient: -0.552149
+2025-07-10 16:38:14,004 - INFO - Optimizer step 12: log_σ²=0.014729, weight=0.985379
+2025-07-10 16:38:37,243 - INFO - log_σ² gradient: -0.551458
+2025-07-10 16:38:37,319 - INFO - Optimizer step 13: log_σ²=0.014880, weight=0.985231
+2025-07-10 16:39:01,258 - INFO - log_σ² gradient: -0.531494
+2025-07-10 16:39:01,325 - INFO - Optimizer step 14: log_σ²=0.015031, weight=0.985081
+2025-07-10 16:39:26,230 - INFO - log_σ² gradient: -0.553492
+2025-07-10 16:39:26,309 - INFO - Optimizer step 15: log_σ²=0.015184, weight=0.984931
+2025-07-10 16:39:50,739 - INFO - log_σ² gradient: -0.544295
+2025-07-10 16:39:50,817 - INFO - Optimizer step 16: log_σ²=0.015337, weight=0.984780
+2025-07-10 16:40:16,063 - INFO - log_σ² gradient: -0.565899
+2025-07-10 16:40:16,134 - INFO - Optimizer step 17: log_σ²=0.015492, weight=0.984628
+2025-07-10 16:40:39,321 - INFO - log_σ² gradient: -0.550046
+2025-07-10 16:40:39,389 - INFO - Optimizer step 18: log_σ²=0.015647, weight=0.984474
+2025-07-10 16:41:05,229 - INFO - log_σ² gradient: -0.552493
+2025-07-10 16:41:05,307 - INFO - Optimizer step 19: log_σ²=0.015804, weight=0.984320
+2025-07-10 16:41:30,512 - INFO - log_σ² gradient: -0.551766
+2025-07-10 16:41:30,590 - INFO - Optimizer step 20: log_σ²=0.015962, weight=0.984165
+2025-07-10 16:41:54,817 - INFO - log_σ² gradient: -0.550463
+2025-07-10 16:41:54,896 - INFO - Optimizer step 21: log_σ²=0.016120, weight=0.984009
+2025-07-10 16:42:18,986 - INFO - log_σ² gradient: -0.540397
+2025-07-10 16:42:19,062 - INFO - Optimizer step 22: log_σ²=0.016279, weight=0.983853
+2025-07-10 16:42:42,604 - INFO - log_σ² gradient: -0.550544
+2025-07-10 16:42:42,672 - INFO - Optimizer step 23: log_σ²=0.016439, weight=0.983695
+2025-07-10 16:43:07,275 - INFO - log_σ² gradient: -0.552073
+2025-07-10 16:43:07,346 - INFO - Optimizer step 24: log_σ²=0.016600, weight=0.983537
+2025-07-10 16:43:32,080 - INFO - log_σ² gradient: -0.555138
+2025-07-10 16:43:32,155 - INFO - Optimizer step 25: log_σ²=0.016762, weight=0.983378
+2025-07-10 16:43:57,502 - INFO - log_σ² gradient: -0.546422
+2025-07-10 16:43:57,574 - INFO - Optimizer step 26: log_σ²=0.016925, weight=0.983218
+2025-07-10 16:44:20,806 - INFO - log_σ² gradient: -0.538194
+2025-07-10 16:44:20,880 - INFO - Optimizer step 27: log_σ²=0.017088, weight=0.983057
+2025-07-10 16:44:44,469 - INFO - log_σ² gradient: -0.537083
+2025-07-10 16:44:44,540 - INFO - Optimizer step 28: log_σ²=0.017252, weight=0.982896
+2025-07-10 16:45:08,159 - INFO - log_σ² gradient: -0.552016
+2025-07-10 16:45:08,233 - INFO - Optimizer step 29: log_σ²=0.017416, weight=0.982734
+2025-07-10 16:45:30,333 - INFO - log_σ² gradient: -0.552085
+2025-07-10 16:45:30,405 - INFO - Optimizer step 30: log_σ²=0.017582, weight=0.982572
+2025-07-10 16:45:40,991 - INFO - log_σ² gradient: -0.260811
+2025-07-10 16:45:41,067 - INFO - Optimizer step 31: log_σ²=0.017740, weight=0.982416
+2025-07-10 16:45:41,252 - INFO - Epoch 7: Total optimizer steps: 31
+2025-07-10 16:48:59,353 - INFO - Validation metrics:
+2025-07-10 16:48:59,353 - INFO -   Loss: 0.7641
+2025-07-10 16:48:59,353 - INFO -   Average similarity: 0.9188
+2025-07-10 16:48:59,353 - INFO -   Median similarity: 0.9961
+2025-07-10 16:48:59,353 - INFO -   Clean sample similarity: 0.9188
+2025-07-10 16:48:59,353 - INFO -   Corrupted sample similarity: 0.6100
+2025-07-10 16:48:59,353 - INFO -   Similarity gap (clean - corrupt): 0.3088
+2025-07-10 16:48:59,448 - INFO - Epoch 7/30 - Train Loss: 0.7769, Val Loss: 0.7641, Clean Sim: 0.9188, Corrupt Sim: 0.6100, Gap: 0.3088, Time: 980.84s
+2025-07-10 16:48:59,448 - INFO - New best validation loss: 0.7641
+2025-07-10 16:49:05,528 - INFO - New best similarity gap: 0.3088
+2025-07-10 16:50:21,456 - INFO - log_σ² gradient: -0.549724
+2025-07-10 16:50:21,535 - INFO - Optimizer step 1: log_σ²=0.017900, weight=0.982259
+2025-07-10 16:50:46,322 - INFO - log_σ² gradient: -0.543920
+2025-07-10 16:50:46,396 - INFO - Optimizer step 2: log_σ²=0.018061, weight=0.982101
+2025-07-10 16:51:10,266 - INFO - log_σ² gradient: -0.528869
+2025-07-10 16:51:10,341 - INFO - Optimizer step 3: log_σ²=0.018223, weight=0.981942
+2025-07-10 16:51:34,600 - INFO - log_σ² gradient: -0.541582
+2025-07-10 16:51:34,666 - INFO - Optimizer step 4: log_σ²=0.018387, weight=0.981781
+2025-07-10 16:51:56,899 - INFO - log_σ² gradient: -0.548333
+2025-07-10 16:51:56,963 - INFO - Optimizer step 5: log_σ²=0.018551, weight=0.981620
+2025-07-10 16:52:20,836 - INFO - log_σ² gradient: -0.561278
+2025-07-10 16:52:20,914 - INFO - Optimizer step 6: log_σ²=0.018718, weight=0.981456
+2025-07-10 16:52:44,669 - INFO - log_σ² gradient: -0.554863
+2025-07-10 16:52:44,741 - INFO - Optimizer step 7: log_σ²=0.018886, weight=0.981291
+2025-07-10 16:53:08,890 - INFO - log_σ² gradient: -0.550864
+2025-07-10 16:53:08,968 - INFO - Optimizer step 8: log_σ²=0.019056, weight=0.981125
+2025-07-10 16:53:33,830 - INFO - log_σ² gradient: -0.557946
+2025-07-10 16:53:33,901 - INFO - Optimizer step 9: log_σ²=0.019227, weight=0.980957
+2025-07-10 16:53:58,879 - INFO - log_σ² gradient: -0.558256
+2025-07-10 16:53:58,957 - INFO - Optimizer step 10: log_σ²=0.019399, weight=0.980788
+2025-07-10 16:54:23,032 - INFO - log_σ² gradient: -0.540979
+2025-07-10 16:54:23,105 - INFO - Optimizer step 11: log_σ²=0.019572, weight=0.980618
+2025-07-10 16:54:46,453 - INFO - log_σ² gradient: -0.546736
+2025-07-10 16:54:46,525 - INFO - Optimizer step 12: log_σ²=0.019746, weight=0.980447
+2025-07-10 16:55:11,138 - INFO - log_σ² gradient: -0.568650
+2025-07-10 16:55:11,209 - INFO - Optimizer step 13: log_σ²=0.019922, weight=0.980275
+2025-07-10 16:55:35,820 - INFO - log_σ² gradient: -0.543600
+2025-07-10 16:55:35,891 - INFO - Optimizer step 14: log_σ²=0.020099, weight=0.980102
+2025-07-10 16:55:59,603 - INFO - log_σ² gradient: -0.563959
+2025-07-10 16:55:59,677 - INFO - Optimizer step 15: log_σ²=0.020277, weight=0.979927
+2025-07-10 16:56:23,570 - INFO - log_σ² gradient: -0.547597
+2025-07-10 16:56:23,649 - INFO - Optimizer step 16: log_σ²=0.020456, weight=0.979752
+2025-07-10 16:56:48,213 - INFO - log_σ² gradient: -0.549804
+2025-07-10 16:56:48,289 - INFO - Optimizer step 17: log_σ²=0.020636, weight=0.979576
+2025-07-10 16:57:13,413 - INFO - log_σ² gradient: -0.549053
+2025-07-10 16:57:13,486 - INFO - Optimizer step 18: log_σ²=0.020817, weight=0.979398
+2025-07-10 16:57:37,625 - INFO - log_σ² gradient: -0.550109
+2025-07-10 16:57:37,696 - INFO - Optimizer step 19: log_σ²=0.020998, weight=0.979221
+2025-07-10 16:58:02,492 - INFO - log_σ² gradient: -0.536926
+2025-07-10 16:58:02,560 - INFO - Optimizer step 20: log_σ²=0.021181, weight=0.979042
+2025-07-10 16:58:26,399 - INFO - log_σ² gradient: -0.555423
+2025-07-10 16:58:26,477 - INFO - Optimizer step 21: log_σ²=0.021364, weight=0.978863
+2025-07-10 16:58:49,819 - INFO - log_σ² gradient: -0.543745
+2025-07-10 16:58:49,895 - INFO - Optimizer step 22: log_σ²=0.021548, weight=0.978683
+2025-07-10 16:59:14,492 - INFO - log_σ² gradient: -0.545537
+2025-07-10 16:59:14,565 - INFO - Optimizer step 23: log_σ²=0.021733, weight=0.978502
+2025-07-10 16:59:38,095 - INFO - log_σ² gradient: -0.540812
+2025-07-10 16:59:38,174 - INFO - Optimizer step 24: log_σ²=0.021918, weight=0.978320
+2025-07-10 17:00:01,576 - INFO - log_σ² gradient: -0.541775
+2025-07-10 17:00:01,647 - INFO - Optimizer step 25: log_σ²=0.022104, weight=0.978138
+2025-07-10 17:00:28,329 - INFO - log_σ² gradient: -0.546449
+2025-07-10 17:00:28,400 - INFO - Optimizer step 26: log_σ²=0.022291, weight=0.977956
+2025-07-10 17:00:52,157 - INFO - log_σ² gradient: -0.541647
+2025-07-10 17:00:52,236 - INFO - Optimizer step 27: log_σ²=0.022479, weight=0.977772
+2025-07-10 17:01:16,625 - INFO - log_σ² gradient: -0.546290
+2025-07-10 17:01:16,700 - INFO - Optimizer step 28: log_σ²=0.022667, weight=0.977588
+2025-07-10 17:01:41,662 - INFO - log_σ² gradient: -0.536283
+2025-07-10 17:01:41,741 - INFO - Optimizer step 29: log_σ²=0.022856, weight=0.977403
+2025-07-10 17:02:05,734 - INFO - log_σ² gradient: -0.544419
+2025-07-10 17:02:05,813 - INFO - Optimizer step 30: log_σ²=0.023046, weight=0.977218
+2025-07-10 17:02:16,351 - INFO - log_σ² gradient: -0.261000
+2025-07-10 17:02:16,425 - INFO - Optimizer step 31: log_σ²=0.023227, weight=0.977041
+2025-07-10 17:02:16,612 - INFO - Epoch 8: Total optimizer steps: 31
+2025-07-10 17:05:38,203 - INFO - Validation metrics:
+2025-07-10 17:05:38,203 - INFO -   Loss: 0.7437
+2025-07-10 17:05:38,203 - INFO -   Average similarity: 0.6682
+2025-07-10 17:05:38,203 - INFO -   Median similarity: 0.8904
+2025-07-10 17:05:38,203 - INFO -   Clean sample similarity: 0.6682
+2025-07-10 17:05:38,203 - INFO -   Corrupted sample similarity: 0.3007
+2025-07-10 17:05:38,203 - INFO -   Similarity gap (clean - corrupt): 0.3675
+2025-07-10 17:05:38,303 - INFO - Epoch 8/30 - Train Loss: 0.7799, Val Loss: 0.7437, Clean Sim: 0.6682, Corrupt Sim: 0.3007, Gap: 0.3675, Time: 985.85s
+2025-07-10 17:05:38,304 - INFO - New best validation loss: 0.7437
+2025-07-10 17:05:44,522 - INFO - New best similarity gap: 0.3675
+2025-07-10 17:08:31,806 - INFO - Epoch 8 Validation Alignment: Pos=0.101, Neg=0.074, Gap=0.027
+2025-07-10 17:09:44,564 - INFO - log_σ² gradient: -0.536522
+2025-07-10 17:09:44,636 - INFO - Optimizer step 1: log_σ²=0.023409, weight=0.976863
+2025-07-10 17:10:08,077 - INFO - log_σ² gradient: -0.543526
+2025-07-10 17:10:08,156 - INFO - Optimizer step 2: log_σ²=0.023593, weight=0.976683
+2025-07-10 17:10:30,839 - INFO - log_σ² gradient: -0.533749
+2025-07-10 17:10:30,918 - INFO - Optimizer step 3: log_σ²=0.023778, weight=0.976502
+2025-07-10 17:10:55,908 - INFO - log_σ² gradient: -0.538008
+2025-07-10 17:10:55,980 - INFO - Optimizer step 4: log_σ²=0.023965, weight=0.976320
+2025-07-10 17:11:20,765 - INFO - log_σ² gradient: -0.544801
+2025-07-10 17:11:20,829 - INFO - Optimizer step 5: log_σ²=0.024153, weight=0.976136
+2025-07-10 17:11:44,928 - INFO - log_σ² gradient: -0.549975
+2025-07-10 17:11:45,010 - INFO - Optimizer step 6: log_σ²=0.024343, weight=0.975951
+2025-07-10 17:12:08,952 - INFO - log_σ² gradient: -0.542045
+2025-07-10 17:12:09,031 - INFO - Optimizer step 7: log_σ²=0.024534, weight=0.975765
+2025-07-10 17:12:32,938 - INFO - log_σ² gradient: -0.549432
+2025-07-10 17:12:33,002 - INFO - Optimizer step 8: log_σ²=0.024727, weight=0.975577
+2025-07-10 17:12:57,015 - INFO - log_σ² gradient: -0.545405
+2025-07-10 17:12:57,088 - INFO - Optimizer step 9: log_σ²=0.024920, weight=0.975388
+2025-07-10 17:13:20,788 - INFO - log_σ² gradient: -0.535540
+2025-07-10 17:13:20,867 - INFO - Optimizer step 10: log_σ²=0.025115, weight=0.975198
+2025-07-10 17:13:45,802 - INFO - log_σ² gradient: -0.548867
+2025-07-10 17:13:45,866 - INFO - Optimizer step 11: log_σ²=0.025311, weight=0.975006
+2025-07-10 17:14:11,135 - INFO - log_σ² gradient: -0.554270
+2025-07-10 17:14:11,212 - INFO - Optimizer step 12: log_σ²=0.025509, weight=0.974814
+2025-07-10 17:14:37,615 - INFO - log_σ² gradient: -0.547245
+2025-07-10 17:14:37,690 - INFO - Optimizer step 13: log_σ²=0.025708, weight=0.974620
+2025-07-10 17:15:00,765 - INFO - log_σ² gradient: -0.542397
+2025-07-10 17:15:00,839 - INFO - Optimizer step 14: log_σ²=0.025908, weight=0.974425
+2025-07-10 17:15:24,185 - INFO - log_σ² gradient: -0.541244
+2025-07-10 17:15:24,253 - INFO - Optimizer step 15: log_σ²=0.026108, weight=0.974230
+2025-07-10 17:15:49,143 - INFO - log_σ² gradient: -0.537447
+2025-07-10 17:15:49,215 - INFO - Optimizer step 16: log_σ²=0.026310, weight=0.974033
+2025-07-10 17:16:12,167 - INFO - log_σ² gradient: -0.542615
+2025-07-10 17:16:12,239 - INFO - Optimizer step 17: log_σ²=0.026512, weight=0.973836
+2025-07-10 17:16:36,486 - INFO - log_σ² gradient: -0.548041
+2025-07-10 17:16:36,564 - INFO - Optimizer step 18: log_σ²=0.026716, weight=0.973638
+2025-07-10 17:17:00,170 - INFO - log_σ² gradient: -0.561346
+2025-07-10 17:17:00,245 - INFO - Optimizer step 19: log_σ²=0.026921, weight=0.973438
+2025-07-10 17:17:24,951 - INFO - log_σ² gradient: -0.537391
+2025-07-10 17:17:25,037 - INFO - Optimizer step 20: log_σ²=0.027126, weight=0.973238
+2025-07-10 17:17:50,875 - INFO - log_σ² gradient: -0.546383
+2025-07-10 17:17:50,946 - INFO - Optimizer step 21: log_σ²=0.027333, weight=0.973037
+2025-07-10 17:18:15,318 - INFO - log_σ² gradient: -0.537343
+2025-07-10 17:18:15,384 - INFO - Optimizer step 22: log_σ²=0.027541, weight=0.972835
+2025-07-10 17:18:38,487 - INFO - log_σ² gradient: -0.534339
+2025-07-10 17:18:38,561 - INFO - Optimizer step 23: log_σ²=0.027749, weight=0.972633
+2025-07-10 17:19:02,031 - INFO - log_σ² gradient: -0.541069
+2025-07-10 17:19:02,103 - INFO - Optimizer step 24: log_σ²=0.027957, weight=0.972430
+2025-07-10 17:19:26,465 - INFO - log_σ² gradient: -0.543344
+2025-07-10 17:19:26,537 - INFO - Optimizer step 25: log_σ²=0.028167, weight=0.972226
+2025-07-10 17:19:50,981 - INFO - log_σ² gradient: -0.553222
+2025-07-10 17:19:51,049 - INFO - Optimizer step 26: log_σ²=0.028378, weight=0.972021
+2025-07-10 17:20:15,728 - INFO - log_σ² gradient: -0.528853
+2025-07-10 17:20:15,802 - INFO - Optimizer step 27: log_σ²=0.028589, weight=0.971816
+2025-07-10 17:20:41,130 - INFO - log_σ² gradient: -0.542126
+2025-07-10 17:20:41,201 - INFO - Optimizer step 28: log_σ²=0.028801, weight=0.971610
+2025-07-10 17:21:03,362 - INFO - log_σ² gradient: -0.536852
+2025-07-10 17:21:03,431 - INFO - Optimizer step 29: log_σ²=0.029014, weight=0.971403
+2025-07-10 17:21:26,771 - INFO - log_σ² gradient: -0.538833
+2025-07-10 17:21:26,843 - INFO - Optimizer step 30: log_σ²=0.029227, weight=0.971196
+2025-07-10 17:21:36,675 - INFO - log_σ² gradient: -0.254859
+2025-07-10 17:21:36,741 - INFO - Optimizer step 31: log_σ²=0.029430, weight=0.970999
+2025-07-10 17:21:36,922 - INFO - Epoch 9: Total optimizer steps: 31
+2025-07-10 17:24:56,190 - INFO - Validation metrics:
+2025-07-10 17:24:56,191 - INFO -   Loss: 0.7171
+2025-07-10 17:24:56,191 - INFO -   Average similarity: 0.7884
+2025-07-10 17:24:56,191 - INFO -   Median similarity: 0.9629
+2025-07-10 17:24:56,191 - INFO -   Clean sample similarity: 0.7884
+2025-07-10 17:24:56,191 - INFO -   Corrupted sample similarity: 0.3944
+2025-07-10 17:24:56,191 - INFO -   Similarity gap (clean - corrupt): 0.3940
+2025-07-10 17:24:56,307 - INFO - Epoch 9/30 - Train Loss: 0.7575, Val Loss: 0.7171, Clean Sim: 0.7884, Corrupt Sim: 0.3944, Gap: 0.3940, Time: 984.50s
+2025-07-10 17:24:56,307 - INFO - New best validation loss: 0.7171
+2025-07-10 17:25:02,421 - INFO - New best similarity gap: 0.3940
+2025-07-10 17:26:16,635 - INFO - log_σ² gradient: -0.539628
+2025-07-10 17:26:16,707 - INFO - Optimizer step 1: log_σ²=0.029635, weight=0.970800
+2025-07-10 17:26:41,090 - INFO - log_σ² gradient: -0.538785
+2025-07-10 17:26:41,162 - INFO - Optimizer step 2: log_σ²=0.029842, weight=0.970599
+2025-07-10 17:27:06,680 - INFO - log_σ² gradient: -0.538639
+2025-07-10 17:27:06,754 - INFO - Optimizer step 3: log_σ²=0.030050, weight=0.970397
+2025-07-10 17:27:30,959 - INFO - log_σ² gradient: -0.538436
+2025-07-10 17:27:31,030 - INFO - Optimizer step 4: log_σ²=0.030260, weight=0.970193
+2025-07-10 17:27:54,271 - INFO - log_σ² gradient: -0.550471
+2025-07-10 17:27:54,343 - INFO - Optimizer step 5: log_σ²=0.030472, weight=0.969987
+2025-07-10 17:28:17,367 - INFO - log_σ² gradient: -0.532091
+2025-07-10 17:28:17,443 - INFO - Optimizer step 6: log_σ²=0.030685, weight=0.969781
+2025-07-10 17:28:40,709 - INFO - log_σ² gradient: -0.540206
+2025-07-10 17:28:40,774 - INFO - Optimizer step 7: log_σ²=0.030900, weight=0.969573
+2025-07-10 17:29:04,903 - INFO - log_σ² gradient: -0.543870
+2025-07-10 17:29:04,974 - INFO - Optimizer step 8: log_σ²=0.031116, weight=0.969364
+2025-07-10 17:29:29,489 - INFO - log_σ² gradient: -0.543883
+2025-07-10 17:29:29,560 - INFO - Optimizer step 9: log_σ²=0.031333, weight=0.969153
+2025-07-10 17:29:53,667 - INFO - log_σ² gradient: -0.543740
+2025-07-10 17:29:53,747 - INFO - Optimizer step 10: log_σ²=0.031552, weight=0.968941
+2025-07-10 17:30:17,193 - INFO - log_σ² gradient: -0.538837
+2025-07-10 17:30:17,269 - INFO - Optimizer step 11: log_σ²=0.031771, weight=0.968728
+2025-07-10 17:30:40,733 - INFO - log_σ² gradient: -0.547343
+2025-07-10 17:30:40,804 - INFO - Optimizer step 12: log_σ²=0.031993, weight=0.968514
+2025-07-10 17:31:03,976 - INFO - log_σ² gradient: -0.538469
+2025-07-10 17:31:04,048 - INFO - Optimizer step 13: log_σ²=0.032215, weight=0.968299
+2025-07-10 17:31:26,564 - INFO - log_σ² gradient: -0.531641
+2025-07-10 17:31:26,630 - INFO - Optimizer step 14: log_σ²=0.032438, weight=0.968083
+2025-07-10 17:31:50,083 - INFO - log_σ² gradient: -0.535655
+2025-07-10 17:31:50,154 - INFO - Optimizer step 15: log_σ²=0.032662, weight=0.967866
+2025-07-10 17:32:13,811 - INFO - log_σ² gradient: -0.542713
+2025-07-10 17:32:13,875 - INFO - Optimizer step 16: log_σ²=0.032886, weight=0.967648
+2025-07-10 17:32:40,813 - INFO - log_σ² gradient: -0.535118
+2025-07-10 17:32:40,893 - INFO - Optimizer step 17: log_σ²=0.033112, weight=0.967430
+2025-07-10 17:33:04,555 - INFO - log_σ² gradient: -0.545049
+2025-07-10 17:33:04,635 - INFO - Optimizer step 18: log_σ²=0.033339, weight=0.967210
+2025-07-10 17:33:30,020 - INFO - log_σ² gradient: -0.536629
+2025-07-10 17:33:30,091 - INFO - Optimizer step 19: log_σ²=0.033567, weight=0.966990
+2025-07-10 17:33:55,474 - INFO - log_σ² gradient: -0.528660
+2025-07-10 17:33:55,546 - INFO - Optimizer step 20: log_σ²=0.033795, weight=0.966769
+2025-07-10 17:34:20,254 - INFO - log_σ² gradient: -0.527693
+2025-07-10 17:34:20,330 - INFO - Optimizer step 21: log_σ²=0.034024, weight=0.966548
+2025-07-10 17:34:45,483 - INFO - log_σ² gradient: -0.534387
+2025-07-10 17:34:45,559 - INFO - Optimizer step 22: log_σ²=0.034254, weight=0.966326
+2025-07-10 17:35:10,531 - INFO - log_σ² gradient: -0.542139
+2025-07-10 17:35:10,609 - INFO - Optimizer step 23: log_σ²=0.034485, weight=0.966103
+2025-07-10 17:35:34,816 - INFO - log_σ² gradient: -0.543082
+2025-07-10 17:35:34,894 - INFO - Optimizer step 24: log_σ²=0.034717, weight=0.965879
+2025-07-10 17:35:57,433 - INFO - log_σ² gradient: -0.538778
+2025-07-10 17:35:57,500 - INFO - Optimizer step 25: log_σ²=0.034949, weight=0.965654
+2025-07-10 17:36:22,872 - INFO - log_σ² gradient: -0.523146
+2025-07-10 17:36:22,944 - INFO - Optimizer step 26: log_σ²=0.035182, weight=0.965429
+2025-07-10 17:36:47,829 - INFO - log_σ² gradient: -0.539740
+2025-07-10 17:36:47,905 - INFO - Optimizer step 27: log_σ²=0.035416, weight=0.965203
+2025-07-10 17:37:11,112 - INFO - log_σ² gradient: -0.536670
+2025-07-10 17:37:11,184 - INFO - Optimizer step 28: log_σ²=0.035651, weight=0.964977
+2025-07-10 17:37:36,293 - INFO - log_σ² gradient: -0.528335
+2025-07-10 17:37:36,365 - INFO - Optimizer step 29: log_σ²=0.035887, weight=0.964750
+2025-07-10 17:37:58,838 - INFO - log_σ² gradient: -0.532560
+2025-07-10 17:37:58,908 - INFO - Optimizer step 30: log_σ²=0.036123, weight=0.964522
+2025-07-10 17:38:10,993 - INFO - log_σ² gradient: -0.250389
+2025-07-10 17:38:11,060 - INFO - Optimizer step 31: log_σ²=0.036347, weight=0.964305
+2025-07-10 17:38:11,216 - INFO - Epoch 10: Total optimizer steps: 31
+2025-07-10 17:41:29,454 - INFO - Validation metrics:
+2025-07-10 17:41:29,454 - INFO -   Loss: 0.7129
+2025-07-10 17:41:29,454 - INFO -   Average similarity: 0.8915
+2025-07-10 17:41:29,454 - INFO -   Median similarity: 0.9950
+2025-07-10 17:41:29,454 - INFO -   Clean sample similarity: 0.8915
+2025-07-10 17:41:29,454 - INFO -   Corrupted sample similarity: 0.5113
+2025-07-10 17:41:29,454 - INFO -   Similarity gap (clean - corrupt): 0.3802
+2025-07-10 17:41:29,561 - INFO - Epoch 10/30 - Train Loss: 0.7421, Val Loss: 0.7129, Clean Sim: 0.8915, Corrupt Sim: 0.5113, Gap: 0.3802, Time: 979.96s
+2025-07-10 17:41:29,561 - INFO - New best validation loss: 0.7129
+2025-07-10 17:44:18,615 - INFO - Epoch 10 Validation Alignment: Pos=0.131, Neg=0.098, Gap=0.033
+2025-07-10 17:45:25,597 - INFO - log_σ² gradient: -0.532370
+2025-07-10 17:45:25,676 - INFO - Optimizer step 1: log_σ²=0.036574, weight=0.964087
+2025-07-10 17:45:46,563 - INFO - log_σ² gradient: -0.536865
+2025-07-10 17:45:46,634 - INFO - Optimizer step 2: log_σ²=0.036803, weight=0.963866
+2025-07-10 17:46:11,020 - INFO - log_σ² gradient: -0.533114
+2025-07-10 17:46:11,092 - INFO - Optimizer step 3: log_σ²=0.037033, weight=0.963645
+2025-07-10 17:46:33,921 - INFO - log_σ² gradient: -0.534954
+2025-07-10 17:46:33,987 - INFO - Optimizer step 4: log_σ²=0.037265, weight=0.963421
+2025-07-10 17:46:58,647 - INFO - log_σ² gradient: -0.542484
+2025-07-10 17:46:58,721 - INFO - Optimizer step 5: log_σ²=0.037499, weight=0.963196
+2025-07-10 17:47:22,338 - INFO - log_σ² gradient: -0.532388
+2025-07-10 17:47:22,414 - INFO - Optimizer step 6: log_σ²=0.037734, weight=0.962969
+2025-07-10 17:47:45,982 - INFO - log_σ² gradient: -0.533090
+2025-07-10 17:47:46,046 - INFO - Optimizer step 7: log_σ²=0.037971, weight=0.962741
+2025-07-10 17:48:09,596 - INFO - log_σ² gradient: -0.530777
+2025-07-10 17:48:09,668 - INFO - Optimizer step 8: log_σ²=0.038209, weight=0.962512
+2025-07-10 17:48:33,082 - INFO - log_σ² gradient: -0.540906
+2025-07-10 17:48:33,161 - INFO - Optimizer step 9: log_σ²=0.038449, weight=0.962281
+2025-07-10 17:48:58,081 - INFO - log_σ² gradient: -0.528409
+2025-07-10 17:48:58,159 - INFO - Optimizer step 10: log_σ²=0.038689, weight=0.962050
+2025-07-10 17:49:23,566 - INFO - log_σ² gradient: -0.526553
+2025-07-10 17:49:23,646 - INFO - Optimizer step 11: log_σ²=0.038931, weight=0.961817
+2025-07-10 17:49:46,959 - INFO - log_σ² gradient: -0.523638
+2025-07-10 17:49:47,030 - INFO - Optimizer step 12: log_σ²=0.039173, weight=0.961584
+2025-07-10 17:50:11,777 - INFO - log_σ² gradient: -0.522973
+2025-07-10 17:50:11,849 - INFO - Optimizer step 13: log_σ²=0.039416, weight=0.961351
+2025-07-10 17:50:35,788 - INFO - log_σ² gradient: -0.515179
+2025-07-10 17:50:35,855 - INFO - Optimizer step 14: log_σ²=0.039659, weight=0.961117
+2025-07-10 17:51:00,531 - INFO - log_σ² gradient: -0.535419
+2025-07-10 17:51:00,606 - INFO - Optimizer step 15: log_σ²=0.039904, weight=0.960882
+2025-07-10 17:51:25,037 - INFO - log_σ² gradient: -0.531236
+2025-07-10 17:51:25,104 - INFO - Optimizer step 16: log_σ²=0.040150, weight=0.960646
+2025-07-10 17:51:47,948 - INFO - log_σ² gradient: -0.528703
+2025-07-10 17:51:48,022 - INFO - Optimizer step 17: log_σ²=0.040397, weight=0.960409
+2025-07-10 17:52:13,450 - INFO - log_σ² gradient: -0.525497
+2025-07-10 17:52:13,525 - INFO - Optimizer step 18: log_σ²=0.040644, weight=0.960171
+2025-07-10 17:52:38,621 - INFO - log_σ² gradient: -0.527384
+2025-07-10 17:52:38,699 - INFO - Optimizer step 19: log_σ²=0.040893, weight=0.959932
+2025-07-10 17:53:04,153 - INFO - log_σ² gradient: -0.529396
+2025-07-10 17:53:04,225 - INFO - Optimizer step 20: log_σ²=0.041142, weight=0.959693
+2025-07-10 17:53:28,704 - INFO - log_σ² gradient: -0.540948
+2025-07-10 17:53:28,778 - INFO - Optimizer step 21: log_σ²=0.041393, weight=0.959452
+2025-07-10 17:53:53,551 - INFO - log_σ² gradient: -0.547490
+2025-07-10 17:53:53,625 - INFO - Optimizer step 22: log_σ²=0.041645, weight=0.959210
+2025-07-10 17:54:17,985 - INFO - log_σ² gradient: -0.539977
+2025-07-10 17:54:18,065 - INFO - Optimizer step 23: log_σ²=0.041899, weight=0.958966
+2025-07-10 17:54:42,793 - INFO - log_σ² gradient: -0.532642
+2025-07-10 17:54:42,867 - INFO - Optimizer step 24: log_σ²=0.042154, weight=0.958722
+2025-07-10 17:55:06,844 - INFO - log_σ² gradient: -0.531817
+2025-07-10 17:55:06,920 - INFO - Optimizer step 25: log_σ²=0.042410, weight=0.958477
+2025-07-10 17:55:31,417 - INFO - log_σ² gradient: -0.531791
+2025-07-10 17:55:31,490 - INFO - Optimizer step 26: log_σ²=0.042666, weight=0.958231
+2025-07-10 17:55:54,796 - INFO - log_σ² gradient: -0.536748
+2025-07-10 17:55:54,869 - INFO - Optimizer step 27: log_σ²=0.042924, weight=0.957984
+2025-07-10 17:56:19,380 - INFO - log_σ² gradient: -0.529381
+2025-07-10 17:56:19,458 - INFO - Optimizer step 28: log_σ²=0.043182, weight=0.957737
+2025-07-10 17:56:42,612 - INFO - log_σ² gradient: -0.521823
+2025-07-10 17:56:42,684 - INFO - Optimizer step 29: log_σ²=0.043441, weight=0.957489
+2025-07-10 17:57:04,361 - INFO - log_σ² gradient: -0.532169
+2025-07-10 17:57:04,431 - INFO - Optimizer step 30: log_σ²=0.043700, weight=0.957241
+2025-07-10 17:57:15,730 - INFO - log_σ² gradient: -0.239791
+2025-07-10 17:57:15,803 - INFO - Optimizer step 31: log_σ²=0.043946, weight=0.957005
+2025-07-10 17:57:15,992 - INFO - Epoch 11: Total optimizer steps: 31
+2025-07-10 18:00:34,595 - INFO - Validation metrics:
+2025-07-10 18:00:34,595 - INFO -   Loss: 0.6939
+2025-07-10 18:00:34,595 - INFO -   Average similarity: 0.8448
+2025-07-10 18:00:34,595 - INFO -   Median similarity: 0.9873
+2025-07-10 18:00:34,595 - INFO -   Clean sample similarity: 0.8448
+2025-07-10 18:00:34,595 - INFO -   Corrupted sample similarity: 0.4299
+2025-07-10 18:00:34,595 - INFO -   Similarity gap (clean - corrupt): 0.4149
+2025-07-10 18:00:34,708 - INFO - Epoch 11/30 - Train Loss: 0.7224, Val Loss: 0.6939, Clean Sim: 0.8448, Corrupt Sim: 0.4299, Gap: 0.4149, Time: 976.09s
+2025-07-10 18:00:34,709 - INFO - New best validation loss: 0.6939
+2025-07-10 18:00:40,745 - INFO - New best similarity gap: 0.4149
+2025-07-10 18:01:55,851 - INFO - log_σ² gradient: -0.519495
+2025-07-10 18:01:55,922 - INFO - Optimizer step 1: log_σ²=0.044194, weight=0.956768
+2025-07-10 18:02:19,837 - INFO - log_σ² gradient: -0.523688
+2025-07-10 18:02:19,908 - INFO - Optimizer step 2: log_σ²=0.044444, weight=0.956529
+2025-07-10 18:02:45,202 - INFO - log_σ² gradient: -0.531184
+2025-07-10 18:02:45,278 - INFO - Optimizer step 3: log_σ²=0.044696, weight=0.956288
+2025-07-10 18:03:10,366 - INFO - log_σ² gradient: -0.525087
+2025-07-10 18:03:10,441 - INFO - Optimizer step 4: log_σ²=0.044949, weight=0.956046
+2025-07-10 18:03:35,100 - INFO - log_σ² gradient: -0.535427
+2025-07-10 18:03:35,176 - INFO - Optimizer step 5: log_σ²=0.045205, weight=0.955802
+2025-07-10 18:03:58,890 - INFO - log_σ² gradient: -0.529216
+2025-07-10 18:03:58,958 - INFO - Optimizer step 6: log_σ²=0.045462, weight=0.955556
+2025-07-10 18:04:24,011 - INFO - log_σ² gradient: -0.527409
+2025-07-10 18:04:24,083 - INFO - Optimizer step 7: log_σ²=0.045720, weight=0.955309
+2025-07-10 18:04:46,180 - INFO - log_σ² gradient: -0.528864
+2025-07-10 18:04:46,244 - INFO - Optimizer step 8: log_σ²=0.045980, weight=0.955061
+2025-07-10 18:05:10,567 - INFO - log_σ² gradient: -0.533822
+2025-07-10 18:05:10,633 - INFO - Optimizer step 9: log_σ²=0.046242, weight=0.954811
+2025-07-10 18:05:33,740 - INFO - log_σ² gradient: -0.534954
+2025-07-10 18:05:33,813 - INFO - Optimizer step 10: log_σ²=0.046505, weight=0.954560
+2025-07-10 18:05:57,869 - INFO - log_σ² gradient: -0.540507
+2025-07-10 18:05:57,943 - INFO - Optimizer step 11: log_σ²=0.046770, weight=0.954307
+2025-07-10 18:06:21,418 - INFO - log_σ² gradient: -0.536083
+2025-07-10 18:06:21,492 - INFO - Optimizer step 12: log_σ²=0.047037, weight=0.954052
+2025-07-10 18:06:46,272 - INFO - log_σ² gradient: -0.523205
+2025-07-10 18:06:46,343 - INFO - Optimizer step 13: log_σ²=0.047304, weight=0.953797
+2025-07-10 18:07:09,358 - INFO - log_σ² gradient: -0.522129
+2025-07-10 18:07:09,420 - INFO - Optimizer step 14: log_σ²=0.047572, weight=0.953541
+2025-07-10 18:07:32,801 - INFO - log_σ² gradient: -0.513043
+2025-07-10 18:07:32,880 - INFO - Optimizer step 15: log_σ²=0.047841, weight=0.953286
+2025-07-10 18:07:58,963 - INFO - log_σ² gradient: -0.527191
+2025-07-10 18:07:59,034 - INFO - Optimizer step 16: log_σ²=0.048110, weight=0.953029
+2025-07-10 18:08:21,910 - INFO - log_σ² gradient: -0.526414
+2025-07-10 18:08:21,977 - INFO - Optimizer step 17: log_σ²=0.048381, weight=0.952771
+2025-07-10 18:08:46,244 - INFO - log_σ² gradient: -0.533497
+2025-07-10 18:08:46,319 - INFO - Optimizer step 18: log_σ²=0.048652, weight=0.952512
+2025-07-10 18:09:09,538 - INFO - log_σ² gradient: -0.530888
+2025-07-10 18:09:09,610 - INFO - Optimizer step 19: log_σ²=0.048925, weight=0.952252
+2025-07-10 18:09:33,391 - INFO - log_σ² gradient: -0.524023
+2025-07-10 18:09:33,462 - INFO - Optimizer step 20: log_σ²=0.049199, weight=0.951992
+2025-07-10 18:09:57,827 - INFO - log_σ² gradient: -0.530203
+2025-07-10 18:09:57,901 - INFO - Optimizer step 21: log_σ²=0.049474, weight=0.951730
+2025-07-10 18:10:22,016 - INFO - log_σ² gradient: -0.524581
+2025-07-10 18:10:22,092 - INFO - Optimizer step 22: log_σ²=0.049749, weight=0.951468
+2025-07-10 18:10:46,244 - INFO - log_σ² gradient: -0.526881
+2025-07-10 18:10:46,319 - INFO - Optimizer step 23: log_σ²=0.050026, weight=0.951205
+2025-07-10 18:11:12,108 - INFO - log_σ² gradient: -0.529148
+2025-07-10 18:11:12,187 - INFO - Optimizer step 24: log_σ²=0.050303, weight=0.950941
+2025-07-10 18:11:37,237 - INFO - log_σ² gradient: -0.520859
+2025-07-10 18:11:37,312 - INFO - Optimizer step 25: log_σ²=0.050581, weight=0.950677
+2025-07-10 18:12:00,210 - INFO - log_σ² gradient: -0.514845
+2025-07-10 18:12:00,278 - INFO - Optimizer step 26: log_σ²=0.050859, weight=0.950413
+2025-07-10 18:12:24,695 - INFO - log_σ² gradient: -0.517809
+2025-07-10 18:12:24,773 - INFO - Optimizer step 27: log_σ²=0.051138, weight=0.950148
+2025-07-10 18:12:50,012 - INFO - log_σ² gradient: -0.525186
+2025-07-10 18:12:50,084 - INFO - Optimizer step 28: log_σ²=0.051417, weight=0.949882
+2025-07-10 18:13:13,976 - INFO - log_σ² gradient: -0.519054
+2025-07-10 18:13:14,054 - INFO - Optimizer step 29: log_σ²=0.051698, weight=0.949616
+2025-07-10 18:13:35,945 - INFO - log_σ² gradient: -0.521077
+2025-07-10 18:13:36,020 - INFO - Optimizer step 30: log_σ²=0.051978, weight=0.949349
+2025-07-10 18:13:46,495 - INFO - log_σ² gradient: -0.242576
+2025-07-10 18:13:46,567 - INFO - Optimizer step 31: log_σ²=0.052245, weight=0.949096
+2025-07-10 18:13:46,732 - INFO - Epoch 12: Total optimizer steps: 31
+2025-07-10 18:17:05,832 - INFO - Validation metrics:
+2025-07-10 18:17:05,832 - INFO -   Loss: 0.6799
+2025-07-10 18:17:05,833 - INFO -   Average similarity: 0.8511
+2025-07-10 18:17:05,833 - INFO -   Median similarity: 0.9933
+2025-07-10 18:17:05,833 - INFO -   Clean sample similarity: 0.8511
+2025-07-10 18:17:05,833 - INFO -   Corrupted sample similarity: 0.4250
+2025-07-10 18:17:05,833 - INFO -   Similarity gap (clean - corrupt): 0.4261
+2025-07-10 18:17:05,949 - INFO - Epoch 12/30 - Train Loss: 0.7097, Val Loss: 0.6799, Clean Sim: 0.8511, Corrupt Sim: 0.4250, Gap: 0.4261, Time: 977.98s
+2025-07-10 18:17:05,949 - INFO - New best validation loss: 0.6799
+2025-07-10 18:17:12,980 - INFO - New best similarity gap: 0.4261
+2025-07-10 18:20:00,387 - INFO - Epoch 12 Validation Alignment: Pos=0.136, Neg=0.089, Gap=0.047
+2025-07-10 18:21:06,984 - INFO - log_σ² gradient: -0.523952
+2025-07-10 18:21:07,055 - INFO - Optimizer step 1: log_σ²=0.052514, weight=0.948841
+2025-07-10 18:21:31,256 - INFO - log_σ² gradient: -0.527925
+2025-07-10 18:21:31,335 - INFO - Optimizer step 2: log_σ²=0.052786, weight=0.948583
+2025-07-10 18:21:54,234 - INFO - log_σ² gradient: -0.521696
+2025-07-10 18:21:54,301 - INFO - Optimizer step 3: log_σ²=0.053059, weight=0.948324
+2025-07-10 18:22:17,515 - INFO - log_σ² gradient: -0.505590
+2025-07-10 18:22:17,595 - INFO - Optimizer step 4: log_σ²=0.053334, weight=0.948064
+2025-07-10 18:22:43,052 - INFO - log_σ² gradient: -0.525409
+2025-07-10 18:22:43,128 - INFO - Optimizer step 5: log_σ²=0.053610, weight=0.947802
+2025-07-10 18:23:05,925 - INFO - log_σ² gradient: -0.525438
+2025-07-10 18:23:06,001 - INFO - Optimizer step 6: log_σ²=0.053888, weight=0.947538
+2025-07-10 18:23:30,321 - INFO - log_σ² gradient: -0.517129
+2025-07-10 18:23:30,400 - INFO - Optimizer step 7: log_σ²=0.054168, weight=0.947273
+2025-07-10 18:23:56,183 - INFO - log_σ² gradient: -0.526283
+2025-07-10 18:23:56,258 - INFO - Optimizer step 8: log_σ²=0.054449, weight=0.947007
+2025-07-10 18:24:20,687 - INFO - log_σ² gradient: -0.523213
+2025-07-10 18:24:20,761 - INFO - Optimizer step 9: log_σ²=0.054732, weight=0.946739
+2025-07-10 18:24:43,717 - INFO - log_σ² gradient: -0.525440
+2025-07-10 18:24:43,796 - INFO - Optimizer step 10: log_σ²=0.055016, weight=0.946470
+2025-07-10 18:25:09,593 - INFO - log_σ² gradient: -0.511373
+2025-07-10 18:25:09,664 - INFO - Optimizer step 11: log_σ²=0.055301, weight=0.946200
+2025-07-10 18:25:32,037 - INFO - log_σ² gradient: -0.527059
+2025-07-10 18:25:32,113 - INFO - Optimizer step 12: log_σ²=0.055588, weight=0.945929
+2025-07-10 18:25:57,489 - INFO - log_σ² gradient: -0.525321
+2025-07-10 18:25:57,555 - INFO - Optimizer step 13: log_σ²=0.055876, weight=0.945657
+2025-07-10 18:26:20,095 - INFO - log_σ² gradient: -0.522609
+2025-07-10 18:26:20,159 - INFO - Optimizer step 14: log_σ²=0.056165, weight=0.945383
+2025-07-10 18:26:46,145 - INFO - log_σ² gradient: -0.518836
+2025-07-10 18:26:46,216 - INFO - Optimizer step 15: log_σ²=0.056455, weight=0.945109
+2025-07-10 18:27:10,708 - INFO - log_σ² gradient: -0.519566
+2025-07-10 18:27:10,791 - INFO - Optimizer step 16: log_σ²=0.056746, weight=0.944834
+2025-07-10 18:27:36,853 - INFO - log_σ² gradient: -0.512649
+2025-07-10 18:27:36,929 - INFO - Optimizer step 17: log_σ²=0.057038, weight=0.944558
+2025-07-10 18:27:59,842 - INFO - log_σ² gradient: -0.520647
+2025-07-10 18:27:59,910 - INFO - Optimizer step 18: log_σ²=0.057331, weight=0.944282
+2025-07-10 18:28:26,174 - INFO - log_σ² gradient: -0.523872
+2025-07-10 18:28:26,256 - INFO - Optimizer step 19: log_σ²=0.057625, weight=0.944004
+2025-07-10 18:28:50,690 - INFO - log_σ² gradient: -0.514081
+2025-07-10 18:28:50,766 - INFO - Optimizer step 20: log_σ²=0.057920, weight=0.943726
+2025-07-10 18:29:17,179 - INFO - log_σ² gradient: -0.513943
+2025-07-10 18:29:17,262 - INFO - Optimizer step 21: log_σ²=0.058215, weight=0.943447
+2025-07-10 18:29:41,807 - INFO - log_σ² gradient: -0.518854
+2025-07-10 18:29:41,870 - INFO - Optimizer step 22: log_σ²=0.058511, weight=0.943168
+2025-07-10 18:30:06,019 - INFO - log_σ² gradient: -0.530385
+2025-07-10 18:30:06,095 - INFO - Optimizer step 23: log_σ²=0.058809, weight=0.942887
+2025-07-10 18:30:31,631 - INFO - log_σ² gradient: -0.518099
+2025-07-10 18:30:31,705 - INFO - Optimizer step 24: log_σ²=0.059107, weight=0.942606
+2025-07-10 18:30:53,522 - INFO - log_σ² gradient: -0.524785
+2025-07-10 18:30:53,587 - INFO - Optimizer step 25: log_σ²=0.059407, weight=0.942323
+2025-07-10 18:31:18,211 - INFO - log_σ² gradient: -0.516661
+2025-07-10 18:31:18,289 - INFO - Optimizer step 26: log_σ²=0.059707, weight=0.942040
+2025-07-10 18:31:41,792 - INFO - log_σ² gradient: -0.512995
+2025-07-10 18:31:41,870 - INFO - Optimizer step 27: log_σ²=0.060008, weight=0.941757
+2025-07-10 18:32:03,524 - INFO - log_σ² gradient: -0.518172
+2025-07-10 18:32:03,591 - INFO - Optimizer step 28: log_σ²=0.060310, weight=0.941473
+2025-07-10 18:32:27,842 - INFO - log_σ² gradient: -0.530053
+2025-07-10 18:32:27,909 - INFO - Optimizer step 29: log_σ²=0.060613, weight=0.941187
+2025-07-10 18:32:51,204 - INFO - log_σ² gradient: -0.523498
+2025-07-10 18:32:51,272 - INFO - Optimizer step 30: log_σ²=0.060917, weight=0.940901
+2025-07-10 18:33:03,076 - INFO - log_σ² gradient: -0.233310
+2025-07-10 18:33:03,155 - INFO - Optimizer step 31: log_σ²=0.061206, weight=0.940630
+2025-07-10 18:33:03,319 - INFO - Epoch 13: Total optimizer steps: 31
+2025-07-10 18:36:22,587 - INFO - Validation metrics:
+2025-07-10 18:36:22,587 - INFO -   Loss: 0.6622
+2025-07-10 18:36:22,587 - INFO -   Average similarity: 0.8385
+2025-07-10 18:36:22,587 - INFO -   Median similarity: 0.9816
+2025-07-10 18:36:22,587 - INFO -   Clean sample similarity: 0.8385
+2025-07-10 18:36:22,587 - INFO -   Corrupted sample similarity: 0.3917
+2025-07-10 18:36:22,587 - INFO -   Similarity gap (clean - corrupt): 0.4468
+2025-07-10 18:36:22,695 - INFO - Epoch 13/30 - Train Loss: 0.7026, Val Loss: 0.6622, Clean Sim: 0.8385, Corrupt Sim: 0.3917, Gap: 0.4468, Time: 982.31s
+2025-07-10 18:36:22,696 - INFO - New best validation loss: 0.6622
+2025-07-10 18:36:28,764 - INFO - New best similarity gap: 0.4468
+2025-07-10 18:37:46,275 - INFO - log_σ² gradient: -0.514517
+2025-07-10 18:37:46,349 - INFO - Optimizer step 1: log_σ²=0.061496, weight=0.940356
+2025-07-10 18:38:09,478 - INFO - log_σ² gradient: -0.515819
+2025-07-10 18:38:09,557 - INFO - Optimizer step 2: log_σ²=0.061789, weight=0.940081
+2025-07-10 18:38:33,753 - INFO - log_σ² gradient: -0.514219
+2025-07-10 18:38:33,831 - INFO - Optimizer step 3: log_σ²=0.062084, weight=0.939804
+2025-07-10 18:38:57,097 - INFO - log_σ² gradient: -0.520156
+2025-07-10 18:38:57,161 - INFO - Optimizer step 4: log_σ²=0.062380, weight=0.939525
+2025-07-10 18:39:21,278 - INFO - log_σ² gradient: -0.518849
+2025-07-10 18:39:21,344 - INFO - Optimizer step 5: log_σ²=0.062679, weight=0.939245
+2025-07-10 18:39:44,345 - INFO - log_σ² gradient: -0.517957
+2025-07-10 18:39:44,417 - INFO - Optimizer step 6: log_σ²=0.062979, weight=0.938963
+2025-07-10 18:40:06,573 - INFO - log_σ² gradient: -0.516069
+2025-07-10 18:40:06,641 - INFO - Optimizer step 7: log_σ²=0.063281, weight=0.938679
+2025-07-10 18:40:31,703 - INFO - log_σ² gradient: -0.522988
+2025-07-10 18:40:31,775 - INFO - Optimizer step 8: log_σ²=0.063585, weight=0.938394
+2025-07-10 18:40:57,901 - INFO - log_σ² gradient: -0.517776
+2025-07-10 18:40:57,978 - INFO - Optimizer step 9: log_σ²=0.063890, weight=0.938108
+2025-07-10 18:41:21,679 - INFO - log_σ² gradient: -0.509147
+2025-07-10 18:41:21,743 - INFO - Optimizer step 10: log_σ²=0.064196, weight=0.937821
+2025-07-10 18:41:45,055 - INFO - log_σ² gradient: -0.530793
+2025-07-10 18:41:45,126 - INFO - Optimizer step 11: log_σ²=0.064505, weight=0.937532
+2025-07-10 18:42:09,301 - INFO - log_σ² gradient: -0.570221
+2025-07-10 18:42:09,373 - INFO - Optimizer step 12: log_σ²=0.064817, weight=0.937239
+2025-07-10 18:42:34,851 - INFO - log_σ² gradient: -0.565037
+2025-07-10 18:42:34,926 - INFO - Optimizer step 13: log_σ²=0.065134, weight=0.936942
+2025-07-10 18:42:58,575 - INFO - log_σ² gradient: -0.536559
+2025-07-10 18:42:58,643 - INFO - Optimizer step 14: log_σ²=0.065452, weight=0.936644
+2025-07-10 18:43:22,947 - INFO - log_σ² gradient: -0.532557
+2025-07-10 18:43:23,018 - INFO - Optimizer step 15: log_σ²=0.065771, weight=0.936345
+2025-07-10 18:43:46,217 - INFO - log_σ² gradient: -0.547007
+2025-07-10 18:43:46,296 - INFO - Optimizer step 16: log_σ²=0.066093, weight=0.936044
+2025-07-10 18:44:12,249 - INFO - log_σ² gradient: -0.553911
+2025-07-10 18:44:12,323 - INFO - Optimizer step 17: log_σ²=0.066417, weight=0.935740
+2025-07-10 18:44:35,973 - INFO - log_σ² gradient: -0.551877
+2025-07-10 18:44:36,049 - INFO - Optimizer step 18: log_σ²=0.066744, weight=0.935435
+2025-07-10 18:45:00,796 - INFO - log_σ² gradient: -0.548452
+2025-07-10 18:45:00,866 - INFO - Optimizer step 19: log_σ²=0.067072, weight=0.935128
+2025-07-10 18:45:26,877 - INFO - log_σ² gradient: -0.534554
+2025-07-10 18:45:26,956 - INFO - Optimizer step 20: log_σ²=0.067401, weight=0.934820
+2025-07-10 18:45:50,813 - INFO - log_σ² gradient: -0.570899
+2025-07-10 18:45:50,889 - INFO - Optimizer step 21: log_σ²=0.067733, weight=0.934510
+2025-07-10 18:46:15,094 - INFO - log_σ² gradient: -0.696415
+2025-07-10 18:46:15,169 - INFO - Optimizer step 22: log_σ²=0.068076, weight=0.934190
+2025-07-10 18:46:39,895 - INFO - log_σ² gradient: -0.690586
+2025-07-10 18:46:39,961 - INFO - Optimizer step 23: log_σ²=0.068427, weight=0.933861
+2025-07-10 18:47:04,892 - INFO - log_σ² gradient: -0.627980
+2025-07-10 18:47:04,968 - INFO - Optimizer step 24: log_σ²=0.068784, weight=0.933529
+2025-07-10 18:47:29,475 - INFO - log_σ² gradient: -0.602425
+2025-07-10 18:47:29,554 - INFO - Optimizer step 25: log_σ²=0.069142, weight=0.933194
+2025-07-10 18:47:54,317 - INFO - log_σ² gradient: -0.581720
+2025-07-10 18:47:54,390 - INFO - Optimizer step 26: log_σ²=0.069502, weight=0.932858
+2025-07-10 18:48:17,644 - INFO - log_σ² gradient: -0.594081
+2025-07-10 18:48:17,715 - INFO - Optimizer step 27: log_σ²=0.069864, weight=0.932521
+2025-07-10 18:48:42,754 - INFO - log_σ² gradient: -0.549293
+2025-07-10 18:48:42,836 - INFO - Optimizer step 28: log_σ²=0.070225, weight=0.932184
+2025-07-10 18:49:05,163 - INFO - log_σ² gradient: -0.565008
+2025-07-10 18:49:05,242 - INFO - Optimizer step 29: log_σ²=0.070586, weight=0.931848
+2025-07-10 18:49:28,100 - INFO - log_σ² gradient: -0.558473
+2025-07-10 18:49:28,172 - INFO - Optimizer step 30: log_σ²=0.070947, weight=0.931512
+2025-07-10 18:49:39,250 - INFO - log_σ² gradient: -0.247689
+2025-07-10 18:49:39,322 - INFO - Optimizer step 31: log_σ²=0.071288, weight=0.931193
+2025-07-10 18:49:39,499 - INFO - Epoch 14: Total optimizer steps: 31
+2025-07-10 18:52:58,595 - INFO - Validation metrics:
+2025-07-10 18:52:58,595 - INFO -   Loss: 0.7023
+2025-07-10 18:52:58,595 - INFO -   Average similarity: 0.8296
+2025-07-10 18:52:58,595 - INFO -   Median similarity: 0.9777
+2025-07-10 18:52:58,595 - INFO -   Clean sample similarity: 0.8296
+2025-07-10 18:52:58,595 - INFO -   Corrupted sample similarity: 0.4273
+2025-07-10 18:52:58,595 - INFO -   Similarity gap (clean - corrupt): 0.4024
+2025-07-10 18:52:58,685 - INFO - Epoch 14/30 - Train Loss: 0.8791, Val Loss: 0.7023, Clean Sim: 0.8296, Corrupt Sim: 0.4273, Gap: 0.4024, Time: 982.95s
+2025-07-10 18:55:39,909 - INFO - Epoch 14 Validation Alignment: Pos=0.145, Neg=0.103, Gap=0.042
+2025-07-10 18:56:47,972 - INFO - log_σ² gradient: -0.513230
+2025-07-10 18:56:48,044 - INFO - Optimizer step 1: log_σ²=0.071629, weight=0.930876
+2025-07-10 18:57:13,115 - INFO - log_σ² gradient: -0.524490
+2025-07-10 18:57:13,194 - INFO - Optimizer step 2: log_σ²=0.071970, weight=0.930559
+2025-07-10 18:57:38,051 - INFO - log_σ² gradient: -0.530914
+2025-07-10 18:57:38,117 - INFO - Optimizer step 3: log_σ²=0.072311, weight=0.930242
+2025-07-10 18:58:01,971 - INFO - log_σ² gradient: -0.534616
+2025-07-10 18:58:02,040 - INFO - Optimizer step 4: log_σ²=0.072653, weight=0.929924
+2025-07-10 18:58:23,917 - INFO - log_σ² gradient: -0.537152
+2025-07-10 18:58:23,988 - INFO - Optimizer step 5: log_σ²=0.072995, weight=0.929605
+2025-07-10 18:58:47,613 - INFO - log_σ² gradient: -0.519909
+2025-07-10 18:58:47,685 - INFO - Optimizer step 6: log_σ²=0.073338, weight=0.929287
+2025-07-10 18:59:11,126 - INFO - log_σ² gradient: -0.516431
+2025-07-10 18:59:11,205 - INFO - Optimizer step 7: log_σ²=0.073680, weight=0.928969
+2025-07-10 18:59:35,180 - INFO - log_σ² gradient: -0.514404
+2025-07-10 18:59:35,259 - INFO - Optimizer step 8: log_σ²=0.074022, weight=0.928651
+2025-07-10 18:59:59,723 - INFO - log_σ² gradient: -0.530065
+2025-07-10 18:59:59,794 - INFO - Optimizer step 9: log_σ²=0.074365, weight=0.928333
+2025-07-10 19:00:24,323 - INFO - log_σ² gradient: -0.521644
+2025-07-10 19:00:24,396 - INFO - Optimizer step 10: log_σ²=0.074708, weight=0.928015
+2025-07-10 19:00:47,232 - INFO - log_σ² gradient: -0.514367
+2025-07-10 19:00:47,310 - INFO - Optimizer step 11: log_σ²=0.075051, weight=0.927696
+2025-07-10 19:01:11,458 - INFO - log_σ² gradient: -0.515804
+2025-07-10 19:01:11,537 - INFO - Optimizer step 12: log_σ²=0.075394, weight=0.927378
+2025-07-10 19:01:35,817 - INFO - log_σ² gradient: -0.513997
+2025-07-10 19:01:35,890 - INFO - Optimizer step 13: log_σ²=0.075736, weight=0.927061
+2025-07-10 19:01:58,935 - INFO - log_σ² gradient: -0.510152
+2025-07-10 19:01:59,014 - INFO - Optimizer step 14: log_σ²=0.076079, weight=0.926743
+2025-07-10 19:02:23,974 - INFO - log_σ² gradient: -0.508527
+2025-07-10 19:02:24,056 - INFO - Optimizer step 15: log_σ²=0.076422, weight=0.926426
+2025-07-10 19:02:48,648 - INFO - log_σ² gradient: -0.506742
+2025-07-10 19:02:48,716 - INFO - Optimizer step 16: log_σ²=0.076764, weight=0.926109
+2025-07-10 19:03:13,569 - INFO - log_σ² gradient: -0.516821
+2025-07-10 19:03:13,649 - INFO - Optimizer step 17: log_σ²=0.077107, weight=0.925791
+2025-07-10 19:03:37,476 - INFO - log_σ² gradient: -0.508687
+2025-07-10 19:03:37,550 - INFO - Optimizer step 18: log_σ²=0.077449, weight=0.925474
+2025-07-10 19:04:02,904 - INFO - log_σ² gradient: -0.502677
+2025-07-10 19:04:02,976 - INFO - Optimizer step 19: log_σ²=0.077792, weight=0.925157
+2025-07-10 19:04:25,858 - INFO - log_σ² gradient: -0.512708
+2025-07-10 19:04:25,930 - INFO - Optimizer step 20: log_σ²=0.078135, weight=0.924839
+2025-07-10 19:04:48,814 - INFO - log_σ² gradient: -0.501101
+2025-07-10 19:04:48,882 - INFO - Optimizer step 21: log_σ²=0.078478, weight=0.924522
+2025-07-10 19:05:13,739 - INFO - log_σ² gradient: -0.495576
+2025-07-10 19:05:13,809 - INFO - Optimizer step 22: log_σ²=0.078820, weight=0.924206
+2025-07-10 19:05:37,545 - INFO - log_σ² gradient: -0.519050
+2025-07-10 19:05:37,624 - INFO - Optimizer step 23: log_σ²=0.079164, weight=0.923889
+2025-07-10 19:06:01,089 - INFO - log_σ² gradient: -0.501411
+2025-07-10 19:06:01,168 - INFO - Optimizer step 24: log_σ²=0.079507, weight=0.923571
+2025-07-10 19:06:25,550 - INFO - log_σ² gradient: -0.506722
+2025-07-10 19:06:25,619 - INFO - Optimizer step 25: log_σ²=0.079851, weight=0.923254
+2025-07-10 19:06:50,154 - INFO - log_σ² gradient: -0.501817
+2025-07-10 19:06:50,228 - INFO - Optimizer step 26: log_σ²=0.080195, weight=0.922936
+2025-07-10 19:07:13,382 - INFO - log_σ² gradient: -0.506251
+2025-07-10 19:07:13,450 - INFO - Optimizer step 27: log_σ²=0.080540, weight=0.922618
+2025-07-10 19:07:37,619 - INFO - log_σ² gradient: -0.500636
+2025-07-10 19:07:37,687 - INFO - Optimizer step 28: log_σ²=0.080884, weight=0.922301
+2025-07-10 19:07:59,675 - INFO - log_σ² gradient: -0.514477
+2025-07-10 19:07:59,746 - INFO - Optimizer step 29: log_σ²=0.081230, weight=0.921982
+2025-07-10 19:08:25,522 - INFO - log_σ² gradient: -0.508771
+2025-07-10 19:08:25,600 - INFO - Optimizer step 30: log_σ²=0.081576, weight=0.921662
+2025-07-10 19:08:36,755 - INFO - log_σ² gradient: -0.236138
+2025-07-10 19:08:36,826 - INFO - Optimizer step 31: log_σ²=0.081905, weight=0.921359
+2025-07-10 19:08:36,990 - INFO - Epoch 15: Total optimizer steps: 31
+2025-07-10 19:11:56,891 - INFO - Validation metrics:
+2025-07-10 19:11:56,892 - INFO -   Loss: 0.6371
+2025-07-10 19:11:56,892 - INFO -   Average similarity: 0.7917
+2025-07-10 19:11:56,892 - INFO -   Median similarity: 0.9793
+2025-07-10 19:11:56,892 - INFO -   Clean sample similarity: 0.7917
+2025-07-10 19:11:56,892 - INFO -   Corrupted sample similarity: 0.3418
+2025-07-10 19:11:56,892 - INFO -   Similarity gap (clean - corrupt): 0.4500
+2025-07-10 19:11:57,014 - INFO - Epoch 15/30 - Train Loss: 0.6891, Val Loss: 0.6371, Clean Sim: 0.7917, Corrupt Sim: 0.3418, Gap: 0.4500, Time: 977.11s
+2025-07-10 19:11:57,014 - INFO - New best validation loss: 0.6371
+2025-07-10 19:12:03,241 - INFO - New best similarity gap: 0.4500
+2025-07-10 19:13:23,886 - INFO - log_σ² gradient: -0.506652
+2025-07-10 19:13:23,957 - INFO - Optimizer step 1: log_σ²=0.082237, weight=0.921054
+2025-07-10 19:13:46,717 - INFO - log_σ² gradient: -0.489263
+2025-07-10 19:13:46,788 - INFO - Optimizer step 2: log_σ²=0.082569, weight=0.920748
+2025-07-10 19:14:10,814 - INFO - log_σ² gradient: -0.501242
+2025-07-10 19:14:10,886 - INFO - Optimizer step 3: log_σ²=0.082903, weight=0.920440
+2025-07-10 19:14:35,182 - INFO - log_σ² gradient: -0.496462
+2025-07-10 19:14:35,255 - INFO - Optimizer step 4: log_σ²=0.083239, weight=0.920131
+2025-07-10 19:14:59,320 - INFO - log_σ² gradient: -0.510647
+2025-07-10 19:14:59,391 - INFO - Optimizer step 5: log_σ²=0.083577, weight=0.919820
+2025-07-10 19:15:22,730 - INFO - log_σ² gradient: -0.498962
+2025-07-10 19:15:22,794 - INFO - Optimizer step 6: log_σ²=0.083916, weight=0.919508
+2025-07-10 19:15:46,890 - INFO - log_σ² gradient: -0.496972
+2025-07-10 19:15:46,969 - INFO - Optimizer step 7: log_σ²=0.084257, weight=0.919195
+2025-07-10 19:16:10,380 - INFO - log_σ² gradient: -0.494926
+2025-07-10 19:16:10,454 - INFO - Optimizer step 8: log_σ²=0.084599, weight=0.918881
+2025-07-10 19:16:33,676 - INFO - log_σ² gradient: -0.493579
+2025-07-10 19:16:33,750 - INFO - Optimizer step 9: log_σ²=0.084941, weight=0.918566
+2025-07-10 19:16:57,819 - INFO - log_σ² gradient: -0.495823
+2025-07-10 19:16:57,897 - INFO - Optimizer step 10: log_σ²=0.085285, weight=0.918251
+2025-07-10 19:17:21,001 - INFO - log_σ² gradient: -0.495975
+2025-07-10 19:17:21,074 - INFO - Optimizer step 11: log_σ²=0.085629, weight=0.917934
+2025-07-10 19:17:44,815 - INFO - log_σ² gradient: -0.498009
+2025-07-10 19:17:44,887 - INFO - Optimizer step 12: log_σ²=0.085975, weight=0.917617
+2025-07-10 19:18:08,789 - INFO - log_σ² gradient: -0.498226
+2025-07-10 19:18:08,872 - INFO - Optimizer step 13: log_σ²=0.086322, weight=0.917299
+2025-07-10 19:18:32,798 - INFO - log_σ² gradient: -0.494703
+2025-07-10 19:18:32,870 - INFO - Optimizer step 14: log_σ²=0.086670, weight=0.916980
+2025-07-10 19:18:57,459 - INFO - log_σ² gradient: -0.490732
+2025-07-10 19:18:57,535 - INFO - Optimizer step 15: log_σ²=0.087018, weight=0.916660
+2025-07-10 19:19:20,985 - INFO - log_σ² gradient: -0.495979
+2025-07-10 19:19:21,065 - INFO - Optimizer step 16: log_σ²=0.087368, weight=0.916340
+2025-07-10 19:19:46,330 - INFO - log_σ² gradient: -0.506442
+2025-07-10 19:19:46,409 - INFO - Optimizer step 17: log_σ²=0.087719, weight=0.916019
+2025-07-10 19:20:10,729 - INFO - log_σ² gradient: -0.493309
+2025-07-10 19:20:10,803 - INFO - Optimizer step 18: log_σ²=0.088070, weight=0.915697
+2025-07-10 19:20:35,447 - INFO - log_σ² gradient: -0.507596
+2025-07-10 19:20:35,518 - INFO - Optimizer step 19: log_σ²=0.088424, weight=0.915373
+2025-07-10 19:20:59,936 - INFO - log_σ² gradient: -0.498363
+2025-07-10 19:20:59,999 - INFO - Optimizer step 20: log_σ²=0.088778, weight=0.915049
+2025-07-10 19:21:23,122 - INFO - log_σ² gradient: -0.500010
+2025-07-10 19:21:23,195 - INFO - Optimizer step 21: log_σ²=0.089133, weight=0.914724
+2025-07-10 19:21:47,175 - INFO - log_σ² gradient: -0.491464
+2025-07-10 19:21:47,247 - INFO - Optimizer step 22: log_σ²=0.089489, weight=0.914398
+2025-07-10 19:22:13,267 - INFO - log_σ² gradient: -0.501515
+2025-07-10 19:22:13,333 - INFO - Optimizer step 23: log_σ²=0.089846, weight=0.914072
+2025-07-10 19:22:38,313 - INFO - log_σ² gradient: -0.508589
+2025-07-10 19:22:38,392 - INFO - Optimizer step 24: log_σ²=0.090205, weight=0.913744
+2025-07-10 19:23:02,944 - INFO - log_σ² gradient: -0.496165
+2025-07-10 19:23:03,014 - INFO - Optimizer step 25: log_σ²=0.090564, weight=0.913416
+2025-07-10 19:23:28,555 - INFO - log_σ² gradient: -0.506895
+2025-07-10 19:23:28,630 - INFO - Optimizer step 26: log_σ²=0.090925, weight=0.913086
+2025-07-10 19:23:52,267 - INFO - log_σ² gradient: -0.491906
+2025-07-10 19:23:52,346 - INFO - Optimizer step 27: log_σ²=0.091286, weight=0.912757
+2025-07-10 19:24:14,793 - INFO - log_σ² gradient: -0.494699
+2025-07-10 19:24:14,859 - INFO - Optimizer step 28: log_σ²=0.091648, weight=0.912426
+2025-07-10 19:24:40,006 - INFO - log_σ² gradient: -0.482729
+2025-07-10 19:24:40,082 - INFO - Optimizer step 29: log_σ²=0.092009, weight=0.912097
+2025-07-10 19:25:03,713 - INFO - log_σ² gradient: -0.492009
+2025-07-10 19:25:03,789 - INFO - Optimizer step 30: log_σ²=0.092371, weight=0.911767
+2025-07-10 19:25:15,146 - INFO - log_σ² gradient: -0.230564
+2025-07-10 19:25:15,216 - INFO - Optimizer step 31: log_σ²=0.092715, weight=0.911454
+2025-07-10 19:25:15,401 - INFO - Epoch 16: Total optimizer steps: 31
+2025-07-10 19:28:34,567 - INFO - Validation metrics:
+2025-07-10 19:28:34,567 - INFO -   Loss: 0.6358
+2025-07-10 19:28:34,567 - INFO -   Average similarity: 0.9004
+2025-07-10 19:28:34,567 - INFO -   Median similarity: 0.9926
+2025-07-10 19:28:34,567 - INFO -   Clean sample similarity: 0.9004
+2025-07-10 19:28:34,567 - INFO -   Corrupted sample similarity: 0.4322
+2025-07-10 19:28:34,567 - INFO -   Similarity gap (clean - corrupt): 0.4682
+2025-07-10 19:28:34,670 - INFO - Epoch 16/30 - Train Loss: 0.6572, Val Loss: 0.6358, Clean Sim: 0.9004, Corrupt Sim: 0.4322, Gap: 0.4682, Time: 978.77s
+2025-07-10 19:28:34,670 - INFO - New best validation loss: 0.6358
+2025-07-10 19:28:40,841 - INFO - New best similarity gap: 0.4682
+2025-07-10 19:31:28,701 - INFO - Epoch 16 Validation Alignment: Pos=0.151, Neg=0.092, Gap=0.059
+2025-07-10 19:32:35,736 - INFO - log_σ² gradient: -0.487571
+2025-07-10 19:32:35,811 - INFO - Optimizer step 1: log_σ²=0.093060, weight=0.911139
+2025-07-10 19:33:02,025 - INFO - log_σ² gradient: -0.490278
+2025-07-10 19:33:02,103 - INFO - Optimizer step 2: log_σ²=0.093408, weight=0.910822
+2025-07-10 19:33:27,664 - INFO - log_σ² gradient: -0.493809
+2025-07-10 19:33:27,740 - INFO - Optimizer step 3: log_σ²=0.093758, weight=0.910503
+2025-07-10 19:33:51,307 - INFO - log_σ² gradient: -0.494680
+2025-07-10 19:33:51,386 - INFO - Optimizer step 4: log_σ²=0.094111, weight=0.910182
+2025-07-10 19:34:15,967 - INFO - log_σ² gradient: -0.492143
+2025-07-10 19:34:16,042 - INFO - Optimizer step 5: log_σ²=0.094465, weight=0.909859
+2025-07-10 19:34:40,855 - INFO - log_σ² gradient: -0.490081
+2025-07-10 19:34:40,923 - INFO - Optimizer step 6: log_σ²=0.094821, weight=0.909536
+2025-07-10 19:35:05,279 - INFO - log_σ² gradient: -0.482258
+2025-07-10 19:35:05,358 - INFO - Optimizer step 7: log_σ²=0.095178, weight=0.909211
+2025-07-10 19:35:32,051 - INFO - log_σ² gradient: -0.498510
+2025-07-10 19:35:32,126 - INFO - Optimizer step 8: log_σ²=0.095537, weight=0.908885
+2025-07-10 19:35:54,970 - INFO - log_σ² gradient: -0.491812
+2025-07-10 19:35:55,049 - INFO - Optimizer step 9: log_σ²=0.095898, weight=0.908557
+2025-07-10 19:36:19,932 - INFO - log_σ² gradient: -0.483600
+2025-07-10 19:36:20,010 - INFO - Optimizer step 10: log_σ²=0.096259, weight=0.908228
+2025-07-10 19:36:43,679 - INFO - log_σ² gradient: -0.487231
+2025-07-10 19:36:43,750 - INFO - Optimizer step 11: log_σ²=0.096622, weight=0.907899
+2025-07-10 19:37:06,219 - INFO - log_σ² gradient: -0.497391
+2025-07-10 19:37:06,292 - INFO - Optimizer step 12: log_σ²=0.096986, weight=0.907568
+2025-07-10 19:37:30,900 - INFO - log_σ² gradient: -0.495075
+2025-07-10 19:37:30,972 - INFO - Optimizer step 13: log_σ²=0.097352, weight=0.907236
+2025-07-10 19:37:55,217 - INFO - log_σ² gradient: -0.492056
+2025-07-10 19:37:55,286 - INFO - Optimizer step 14: log_σ²=0.097720, weight=0.906903
+2025-07-10 19:38:18,996 - INFO - log_σ² gradient: -0.483765
+2025-07-10 19:38:19,071 - INFO - Optimizer step 15: log_σ²=0.098088, weight=0.906569
+2025-07-10 19:38:42,826 - INFO - log_σ² gradient: -0.496189
+2025-07-10 19:38:42,897 - INFO - Optimizer step 16: log_σ²=0.098457, weight=0.906235
+2025-07-10 19:39:06,946 - INFO - log_σ² gradient: -0.488257
+2025-07-10 19:39:07,020 - INFO - Optimizer step 17: log_σ²=0.098828, weight=0.905899
+2025-07-10 19:39:31,050 - INFO - log_σ² gradient: -0.487438
+2025-07-10 19:39:31,122 - INFO - Optimizer step 18: log_σ²=0.099199, weight=0.905563
+2025-07-10 19:39:54,577 - INFO - log_σ² gradient: -0.483195
+2025-07-10 19:39:54,645 - INFO - Optimizer step 19: log_σ²=0.099570, weight=0.905226
+2025-07-10 19:40:19,837 - INFO - log_σ² gradient: -0.498274
+2025-07-10 19:40:19,909 - INFO - Optimizer step 20: log_σ²=0.099944, weight=0.904888
+2025-07-10 19:40:42,831 - INFO - log_σ² gradient: -0.483536
+2025-07-10 19:40:42,907 - INFO - Optimizer step 21: log_σ²=0.100318, weight=0.904550
+2025-07-10 19:41:07,502 - INFO - log_σ² gradient: -0.487251
+2025-07-10 19:41:07,578 - INFO - Optimizer step 22: log_σ²=0.100692, weight=0.904211
+2025-07-10 19:41:31,060 - INFO - log_σ² gradient: -0.485231
+2025-07-10 19:41:31,129 - INFO - Optimizer step 23: log_σ²=0.101067, weight=0.903872
+2025-07-10 19:41:56,068 - INFO - log_σ² gradient: -0.489868
+2025-07-10 19:41:56,146 - INFO - Optimizer step 24: log_σ²=0.101444, weight=0.903532
+2025-07-10 19:42:20,236 - INFO - log_σ² gradient: -0.497105
+2025-07-10 19:42:20,291 - INFO - Optimizer step 25: log_σ²=0.101821, weight=0.903191
+2025-07-10 19:42:45,024 - INFO - log_σ² gradient: -0.495480
+2025-07-10 19:42:45,095 - INFO - Optimizer step 26: log_σ²=0.102200, weight=0.902849
+2025-07-10 19:43:08,111 - INFO - log_σ² gradient: -0.484709
+2025-07-10 19:43:08,180 - INFO - Optimizer step 27: log_σ²=0.102580, weight=0.902506
+2025-07-10 19:43:35,092 - INFO - log_σ² gradient: -0.488335
+2025-07-10 19:43:35,163 - INFO - Optimizer step 28: log_σ²=0.102960, weight=0.902163
+2025-07-10 19:43:59,191 - INFO - log_σ² gradient: -0.490414
+2025-07-10 19:43:59,271 - INFO - Optimizer step 29: log_σ²=0.103342, weight=0.901819
+2025-07-10 19:44:22,121 - INFO - log_σ² gradient: -0.486700
+2025-07-10 19:44:22,185 - INFO - Optimizer step 30: log_σ²=0.103724, weight=0.901474
+2025-07-10 19:44:33,132 - INFO - log_σ² gradient: -0.227770
+2025-07-10 19:44:33,208 - INFO - Optimizer step 31: log_σ²=0.104086, weight=0.901148
+2025-07-10 19:44:33,384 - INFO - Epoch 17: Total optimizer steps: 31
+2025-07-10 19:47:52,105 - INFO - Validation metrics:
+2025-07-10 19:47:52,106 - INFO -   Loss: 0.6148
+2025-07-10 19:47:52,106 - INFO -   Average similarity: 0.7811
+2025-07-10 19:47:52,106 - INFO -   Median similarity: 0.9655
+2025-07-10 19:47:52,106 - INFO -   Clean sample similarity: 0.7811
+2025-07-10 19:47:52,106 - INFO -   Corrupted sample similarity: 0.2877
+2025-07-10 19:47:52,106 - INFO -   Similarity gap (clean - corrupt): 0.4933
+2025-07-10 19:47:52,218 - INFO - Epoch 17/30 - Train Loss: 0.6461, Val Loss: 0.6148, Clean Sim: 0.7811, Corrupt Sim: 0.2877, Gap: 0.4933, Time: 983.52s
+2025-07-10 19:47:52,219 - INFO - New best validation loss: 0.6148
+2025-07-10 19:47:58,345 - INFO - New best similarity gap: 0.4933
+2025-07-10 19:49:12,633 - INFO - log_σ² gradient: -0.493563
+2025-07-10 19:49:12,711 - INFO - Optimizer step 1: log_σ²=0.104452, weight=0.900818
+2025-07-10 19:49:37,367 - INFO - log_σ² gradient: -0.489635
+2025-07-10 19:49:37,433 - INFO - Optimizer step 2: log_σ²=0.104820, weight=0.900486
+2025-07-10 19:50:00,713 - INFO - log_σ² gradient: -0.490291
+2025-07-10 19:50:00,792 - INFO - Optimizer step 3: log_σ²=0.105191, weight=0.900153
+2025-07-10 19:50:24,554 - INFO - log_σ² gradient: -0.489970
+2025-07-10 19:50:24,625 - INFO - Optimizer step 4: log_σ²=0.105564, weight=0.899817
+2025-07-10 19:50:48,378 - INFO - log_σ² gradient: -0.477850
+2025-07-10 19:50:48,442 - INFO - Optimizer step 5: log_σ²=0.105939, weight=0.899480
+2025-07-10 19:51:12,057 - INFO - log_σ² gradient: -0.483001
+2025-07-10 19:51:12,135 - INFO - Optimizer step 6: log_σ²=0.106315, weight=0.899141
+2025-07-10 19:51:36,160 - INFO - log_σ² gradient: -0.490630
+2025-07-10 19:51:36,239 - INFO - Optimizer step 7: log_σ²=0.106693, weight=0.898801
+2025-07-10 19:52:02,073 - INFO - log_σ² gradient: -0.490138
+2025-07-10 19:52:02,145 - INFO - Optimizer step 8: log_σ²=0.107073, weight=0.898460
+2025-07-10 19:52:25,592 - INFO - log_σ² gradient: -0.479919
+2025-07-10 19:52:25,668 - INFO - Optimizer step 9: log_σ²=0.107454, weight=0.898117
+2025-07-10 19:52:51,012 - INFO - log_σ² gradient: -0.485070
+2025-07-10 19:52:51,083 - INFO - Optimizer step 10: log_σ²=0.107837, weight=0.897774
+2025-07-10 19:53:14,363 - INFO - log_σ² gradient: -0.491695
+2025-07-10 19:53:14,438 - INFO - Optimizer step 11: log_σ²=0.108222, weight=0.897429
+2025-07-10 19:53:39,113 - INFO - log_σ² gradient: -0.487314
+2025-07-10 19:53:39,185 - INFO - Optimizer step 12: log_σ²=0.108607, weight=0.897083
+2025-07-10 19:54:03,490 - INFO - log_σ² gradient: -0.487364
+2025-07-10 19:54:03,561 - INFO - Optimizer step 13: log_σ²=0.108995, weight=0.896735
+2025-07-10 19:54:27,497 - INFO - log_σ² gradient: -0.479694
+2025-07-10 19:54:27,563 - INFO - Optimizer step 14: log_σ²=0.109383, weight=0.896387
+2025-07-10 19:54:51,999 - INFO - log_σ² gradient: -0.478104
+2025-07-10 19:54:52,074 - INFO - Optimizer step 15: log_σ²=0.109771, weight=0.896039
+2025-07-10 19:55:15,836 - INFO - log_σ² gradient: -0.482936
+2025-07-10 19:55:15,915 - INFO - Optimizer step 16: log_σ²=0.110161, weight=0.895690
+2025-07-10 19:55:39,947 - INFO - log_σ² gradient: -0.485020
+2025-07-10 19:55:40,023 - INFO - Optimizer step 17: log_σ²=0.110552, weight=0.895340
+2025-07-10 19:56:04,378 - INFO - log_σ² gradient: -0.491121
+2025-07-10 19:56:04,449 - INFO - Optimizer step 18: log_σ²=0.110944, weight=0.894989
+2025-07-10 19:56:28,739 - INFO - log_σ² gradient: -0.473956
+2025-07-10 19:56:28,815 - INFO - Optimizer step 19: log_σ²=0.111336, weight=0.894638
+2025-07-10 19:56:52,715 - INFO - log_σ² gradient: -0.489448
+2025-07-10 19:56:52,791 - INFO - Optimizer step 20: log_σ²=0.111730, weight=0.894285
+2025-07-10 19:57:17,718 - INFO - log_σ² gradient: -0.478794
+2025-07-10 19:57:17,790 - INFO - Optimizer step 21: log_σ²=0.112125, weight=0.893933
+2025-07-10 19:57:40,416 - INFO - log_σ² gradient: -0.484692
+2025-07-10 19:57:40,488 - INFO - Optimizer step 22: log_σ²=0.112520, weight=0.893579
+2025-07-10 19:58:02,744 - INFO - log_σ² gradient: -0.485239
+2025-07-10 19:58:02,818 - INFO - Optimizer step 23: log_σ²=0.112917, weight=0.893225
+2025-07-10 19:58:25,784 - INFO - log_σ² gradient: -0.486221
+2025-07-10 19:58:25,853 - INFO - Optimizer step 24: log_σ²=0.113314, weight=0.892870
+2025-07-10 19:58:50,232 - INFO - log_σ² gradient: -0.476134
+2025-07-10 19:58:50,304 - INFO - Optimizer step 25: log_σ²=0.113712, weight=0.892515
+2025-07-10 19:59:14,228 - INFO - log_σ² gradient: -0.477603
+2025-07-10 19:59:14,303 - INFO - Optimizer step 26: log_σ²=0.114111, weight=0.892159
+2025-07-10 19:59:38,083 - INFO - log_σ² gradient: -0.500643
+2025-07-10 19:59:38,151 - INFO - Optimizer step 27: log_σ²=0.114511, weight=0.891802
+2025-07-10 20:00:02,263 - INFO - log_σ² gradient: -0.480895
+2025-07-10 20:00:02,337 - INFO - Optimizer step 28: log_σ²=0.114913, weight=0.891444
+2025-07-10 20:00:25,958 - INFO - log_σ² gradient: -0.471780
+2025-07-10 20:00:26,032 - INFO - Optimizer step 29: log_σ²=0.115314, weight=0.891086
+2025-07-10 20:00:50,293 - INFO - log_σ² gradient: -0.474412
+2025-07-10 20:00:50,371 - INFO - Optimizer step 30: log_σ²=0.115715, weight=0.890729
+2025-07-10 20:01:00,714 - INFO - log_σ² gradient: -0.225541
+2025-07-10 20:01:00,785 - INFO - Optimizer step 31: log_σ²=0.116096, weight=0.890390
+2025-07-10 20:01:00,976 - INFO - Epoch 18: Total optimizer steps: 31
+2025-07-10 20:04:17,858 - INFO - Validation metrics:
+2025-07-10 20:04:17,858 - INFO -   Loss: 0.6189
+2025-07-10 20:04:17,858 - INFO -   Average similarity: 0.9612
+2025-07-10 20:04:17,858 - INFO -   Median similarity: 0.9989
+2025-07-10 20:04:17,858 - INFO -   Clean sample similarity: 0.9612
+2025-07-10 20:04:17,858 - INFO -   Corrupted sample similarity: 0.5316
+2025-07-10 20:04:17,858 - INFO -   Similarity gap (clean - corrupt): 0.4297
+2025-07-10 20:04:17,957 - INFO - Epoch 18/30 - Train Loss: 0.6364, Val Loss: 0.6189, Clean Sim: 0.9612, Corrupt Sim: 0.5316, Gap: 0.4297, Time: 972.62s
+2025-07-10 20:06:55,914 - INFO - Epoch 18 Validation Alignment: Pos=0.151, Neg=0.086, Gap=0.065
+2025-07-10 20:08:05,318 - INFO - log_σ² gradient: -0.475905
+2025-07-10 20:08:05,389 - INFO - Optimizer step 1: log_σ²=0.116480, weight=0.890048
+2025-07-10 20:08:29,453 - INFO - log_σ² gradient: -0.484003
+2025-07-10 20:08:29,521 - INFO - Optimizer step 2: log_σ²=0.116866, weight=0.889704
+2025-07-10 20:08:54,333 - INFO - log_σ² gradient: -0.475975
+2025-07-10 20:08:54,412 - INFO - Optimizer step 3: log_σ²=0.117255, weight=0.889359
+2025-07-10 20:09:18,968 - INFO - log_σ² gradient: -0.477796
+2025-07-10 20:09:19,042 - INFO - Optimizer step 4: log_σ²=0.117645, weight=0.889011
+2025-07-10 20:09:43,845 - INFO - log_σ² gradient: -0.485441
+2025-07-10 20:09:43,919 - INFO - Optimizer step 5: log_σ²=0.118039, weight=0.888662
+2025-07-10 20:10:08,127 - INFO - log_σ² gradient: -0.474462
+2025-07-10 20:10:08,198 - INFO - Optimizer step 6: log_σ²=0.118433, weight=0.888311
+2025-07-10 20:10:33,525 - INFO - log_σ² gradient: -0.473434
+2025-07-10 20:10:33,606 - INFO - Optimizer step 7: log_σ²=0.118830, weight=0.887959
+2025-07-10 20:10:56,151 - INFO - log_σ² gradient: -0.480096
+2025-07-10 20:10:56,223 - INFO - Optimizer step 8: log_σ²=0.119228, weight=0.887606
+2025-07-10 20:11:21,660 - INFO - log_σ² gradient: -0.474620
+2025-07-10 20:11:21,742 - INFO - Optimizer step 9: log_σ²=0.119627, weight=0.887251
+2025-07-10 20:11:47,036 - INFO - log_σ² gradient: -0.471927
+2025-07-10 20:11:47,112 - INFO - Optimizer step 10: log_σ²=0.120027, weight=0.886896
+2025-07-10 20:12:10,079 - INFO - log_σ² gradient: -0.477728
+2025-07-10 20:12:10,155 - INFO - Optimizer step 11: log_σ²=0.120429, weight=0.886540
+2025-07-10 20:12:33,955 - INFO - log_σ² gradient: -0.478776
+2025-07-10 20:12:34,031 - INFO - Optimizer step 12: log_σ²=0.120833, weight=0.886182
+2025-07-10 20:12:57,845 - INFO - log_σ² gradient: -0.474007
+2025-07-10 20:12:57,919 - INFO - Optimizer step 13: log_σ²=0.121237, weight=0.885824
+2025-07-10 20:13:21,686 - INFO - log_σ² gradient: -0.474185
+2025-07-10 20:13:21,765 - INFO - Optimizer step 14: log_σ²=0.121643, weight=0.885465
+2025-07-10 20:13:46,807 - INFO - log_σ² gradient: -0.474659
+2025-07-10 20:13:46,881 - INFO - Optimizer step 15: log_σ²=0.122049, weight=0.885105
+2025-07-10 20:14:11,190 - INFO - log_σ² gradient: -0.476732
+2025-07-10 20:14:11,255 - INFO - Optimizer step 16: log_σ²=0.122457, weight=0.884744
+2025-07-10 20:14:34,143 - INFO - log_σ² gradient: -0.475776
+2025-07-10 20:14:34,210 - INFO - Optimizer step 17: log_σ²=0.122866, weight=0.884382
+2025-07-10 20:14:56,957 - INFO - log_σ² gradient: -0.484050
+2025-07-10 20:14:57,028 - INFO - Optimizer step 18: log_σ²=0.123276, weight=0.884019
+2025-07-10 20:15:21,248 - INFO - log_σ² gradient: -0.490429
+2025-07-10 20:15:21,316 - INFO - Optimizer step 19: log_σ²=0.123689, weight=0.883654
+2025-07-10 20:15:45,862 - INFO - log_σ² gradient: -0.467047
+2025-07-10 20:15:45,933 - INFO - Optimizer step 20: log_σ²=0.124102, weight=0.883290
+2025-07-10 20:16:09,949 - INFO - log_σ² gradient: -0.478839
+2025-07-10 20:16:10,017 - INFO - Optimizer step 21: log_σ²=0.124516, weight=0.882924
+2025-07-10 20:16:34,959 - INFO - log_σ² gradient: -0.476612
+2025-07-10 20:16:35,031 - INFO - Optimizer step 22: log_σ²=0.124931, weight=0.882558
+2025-07-10 20:16:59,299 - INFO - log_σ² gradient: -0.477970
+2025-07-10 20:16:59,372 - INFO - Optimizer step 23: log_σ²=0.125347, weight=0.882190
+2025-07-10 20:17:24,775 - INFO - log_σ² gradient: -0.472383
+2025-07-10 20:17:24,842 - INFO - Optimizer step 24: log_σ²=0.125764, weight=0.881823
+2025-07-10 20:17:48,198 - INFO - log_σ² gradient: -0.470216
+2025-07-10 20:17:48,274 - INFO - Optimizer step 25: log_σ²=0.126181, weight=0.881455
+2025-07-10 20:18:11,506 - INFO - log_σ² gradient: -0.480273
+2025-07-10 20:18:11,569 - INFO - Optimizer step 26: log_σ²=0.126599, weight=0.881087
+2025-07-10 20:18:36,739 - INFO - log_σ² gradient: -0.467456
+2025-07-10 20:18:36,810 - INFO - Optimizer step 27: log_σ²=0.127017, weight=0.880718
+2025-07-10 20:19:00,412 - INFO - log_σ² gradient: -0.467239
+2025-07-10 20:19:00,490 - INFO - Optimizer step 28: log_σ²=0.127436, weight=0.880350
+2025-07-10 20:19:24,759 - INFO - log_σ² gradient: -0.470192
+2025-07-10 20:19:24,825 - INFO - Optimizer step 29: log_σ²=0.127855, weight=0.879981
+2025-07-10 20:19:46,910 - INFO - log_σ² gradient: -0.481645
+2025-07-10 20:19:46,974 - INFO - Optimizer step 30: log_σ²=0.128276, weight=0.879611
+2025-07-10 20:19:57,222 - INFO - log_σ² gradient: -0.228506
+2025-07-10 20:19:57,301 - INFO - Optimizer step 31: log_σ²=0.128675, weight=0.879259
+2025-07-10 20:19:57,457 - INFO - Epoch 19: Total optimizer steps: 31
+2025-07-10 20:23:14,790 - INFO - Validation metrics:
+2025-07-10 20:23:14,790 - INFO -   Loss: 0.5889
+2025-07-10 20:23:14,790 - INFO -   Average similarity: 0.8652
+2025-07-10 20:23:14,790 - INFO -   Median similarity: 0.9890
+2025-07-10 20:23:14,790 - INFO -   Clean sample similarity: 0.8652
+2025-07-10 20:23:14,790 - INFO -   Corrupted sample similarity: 0.3400
+2025-07-10 20:23:14,790 - INFO -   Similarity gap (clean - corrupt): 0.5253
+2025-07-10 20:23:14,904 - INFO - Epoch 19/30 - Train Loss: 0.6202, Val Loss: 0.5889, Clean Sim: 0.8652, Corrupt Sim: 0.3400, Gap: 0.5253, Time: 978.99s
+2025-07-10 20:23:14,904 - INFO - New best validation loss: 0.5889
+2025-07-10 20:23:20,961 - INFO - New best similarity gap: 0.5253
+2025-07-10 20:24:37,566 - INFO - log_σ² gradient: -0.468961
+2025-07-10 20:24:37,644 - INFO - Optimizer step 1: log_σ²=0.129078, weight=0.878906
+2025-07-10 20:24:59,907 - INFO - log_σ² gradient: -0.468636
+2025-07-10 20:24:59,978 - INFO - Optimizer step 2: log_σ²=0.129482, weight=0.878550
+2025-07-10 20:25:24,250 - INFO - log_σ² gradient: -0.479279
+2025-07-10 20:25:24,329 - INFO - Optimizer step 3: log_σ²=0.129890, weight=0.878192
+2025-07-10 20:25:48,439 - INFO - log_σ² gradient: -0.478745
+2025-07-10 20:25:48,510 - INFO - Optimizer step 4: log_σ²=0.130300, weight=0.877832
+2025-07-10 20:26:13,323 - INFO - log_σ² gradient: -0.471934
+2025-07-10 20:26:13,394 - INFO - Optimizer step 5: log_σ²=0.130713, weight=0.877470
+2025-07-10 20:26:38,091 - INFO - log_σ² gradient: -0.471823
+2025-07-10 20:26:38,162 - INFO - Optimizer step 6: log_σ²=0.131127, weight=0.877106
+2025-07-10 20:27:01,492 - INFO - log_σ² gradient: -0.466067
+2025-07-10 20:27:01,567 - INFO - Optimizer step 7: log_σ²=0.131543, weight=0.876742
+2025-07-10 20:27:25,022 - INFO - log_σ² gradient: -0.471086
+2025-07-10 20:27:25,093 - INFO - Optimizer step 8: log_σ²=0.131960, weight=0.876376
+2025-07-10 20:27:49,902 - INFO - log_σ² gradient: -0.473326
+2025-07-10 20:27:49,972 - INFO - Optimizer step 9: log_σ²=0.132379, weight=0.876009
+2025-07-10 20:28:14,329 - INFO - log_σ² gradient: -0.470796
+2025-07-10 20:28:14,405 - INFO - Optimizer step 10: log_σ²=0.132800, weight=0.875640
+2025-07-10 20:28:36,492 - INFO - log_σ² gradient: -0.482196
+2025-07-10 20:28:36,560 - INFO - Optimizer step 11: log_σ²=0.133223, weight=0.875270
+2025-07-10 20:29:01,661 - INFO - log_σ² gradient: -0.474403
+2025-07-10 20:29:01,732 - INFO - Optimizer step 12: log_σ²=0.133648, weight=0.874898
+2025-07-10 20:29:26,214 - INFO - log_σ² gradient: -0.466456
+2025-07-10 20:29:26,287 - INFO - Optimizer step 13: log_σ²=0.134073, weight=0.874526
+2025-07-10 20:29:53,166 - INFO - log_σ² gradient: -0.473468
+2025-07-10 20:29:53,245 - INFO - Optimizer step 14: log_σ²=0.134500, weight=0.874153
+2025-07-10 20:30:19,072 - INFO - log_σ² gradient: -0.470650
+2025-07-10 20:30:19,146 - INFO - Optimizer step 15: log_σ²=0.134928, weight=0.873779
+2025-07-10 20:30:43,720 - INFO - log_σ² gradient: -0.459560
+2025-07-10 20:30:43,796 - INFO - Optimizer step 16: log_σ²=0.135355, weight=0.873405
+2025-07-10 20:31:09,610 - INFO - log_σ² gradient: -0.467218
+2025-07-10 20:31:09,683 - INFO - Optimizer step 17: log_σ²=0.135784, weight=0.873031
+2025-07-10 20:31:32,833 - INFO - log_σ² gradient: -0.470880
+2025-07-10 20:31:32,905 - INFO - Optimizer step 18: log_σ²=0.136214, weight=0.872656
+2025-07-10 20:31:55,226 - INFO - log_σ² gradient: -0.473222
+2025-07-10 20:31:55,298 - INFO - Optimizer step 19: log_σ²=0.136645, weight=0.872279
+2025-07-10 20:32:18,204 - INFO - log_σ² gradient: -0.468703
+2025-07-10 20:32:18,283 - INFO - Optimizer step 20: log_σ²=0.137078, weight=0.871903
+2025-07-10 20:32:42,524 - INFO - log_σ² gradient: -0.467667
+2025-07-10 20:32:42,596 - INFO - Optimizer step 21: log_σ²=0.137510, weight=0.871525
+2025-07-10 20:33:06,604 - INFO - log_σ² gradient: -0.466641
+2025-07-10 20:33:06,676 - INFO - Optimizer step 22: log_σ²=0.137944, weight=0.871147
+2025-07-10 20:33:30,981 - INFO - log_σ² gradient: -0.469925
+2025-07-10 20:33:31,052 - INFO - Optimizer step 23: log_σ²=0.138379, weight=0.870769
+2025-07-10 20:33:55,918 - INFO - log_σ² gradient: -0.477843
+2025-07-10 20:33:55,992 - INFO - Optimizer step 24: log_σ²=0.138815, weight=0.870389
+2025-07-10 20:34:18,912 - INFO - log_σ² gradient: -0.460365
+2025-07-10 20:34:18,978 - INFO - Optimizer step 25: log_σ²=0.139251, weight=0.870009
+2025-07-10 20:34:41,713 - INFO - log_σ² gradient: -0.468959
+2025-07-10 20:34:41,781 - INFO - Optimizer step 26: log_σ²=0.139689, weight=0.869629
+2025-07-10 20:35:05,261 - INFO - log_σ² gradient: -0.474560
+2025-07-10 20:35:05,337 - INFO - Optimizer step 27: log_σ²=0.140127, weight=0.869248
+2025-07-10 20:35:29,157 - INFO - log_σ² gradient: -0.477944
+2025-07-10 20:35:29,229 - INFO - Optimizer step 28: log_σ²=0.140567, weight=0.868865
+2025-07-10 20:35:53,718 - INFO - log_σ² gradient: -0.470703
+2025-07-10 20:35:53,786 - INFO - Optimizer step 29: log_σ²=0.141008, weight=0.868482
+2025-07-10 20:36:15,971 - INFO - log_σ² gradient: -0.470436
+2025-07-10 20:36:16,039 - INFO - Optimizer step 30: log_σ²=0.141450, weight=0.868098
+2025-07-10 20:36:25,966 - INFO - log_σ² gradient: -0.218151
+2025-07-10 20:36:26,031 - INFO - Optimizer step 31: log_σ²=0.141870, weight=0.867734
+2025-07-10 20:36:26,192 - INFO - Epoch 20: Total optimizer steps: 31
+2025-07-10 20:39:42,578 - INFO - Validation metrics:
+2025-07-10 20:39:42,579 - INFO -   Loss: 0.5749
+2025-07-10 20:39:42,579 - INFO -   Average similarity: 0.8910
+2025-07-10 20:39:42,579 - INFO -   Median similarity: 0.9922
+2025-07-10 20:39:42,579 - INFO -   Clean sample similarity: 0.8910
+2025-07-10 20:39:42,579 - INFO -   Corrupted sample similarity: 0.3512
+2025-07-10 20:39:42,579 - INFO -   Similarity gap (clean - corrupt): 0.5398
+2025-07-10 20:39:42,700 - INFO - Epoch 20/30 - Train Loss: 0.6085, Val Loss: 0.5749, Clean Sim: 0.8910, Corrupt Sim: 0.3512, Gap: 0.5398, Time: 974.82s
+2025-07-10 20:39:42,700 - INFO - New best validation loss: 0.5749
+2025-07-10 20:39:48,686 - INFO - New best similarity gap: 0.5398
+2025-07-10 20:42:33,850 - INFO - Epoch 20 Validation Alignment: Pos=0.146, Neg=0.075, Gap=0.072
+2025-07-10 20:43:40,899 - INFO - log_σ² gradient: -0.460704
+2025-07-10 20:43:40,967 - INFO - Optimizer step 1: log_σ²=0.142291, weight=0.867368
+2025-07-10 20:44:03,845 - INFO - log_σ² gradient: -0.463430
+2025-07-10 20:44:03,917 - INFO - Optimizer step 2: log_σ²=0.142715, weight=0.867001
+2025-07-10 20:44:28,467 - INFO - log_σ² gradient: -0.457900
+2025-07-10 20:44:28,544 - INFO - Optimizer step 3: log_σ²=0.143141, weight=0.866632
+2025-07-10 20:44:53,182 - INFO - log_σ² gradient: -0.461259
+2025-07-10 20:44:53,260 - INFO - Optimizer step 4: log_σ²=0.143569, weight=0.866261
+2025-07-10 20:45:16,473 - INFO - log_σ² gradient: -0.464551
+2025-07-10 20:45:16,537 - INFO - Optimizer step 5: log_σ²=0.143999, weight=0.865889
+2025-07-10 20:45:40,168 - INFO - log_σ² gradient: -0.468401
+2025-07-10 20:45:40,244 - INFO - Optimizer step 6: log_σ²=0.144431, weight=0.865515
+2025-07-10 20:46:04,260 - INFO - log_σ² gradient: -0.464272
+2025-07-10 20:46:04,324 - INFO - Optimizer step 7: log_σ²=0.144865, weight=0.865139
+2025-07-10 20:46:29,443 - INFO - log_σ² gradient: -0.451838
+2025-07-10 20:46:29,522 - INFO - Optimizer step 8: log_σ²=0.145299, weight=0.864763
+2025-07-10 20:46:54,998 - INFO - log_σ² gradient: -0.461550
+2025-07-10 20:46:55,070 - INFO - Optimizer step 9: log_σ²=0.145736, weight=0.864386
+2025-07-10 20:47:19,142 - INFO - log_σ² gradient: -0.469158
+2025-07-10 20:47:19,214 - INFO - Optimizer step 10: log_σ²=0.146174, weight=0.864008
+2025-07-10 20:47:43,562 - INFO - log_σ² gradient: -0.464638
+2025-07-10 20:47:43,637 - INFO - Optimizer step 11: log_σ²=0.146614, weight=0.863628
+2025-07-10 20:48:08,859 - INFO - log_σ² gradient: -0.463304
+2025-07-10 20:48:08,935 - INFO - Optimizer step 12: log_σ²=0.147055, weight=0.863247
+2025-07-10 20:48:32,589 - INFO - log_σ² gradient: -0.466994
+2025-07-10 20:48:32,667 - INFO - Optimizer step 13: log_σ²=0.147498, weight=0.862864
+2025-07-10 20:48:57,942 - INFO - log_σ² gradient: -0.462670
+2025-07-10 20:48:58,010 - INFO - Optimizer step 14: log_σ²=0.147942, weight=0.862481
+2025-07-10 20:49:23,359 - INFO - log_σ² gradient: -0.466207
+2025-07-10 20:49:23,431 - INFO - Optimizer step 15: log_σ²=0.148387, weight=0.862097
+2025-07-10 20:49:47,033 - INFO - log_σ² gradient: -0.460918
+2025-07-10 20:49:47,107 - INFO - Optimizer step 16: log_σ²=0.148834, weight=0.861712
+2025-07-10 20:50:10,662 - INFO - log_σ² gradient: -0.461072
+2025-07-10 20:50:10,726 - INFO - Optimizer step 17: log_σ²=0.149281, weight=0.861327
+2025-07-10 20:50:34,373 - INFO - log_σ² gradient: -0.465137
+2025-07-10 20:50:34,449 - INFO - Optimizer step 18: log_σ²=0.149730, weight=0.860940
+2025-07-10 20:50:59,389 - INFO - log_σ² gradient: -0.460244
+2025-07-10 20:50:59,472 - INFO - Optimizer step 19: log_σ²=0.150179, weight=0.860554
+2025-07-10 20:51:23,560 - INFO - log_σ² gradient: -0.466120
+2025-07-10 20:51:23,635 - INFO - Optimizer step 20: log_σ²=0.150630, weight=0.860166
+2025-07-10 20:51:46,347 - INFO - log_σ² gradient: -0.459669
+2025-07-10 20:51:46,419 - INFO - Optimizer step 21: log_σ²=0.151082, weight=0.859777
+2025-07-10 20:52:10,355 - INFO - log_σ² gradient: -0.457066
+2025-07-10 20:52:10,433 - INFO - Optimizer step 22: log_σ²=0.151534, weight=0.859389
+2025-07-10 20:52:33,713 - INFO - log_σ² gradient: -0.460893
+2025-07-10 20:52:33,794 - INFO - Optimizer step 23: log_σ²=0.151987, weight=0.859000
+2025-07-10 20:52:58,171 - INFO - log_σ² gradient: -0.463902
+2025-07-10 20:52:58,236 - INFO - Optimizer step 24: log_σ²=0.152440, weight=0.858610
+2025-07-10 20:53:22,176 - INFO - log_σ² gradient: -0.451257
+2025-07-10 20:53:22,243 - INFO - Optimizer step 25: log_σ²=0.152894, weight=0.858221
+2025-07-10 20:53:47,195 - INFO - log_σ² gradient: -0.454842
+2025-07-10 20:53:47,267 - INFO - Optimizer step 26: log_σ²=0.153348, weight=0.857831
+2025-07-10 20:54:10,566 - INFO - log_σ² gradient: -0.469370
+2025-07-10 20:54:10,640 - INFO - Optimizer step 27: log_σ²=0.153804, weight=0.857440
+2025-07-10 20:54:34,788 - INFO - log_σ² gradient: -0.460745
+2025-07-10 20:54:34,859 - INFO - Optimizer step 28: log_σ²=0.154261, weight=0.857048
+2025-07-10 20:54:58,203 - INFO - log_σ² gradient: -0.459347
+2025-07-10 20:54:58,277 - INFO - Optimizer step 29: log_σ²=0.154718, weight=0.856656
+2025-07-10 20:55:20,620 - INFO - log_σ² gradient: -0.456804
+2025-07-10 20:55:20,685 - INFO - Optimizer step 30: log_σ²=0.155176, weight=0.856264
+2025-07-10 20:55:31,291 - INFO - log_σ² gradient: -0.210761
+2025-07-10 20:55:31,358 - INFO - Optimizer step 31: log_σ²=0.155610, weight=0.855893
+2025-07-10 20:55:31,534 - INFO - Epoch 21: Total optimizer steps: 31
+2025-07-10 20:58:48,125 - INFO - Validation metrics:
+2025-07-10 20:58:48,125 - INFO -   Loss: 0.5733
+2025-07-10 20:58:48,125 - INFO -   Average similarity: 0.8433
+2025-07-10 20:58:48,125 - INFO -   Median similarity: 0.9900
+2025-07-10 20:58:48,125 - INFO -   Clean sample similarity: 0.8433
+2025-07-10 20:58:48,125 - INFO -   Corrupted sample similarity: 0.3093
+2025-07-10 20:58:48,125 - INFO -   Similarity gap (clean - corrupt): 0.5341
+2025-07-10 20:58:48,224 - INFO - Epoch 21/30 - Train Loss: 0.5983, Val Loss: 0.5733, Clean Sim: 0.8433, Corrupt Sim: 0.3093, Gap: 0.5341, Time: 974.37s
+2025-07-10 20:58:48,224 - INFO - New best validation loss: 0.5733
+2025-07-10 21:00:04,099 - INFO - log_σ² gradient: -0.468757
+2025-07-10 21:00:04,178 - INFO - Optimizer step 1: log_σ²=0.156048, weight=0.855518
+2025-07-10 21:00:29,264 - INFO - log_σ² gradient: -0.453064
+2025-07-10 21:00:29,341 - INFO - Optimizer step 2: log_σ²=0.156489, weight=0.855141
+2025-07-10 21:00:53,749 - INFO - log_σ² gradient: -0.458401
+2025-07-10 21:00:53,823 - INFO - Optimizer step 3: log_σ²=0.156932, weight=0.854762
+2025-07-10 21:01:19,705 - INFO - log_σ² gradient: -0.460927
+2025-07-10 21:01:19,778 - INFO - Optimizer step 4: log_σ²=0.157378, weight=0.854381
+2025-07-10 21:01:45,171 - INFO - log_σ² gradient: -0.456388
+2025-07-10 21:01:45,247 - INFO - Optimizer step 5: log_σ²=0.157825, weight=0.853999
+2025-07-10 21:02:09,734 - INFO - log_σ² gradient: -0.462545
+2025-07-10 21:02:09,813 - INFO - Optimizer step 6: log_σ²=0.158276, weight=0.853614
+2025-07-10 21:02:33,249 - INFO - log_σ² gradient: -0.449968
+2025-07-10 21:02:33,320 - INFO - Optimizer step 7: log_σ²=0.158727, weight=0.853229
+2025-07-10 21:02:56,122 - INFO - log_σ² gradient: -0.449460
+2025-07-10 21:02:56,201 - INFO - Optimizer step 8: log_σ²=0.159180, weight=0.852843
+2025-07-10 21:03:19,507 - INFO - log_σ² gradient: -0.454469
+2025-07-10 21:03:19,585 - INFO - Optimizer step 9: log_σ²=0.159634, weight=0.852456
+2025-07-10 21:03:43,690 - INFO - log_σ² gradient: -0.454554
+2025-07-10 21:03:43,769 - INFO - Optimizer step 10: log_σ²=0.160090, weight=0.852067
+2025-07-10 21:04:07,956 - INFO - log_σ² gradient: -0.450983
+2025-07-10 21:04:08,036 - INFO - Optimizer step 11: log_σ²=0.160546, weight=0.851678
+2025-07-10 21:04:31,703 - INFO - log_σ² gradient: -0.455505
+2025-07-10 21:04:31,783 - INFO - Optimizer step 12: log_σ²=0.161004, weight=0.851288
+2025-07-10 21:04:54,859 - INFO - log_σ² gradient: -0.455380
+2025-07-10 21:04:54,935 - INFO - Optimizer step 13: log_σ²=0.161464, weight=0.850897
+2025-07-10 21:05:20,919 - INFO - log_σ² gradient: -0.448476
+2025-07-10 21:05:20,986 - INFO - Optimizer step 14: log_σ²=0.161924, weight=0.850506
+2025-07-10 21:05:43,040 - INFO - log_σ² gradient: -0.454150
+2025-07-10 21:05:43,114 - INFO - Optimizer step 15: log_σ²=0.162385, weight=0.850114
+2025-07-10 21:06:07,147 - INFO - log_σ² gradient: -0.450357
+2025-07-10 21:06:07,225 - INFO - Optimizer step 16: log_σ²=0.162847, weight=0.849721
+2025-07-10 21:06:29,651 - INFO - log_σ² gradient: -0.458423
+2025-07-10 21:06:29,722 - INFO - Optimizer step 17: log_σ²=0.163311, weight=0.849327
+2025-07-10 21:06:53,984 - INFO - log_σ² gradient: -0.454605
+2025-07-10 21:06:54,055 - INFO - Optimizer step 18: log_σ²=0.163776, weight=0.848932
+2025-07-10 21:07:15,980 - INFO - log_σ² gradient: -0.442779
+2025-07-10 21:07:16,048 - INFO - Optimizer step 19: log_σ²=0.164241, weight=0.848538
+2025-07-10 21:07:40,192 - INFO - log_σ² gradient: -0.460882
+2025-07-10 21:07:40,268 - INFO - Optimizer step 20: log_σ²=0.164708, weight=0.848142
+2025-07-10 21:08:02,700 - INFO - log_σ² gradient: -0.437358
+2025-07-10 21:08:02,772 - INFO - Optimizer step 21: log_σ²=0.165174, weight=0.847747
+2025-07-10 21:08:27,267 - INFO - log_σ² gradient: -0.459259
+2025-07-10 21:08:27,341 - INFO - Optimizer step 22: log_σ²=0.165641, weight=0.847350
+2025-07-10 21:08:51,391 - INFO - log_σ² gradient: -0.448040
+2025-07-10 21:08:51,467 - INFO - Optimizer step 23: log_σ²=0.166110, weight=0.846953
+2025-07-10 21:09:15,350 - INFO - log_σ² gradient: -0.453189
+2025-07-10 21:09:15,421 - INFO - Optimizer step 24: log_σ²=0.166579, weight=0.846556
+2025-07-10 21:09:38,489 - INFO - log_σ² gradient: -0.449655
+2025-07-10 21:09:38,557 - INFO - Optimizer step 25: log_σ²=0.167049, weight=0.846158
+2025-07-10 21:10:03,632 - INFO - log_σ² gradient: -0.446735
+2025-07-10 21:10:03,703 - INFO - Optimizer step 26: log_σ²=0.167519, weight=0.845760
+2025-07-10 21:10:27,709 - INFO - log_σ² gradient: -0.454008
+2025-07-10 21:10:27,781 - INFO - Optimizer step 27: log_σ²=0.167991, weight=0.845362
+2025-07-10 21:10:52,527 - INFO - log_σ² gradient: -0.447455
+2025-07-10 21:10:52,598 - INFO - Optimizer step 28: log_σ²=0.168463, weight=0.844963
+2025-07-10 21:11:15,587 - INFO - log_σ² gradient: -0.449462
+2025-07-10 21:11:15,663 - INFO - Optimizer step 29: log_σ²=0.168935, weight=0.844563
+2025-07-10 21:11:39,172 - INFO - log_σ² gradient: -0.453156
+2025-07-10 21:11:39,248 - INFO - Optimizer step 30: log_σ²=0.169409, weight=0.844163
+2025-07-10 21:11:50,334 - INFO - log_σ² gradient: -0.205562
+2025-07-10 21:11:50,408 - INFO - Optimizer step 31: log_σ²=0.169858, weight=0.843785
+2025-07-10 21:11:50,582 - INFO - Epoch 22: Total optimizer steps: 31
+2025-07-10 21:15:07,316 - INFO - Validation metrics:
+2025-07-10 21:15:07,316 - INFO -   Loss: 0.5654
+2025-07-10 21:15:07,316 - INFO -   Average similarity: 0.9276
+2025-07-10 21:15:07,316 - INFO -   Median similarity: 0.9970
+2025-07-10 21:15:07,316 - INFO -   Clean sample similarity: 0.9276
+2025-07-10 21:15:07,316 - INFO -   Corrupted sample similarity: 0.3863
+2025-07-10 21:15:07,316 - INFO -   Similarity gap (clean - corrupt): 0.5414
+2025-07-10 21:15:07,427 - INFO - Epoch 22/30 - Train Loss: 0.5808, Val Loss: 0.5654, Clean Sim: 0.9276, Corrupt Sim: 0.3863, Gap: 0.5414, Time: 972.21s
+2025-07-10 21:15:07,428 - INFO - New best validation loss: 0.5654
+2025-07-10 21:15:13,401 - INFO - New best similarity gap: 0.5414
+2025-07-10 21:17:58,417 - INFO - Epoch 22 Validation Alignment: Pos=0.160, Neg=0.085, Gap=0.075
+2025-07-10 21:19:08,163 - INFO - log_σ² gradient: -0.456737
+2025-07-10 21:19:08,238 - INFO - Optimizer step 1: log_σ²=0.170311, weight=0.843402
+2025-07-10 21:19:31,384 - INFO - log_σ² gradient: -0.446817
+2025-07-10 21:19:31,456 - INFO - Optimizer step 2: log_σ²=0.170767, weight=0.843018
+2025-07-10 21:19:54,332 - INFO - log_σ² gradient: -0.450807
+2025-07-10 21:19:54,404 - INFO - Optimizer step 3: log_σ²=0.171225, weight=0.842632
+2025-07-10 21:20:16,470 - INFO - log_σ² gradient: -0.446411
+2025-07-10 21:20:16,538 - INFO - Optimizer step 4: log_σ²=0.171686, weight=0.842244
+2025-07-10 21:20:41,151 - INFO - log_σ² gradient: -0.443222
+2025-07-10 21:20:41,223 - INFO - Optimizer step 5: log_σ²=0.172148, weight=0.841854
+2025-07-10 21:21:04,886 - INFO - log_σ² gradient: -0.443374
+2025-07-10 21:21:04,961 - INFO - Optimizer step 6: log_σ²=0.172612, weight=0.841464
+2025-07-10 21:21:30,023 - INFO - log_σ² gradient: -0.442178
+2025-07-10 21:21:30,099 - INFO - Optimizer step 7: log_σ²=0.173078, weight=0.841072
+2025-07-10 21:21:54,801 - INFO - log_σ² gradient: -0.441047
+2025-07-10 21:21:54,867 - INFO - Optimizer step 8: log_σ²=0.173545, weight=0.840679
+2025-07-10 21:22:19,228 - INFO - log_σ² gradient: -0.456160
+2025-07-10 21:22:19,302 - INFO - Optimizer step 9: log_σ²=0.174015, weight=0.840285
+2025-07-10 21:22:42,970 - INFO - log_σ² gradient: -0.443725
+2025-07-10 21:22:43,044 - INFO - Optimizer step 10: log_σ²=0.174485, weight=0.839889
+2025-07-10 21:23:05,484 - INFO - log_σ² gradient: -0.435196
+2025-07-10 21:23:05,555 - INFO - Optimizer step 11: log_σ²=0.174957, weight=0.839493
+2025-07-10 21:23:29,870 - INFO - log_σ² gradient: -0.443148
+2025-07-10 21:23:29,945 - INFO - Optimizer step 12: log_σ²=0.175429, weight=0.839097
+2025-07-10 21:23:54,617 - INFO - log_σ² gradient: -0.445349
+2025-07-10 21:23:54,688 - INFO - Optimizer step 13: log_σ²=0.175903, weight=0.838699
+2025-07-10 21:24:18,519 - INFO - log_σ² gradient: -0.443459
+2025-07-10 21:24:18,586 - INFO - Optimizer step 14: log_σ²=0.176379, weight=0.838301
+2025-07-10 21:24:42,880 - INFO - log_σ² gradient: -0.451787
+2025-07-10 21:24:42,952 - INFO - Optimizer step 15: log_σ²=0.176856, weight=0.837901
+2025-07-10 21:25:08,014 - INFO - log_σ² gradient: -0.440473
+2025-07-10 21:25:08,090 - INFO - Optimizer step 16: log_σ²=0.177334, weight=0.837500
+2025-07-10 21:25:31,916 - INFO - log_σ² gradient: -0.448305
+2025-07-10 21:25:31,990 - INFO - Optimizer step 17: log_σ²=0.177813, weight=0.837099
+2025-07-10 21:25:54,883 - INFO - log_σ² gradient: -0.445740
+2025-07-10 21:25:54,946 - INFO - Optimizer step 18: log_σ²=0.178294, weight=0.836697
+2025-07-10 21:26:18,975 - INFO - log_σ² gradient: -0.443972
+2025-07-10 21:26:19,051 - INFO - Optimizer step 19: log_σ²=0.178775, weight=0.836294
+2025-07-10 21:26:44,332 - INFO - log_σ² gradient: -0.451246
+2025-07-10 21:26:44,406 - INFO - Optimizer step 20: log_σ²=0.179259, weight=0.835890
+2025-07-10 21:27:08,626 - INFO - log_σ² gradient: -0.449943
+2025-07-10 21:27:08,704 - INFO - Optimizer step 21: log_σ²=0.179744, weight=0.835484
+2025-07-10 21:27:31,307 - INFO - log_σ² gradient: -0.446790
+2025-07-10 21:27:31,375 - INFO - Optimizer step 22: log_σ²=0.180229, weight=0.835079
+2025-07-10 21:27:55,331 - INFO - log_σ² gradient: -0.437465
+2025-07-10 21:27:55,405 - INFO - Optimizer step 23: log_σ²=0.180715, weight=0.834673
+2025-07-10 21:28:19,496 - INFO - log_σ² gradient: -0.446622
+2025-07-10 21:28:19,573 - INFO - Optimizer step 24: log_σ²=0.181203, weight=0.834266
+2025-07-10 21:28:43,786 - INFO - log_σ² gradient: -0.449566
+2025-07-10 21:28:43,858 - INFO - Optimizer step 25: log_σ²=0.181691, weight=0.833859
+2025-07-10 21:29:08,134 - INFO - log_σ² gradient: -0.444855
+2025-07-10 21:29:08,200 - INFO - Optimizer step 26: log_σ²=0.182181, weight=0.833451
+2025-07-10 21:29:31,844 - INFO - log_σ² gradient: -0.441570
+2025-07-10 21:29:31,916 - INFO - Optimizer step 27: log_σ²=0.182670, weight=0.833043
+2025-07-10 21:29:56,538 - INFO - log_σ² gradient: -0.444178
+2025-07-10 21:29:56,604 - INFO - Optimizer step 28: log_σ²=0.183161, weight=0.832634
+2025-07-10 21:30:20,383 - INFO - log_σ² gradient: -0.449660
+2025-07-10 21:30:20,462 - INFO - Optimizer step 29: log_σ²=0.183653, weight=0.832224
+2025-07-10 21:30:45,068 - INFO - log_σ² gradient: -0.440187
+2025-07-10 21:30:45,141 - INFO - Optimizer step 30: log_σ²=0.184146, weight=0.831815
+2025-07-10 21:30:55,860 - INFO - log_σ² gradient: -0.204320
+2025-07-10 21:30:55,935 - INFO - Optimizer step 31: log_σ²=0.184612, weight=0.831427
+2025-07-10 21:30:56,112 - INFO - Epoch 23: Total optimizer steps: 31
+2025-07-10 21:34:12,776 - INFO - Validation metrics:
+2025-07-10 21:34:12,776 - INFO -   Loss: 0.5627
+2025-07-10 21:34:12,776 - INFO -   Average similarity: 0.9523
+2025-07-10 21:34:12,776 - INFO -   Median similarity: 0.9992
+2025-07-10 21:34:12,777 - INFO -   Clean sample similarity: 0.9523
+2025-07-10 21:34:12,777 - INFO -   Corrupted sample similarity: 0.4336
+2025-07-10 21:34:12,777 - INFO -   Similarity gap (clean - corrupt): 0.5187
+2025-07-10 21:34:12,874 - INFO - Epoch 23/30 - Train Loss: 0.5731, Val Loss: 0.5627, Clean Sim: 0.9523, Corrupt Sim: 0.4336, Gap: 0.5187, Time: 974.46s
+2025-07-10 21:34:12,874 - INFO - New best validation loss: 0.5627
+2025-07-10 21:35:27,495 - INFO - log_σ² gradient: -0.447303
+2025-07-10 21:35:27,567 - INFO - Optimizer step 1: log_σ²=0.185083, weight=0.831035
+2025-07-10 21:35:51,965 - INFO - log_σ² gradient: -0.437356
+2025-07-10 21:35:52,039 - INFO - Optimizer step 2: log_σ²=0.185556, weight=0.830643
+2025-07-10 21:36:17,272 - INFO - log_σ² gradient: -0.440588
+2025-07-10 21:36:17,352 - INFO - Optimizer step 3: log_σ²=0.186031, weight=0.830248
+2025-07-10 21:36:41,785 - INFO - log_σ² gradient: -0.443758
+2025-07-10 21:36:41,861 - INFO - Optimizer step 4: log_σ²=0.186509, weight=0.829851
+2025-07-10 21:37:07,466 - INFO - log_σ² gradient: -0.440368
+2025-07-10 21:37:07,546 - INFO - Optimizer step 5: log_σ²=0.186990, weight=0.829452
+2025-07-10 21:37:31,580 - INFO - log_σ² gradient: -0.431564
+2025-07-10 21:37:31,656 - INFO - Optimizer step 6: log_σ²=0.187471, weight=0.829053
+2025-07-10 21:37:55,623 - INFO - log_σ² gradient: -0.435089
+2025-07-10 21:37:55,691 - INFO - Optimizer step 7: log_σ²=0.187954, weight=0.828653
+2025-07-10 21:38:19,020 - INFO - log_σ² gradient: -0.436996
+2025-07-10 21:38:19,095 - INFO - Optimizer step 8: log_σ²=0.188439, weight=0.828251
+2025-07-10 21:38:42,366 - INFO - log_σ² gradient: -0.440764
+2025-07-10 21:38:42,432 - INFO - Optimizer step 9: log_σ²=0.188925, weight=0.827848
+2025-07-10 21:39:06,236 - INFO - log_σ² gradient: -0.444360
+2025-07-10 21:39:06,316 - INFO - Optimizer step 10: log_σ²=0.189414, weight=0.827444
+2025-07-10 21:39:31,380 - INFO - log_σ² gradient: -0.446680
+2025-07-10 21:39:31,458 - INFO - Optimizer step 11: log_σ²=0.189905, weight=0.827038
+2025-07-10 21:39:54,556 - INFO - log_σ² gradient: -0.439355
+2025-07-10 21:39:54,634 - INFO - Optimizer step 12: log_σ²=0.190398, weight=0.826630
+2025-07-10 21:40:19,325 - INFO - log_σ² gradient: -0.440676
+2025-07-10 21:40:19,401 - INFO - Optimizer step 13: log_σ²=0.190891, weight=0.826222
+2025-07-10 21:40:42,959 - INFO - log_σ² gradient: -0.428243
+2025-07-10 21:40:43,032 - INFO - Optimizer step 14: log_σ²=0.191385, weight=0.825814
+2025-07-10 21:41:06,507 - INFO - log_σ² gradient: -0.434136
+2025-07-10 21:41:06,578 - INFO - Optimizer step 15: log_σ²=0.191880, weight=0.825406
+2025-07-10 21:41:30,399 - INFO - log_σ² gradient: -0.439460
+2025-07-10 21:41:30,475 - INFO - Optimizer step 16: log_σ²=0.192376, weight=0.824997
+2025-07-10 21:41:55,246 - INFO - log_σ² gradient: -0.438002
+2025-07-10 21:41:55,317 - INFO - Optimizer step 17: log_σ²=0.192873, weight=0.824587
+2025-07-10 21:42:17,861 - INFO - log_σ² gradient: -0.435170
+2025-07-10 21:42:17,935 - INFO - Optimizer step 18: log_σ²=0.193371, weight=0.824176
+2025-07-10 21:42:41,758 - INFO - log_σ² gradient: -0.434703
+2025-07-10 21:42:41,838 - INFO - Optimizer step 19: log_σ²=0.193870, weight=0.823765
+2025-07-10 21:43:03,896 - INFO - log_σ² gradient: -0.441669
+2025-07-10 21:43:03,969 - INFO - Optimizer step 20: log_σ²=0.194370, weight=0.823353
+2025-07-10 21:43:27,731 - INFO - log_σ² gradient: -0.437104
+2025-07-10 21:43:27,799 - INFO - Optimizer step 21: log_σ²=0.194871, weight=0.822941
+2025-07-10 21:43:51,402 - INFO - log_σ² gradient: -0.433859
+2025-07-10 21:43:51,473 - INFO - Optimizer step 22: log_σ²=0.195373, weight=0.822528
+2025-07-10 21:44:16,023 - INFO - log_σ² gradient: -0.425901
+2025-07-10 21:44:16,099 - INFO - Optimizer step 23: log_σ²=0.195874, weight=0.822116
+2025-07-10 21:44:40,705 - INFO - log_σ² gradient: -0.429111
+2025-07-10 21:44:40,777 - INFO - Optimizer step 24: log_σ²=0.196376, weight=0.821704
+2025-07-10 21:45:04,236 - INFO - log_σ² gradient: -0.433855
+2025-07-10 21:45:04,315 - INFO - Optimizer step 25: log_σ²=0.196878, weight=0.821291
+2025-07-10 21:45:27,403 - INFO - log_σ² gradient: -0.432852
+2025-07-10 21:45:27,469 - INFO - Optimizer step 26: log_σ²=0.197381, weight=0.820878
+2025-07-10 21:45:51,401 - INFO - log_σ² gradient: -0.434980
+2025-07-10 21:45:51,467 - INFO - Optimizer step 27: log_σ²=0.197885, weight=0.820464
+2025-07-10 21:46:15,726 - INFO - log_σ² gradient: -0.435032
+2025-07-10 21:46:15,798 - INFO - Optimizer step 28: log_σ²=0.198389, weight=0.820050
+2025-07-10 21:46:38,916 - INFO - log_σ² gradient: -0.434975
+2025-07-10 21:46:38,988 - INFO - Optimizer step 29: log_σ²=0.198895, weight=0.819636
+2025-07-10 21:47:03,319 - INFO - log_σ² gradient: -0.429731
+2025-07-10 21:47:03,398 - INFO - Optimizer step 30: log_σ²=0.199401, weight=0.819221
+2025-07-10 21:47:13,652 - INFO - log_σ² gradient: -0.207213
+2025-07-10 21:47:13,716 - INFO - Optimizer step 31: log_σ²=0.199881, weight=0.818828
+2025-07-10 21:47:13,871 - INFO - Epoch 24: Total optimizer steps: 31
+2025-07-10 21:50:31,009 - INFO - Validation metrics:
+2025-07-10 21:50:31,009 - INFO -   Loss: 0.5518
+2025-07-10 21:50:31,009 - INFO -   Average similarity: 0.9326
+2025-07-10 21:50:31,009 - INFO -   Median similarity: 0.9972
+2025-07-10 21:50:31,009 - INFO -   Clean sample similarity: 0.9326
+2025-07-10 21:50:31,009 - INFO -   Corrupted sample similarity: 0.4124
+2025-07-10 21:50:31,009 - INFO -   Similarity gap (clean - corrupt): 0.5202
+2025-07-10 21:50:31,118 - INFO - Epoch 24/30 - Train Loss: 0.5619, Val Loss: 0.5518, Clean Sim: 0.9326, Corrupt Sim: 0.4124, Gap: 0.5202, Time: 972.07s
+2025-07-10 21:50:31,118 - INFO - New best validation loss: 0.5518
+2025-07-10 21:53:15,616 - INFO - Epoch 24 Validation Alignment: Pos=0.174, Neg=0.089, Gap=0.085
+2025-07-10 21:54:24,420 - INFO - log_σ² gradient: -0.442240
+2025-07-10 21:54:24,500 - INFO - Optimizer step 1: log_σ²=0.200366, weight=0.818431
+2025-07-10 21:54:48,527 - INFO - log_σ² gradient: -0.441682
+2025-07-10 21:54:48,599 - INFO - Optimizer step 2: log_σ²=0.200855, weight=0.818031
+2025-07-10 21:55:12,837 - INFO - log_σ² gradient: -0.435871
+2025-07-10 21:55:12,918 - INFO - Optimizer step 3: log_σ²=0.201347, weight=0.817629
+2025-07-10 21:55:38,553 - INFO - log_σ² gradient: -0.434178
+2025-07-10 21:55:38,625 - INFO - Optimizer step 4: log_σ²=0.201841, weight=0.817225
+2025-07-10 21:56:04,788 - INFO - log_σ² gradient: -0.437822
+2025-07-10 21:56:04,859 - INFO - Optimizer step 5: log_σ²=0.202339, weight=0.816818
+2025-07-10 21:56:28,385 - INFO - log_σ² gradient: -0.425139
+2025-07-10 21:56:28,456 - INFO - Optimizer step 6: log_σ²=0.202837, weight=0.816411
+2025-07-10 21:56:51,487 - INFO - log_σ² gradient: -0.438997
+2025-07-10 21:56:51,558 - INFO - Optimizer step 7: log_σ²=0.203338, weight=0.816002
+2025-07-10 21:57:15,783 - INFO - log_σ² gradient: -0.427790
+2025-07-10 21:57:15,854 - INFO - Optimizer step 8: log_σ²=0.203840, weight=0.815593
+2025-07-10 21:57:38,706 - INFO - log_σ² gradient: -0.436095
+2025-07-10 21:57:38,779 - INFO - Optimizer step 9: log_σ²=0.204345, weight=0.815181
+2025-07-10 21:58:02,518 - INFO - log_σ² gradient: -0.437719
+2025-07-10 21:58:02,584 - INFO - Optimizer step 10: log_σ²=0.204852, weight=0.814768
+2025-07-10 21:58:26,647 - INFO - log_σ² gradient: -0.434537
+2025-07-10 21:58:26,721 - INFO - Optimizer step 11: log_σ²=0.205360, weight=0.814354
+2025-07-10 21:58:49,611 - INFO - log_σ² gradient: -0.431969
+2025-07-10 21:58:49,683 - INFO - Optimizer step 12: log_σ²=0.205870, weight=0.813939
+2025-07-10 21:59:13,152 - INFO - log_σ² gradient: -0.428660
+2025-07-10 21:59:13,227 - INFO - Optimizer step 13: log_σ²=0.206381, weight=0.813523
+2025-07-10 21:59:37,670 - INFO - log_σ² gradient: -0.432785
+2025-07-10 21:59:37,741 - INFO - Optimizer step 14: log_σ²=0.206893, weight=0.813107
+2025-07-10 22:00:01,265 - INFO - log_σ² gradient: -0.430052
+2025-07-10 22:00:01,339 - INFO - Optimizer step 15: log_σ²=0.207406, weight=0.812690
+2025-07-10 22:00:27,152 - INFO - log_σ² gradient: -0.431740
+2025-07-10 22:00:27,227 - INFO - Optimizer step 16: log_σ²=0.207920, weight=0.812272
+2025-07-10 22:00:52,121 - INFO - log_σ² gradient: -0.431393
+2025-07-10 22:00:52,192 - INFO - Optimizer step 17: log_σ²=0.208435, weight=0.811854
+2025-07-10 22:01:15,568 - INFO - log_σ² gradient: -0.425337
+2025-07-10 22:01:15,637 - INFO - Optimizer step 18: log_σ²=0.208951, weight=0.811435
+2025-07-10 22:01:37,912 - INFO - log_σ² gradient: -0.436811
+2025-07-10 22:01:37,980 - INFO - Optimizer step 19: log_σ²=0.209468, weight=0.811016
+2025-07-10 22:02:03,015 - INFO - log_σ² gradient: -0.433785
+2025-07-10 22:02:03,085 - INFO - Optimizer step 20: log_σ²=0.209987, weight=0.810595
+2025-07-10 22:02:26,661 - INFO - log_σ² gradient: -0.429193
+2025-07-10 22:02:26,737 - INFO - Optimizer step 21: log_σ²=0.210506, weight=0.810174
+2025-07-10 22:02:51,548 - INFO - log_σ² gradient: -0.430464
+2025-07-10 22:02:51,627 - INFO - Optimizer step 22: log_σ²=0.211026, weight=0.809753
+2025-07-10 22:03:15,443 - INFO - log_σ² gradient: -0.433659
+2025-07-10 22:03:15,518 - INFO - Optimizer step 23: log_σ²=0.211548, weight=0.809331
+2025-07-10 22:03:40,182 - INFO - log_σ² gradient: -0.430474
+2025-07-10 22:03:40,261 - INFO - Optimizer step 24: log_σ²=0.212070, weight=0.808908
+2025-07-10 22:04:04,150 - INFO - log_σ² gradient: -0.441929
+2025-07-10 22:04:04,221 - INFO - Optimizer step 25: log_σ²=0.212594, weight=0.808484
+2025-07-10 22:04:28,314 - INFO - log_σ² gradient: -0.429217
+2025-07-10 22:04:28,394 - INFO - Optimizer step 26: log_σ²=0.213119, weight=0.808060
+2025-07-10 22:04:52,292 - INFO - log_σ² gradient: -0.430236
+2025-07-10 22:04:52,366 - INFO - Optimizer step 27: log_σ²=0.213645, weight=0.807635
+2025-07-10 22:05:16,665 - INFO - log_σ² gradient: -0.431700
+2025-07-10 22:05:16,744 - INFO - Optimizer step 28: log_σ²=0.214171, weight=0.807210
+2025-07-10 22:05:40,396 - INFO - log_σ² gradient: -0.431682
+2025-07-10 22:05:40,469 - INFO - Optimizer step 29: log_σ²=0.214699, weight=0.806784
+2025-07-10 22:06:03,558 - INFO - log_σ² gradient: -0.430751
+2025-07-10 22:06:03,637 - INFO - Optimizer step 30: log_σ²=0.215227, weight=0.806358
+2025-07-10 22:06:14,415 - INFO - log_σ² gradient: -0.197611
+2025-07-10 22:06:14,489 - INFO - Optimizer step 31: log_σ²=0.215728, weight=0.805955
+2025-07-10 22:06:14,656 - INFO - Epoch 25: Total optimizer steps: 31
+2025-07-10 22:09:32,376 - INFO - Validation metrics:
+2025-07-10 22:09:32,376 - INFO -   Loss: 0.5247
+2025-07-10 22:09:32,376 - INFO -   Average similarity: 0.8787
+2025-07-10 22:09:32,376 - INFO -   Median similarity: 0.9927
+2025-07-10 22:09:32,376 - INFO -   Clean sample similarity: 0.8787
+2025-07-10 22:09:32,376 - INFO -   Corrupted sample similarity: 0.3013
+2025-07-10 22:09:32,376 - INFO -   Similarity gap (clean - corrupt): 0.5775
+2025-07-10 22:09:32,502 - INFO - Epoch 25/30 - Train Loss: 0.5577, Val Loss: 0.5247, Clean Sim: 0.8787, Corrupt Sim: 0.3013, Gap: 0.5775, Time: 976.89s
+2025-07-10 22:09:32,502 - INFO - New best validation loss: 0.5247
+2025-07-10 22:09:38,535 - INFO - New best similarity gap: 0.5775
+2025-07-10 22:10:52,802 - INFO - log_σ² gradient: -0.426334
+2025-07-10 22:10:52,877 - INFO - Optimizer step 1: log_σ²=0.216231, weight=0.805549
+2025-07-10 22:11:17,192 - INFO - log_σ² gradient: -0.422210
+2025-07-10 22:11:17,271 - INFO - Optimizer step 2: log_σ²=0.216737, weight=0.805142
+2025-07-10 22:11:41,349 - INFO - log_σ² gradient: -0.422365
+2025-07-10 22:11:41,417 - INFO - Optimizer step 3: log_σ²=0.217245, weight=0.804733
+2025-07-10 22:12:03,788 - INFO - log_σ² gradient: -0.421572
+2025-07-10 22:12:03,855 - INFO - Optimizer step 4: log_σ²=0.217755, weight=0.804322
+2025-07-10 22:12:27,156 - INFO - log_σ² gradient: -0.422913
+2025-07-10 22:12:27,224 - INFO - Optimizer step 5: log_σ²=0.218267, weight=0.803911
+2025-07-10 22:12:51,662 - INFO - log_σ² gradient: -0.425621
+2025-07-10 22:12:51,728 - INFO - Optimizer step 6: log_σ²=0.218781, weight=0.803497
+2025-07-10 22:13:15,734 - INFO - log_σ² gradient: -0.426530
+2025-07-10 22:13:15,802 - INFO - Optimizer step 7: log_σ²=0.219298, weight=0.803083
+2025-07-10 22:13:39,010 - INFO - log_σ² gradient: -0.425806
+2025-07-10 22:13:39,085 - INFO - Optimizer step 8: log_σ²=0.219816, weight=0.802666
+2025-07-10 22:14:01,667 - INFO - log_σ² gradient: -0.432663
+2025-07-10 22:14:01,742 - INFO - Optimizer step 9: log_σ²=0.220337, weight=0.802248
+2025-07-10 22:14:25,470 - INFO - log_σ² gradient: -0.413550
+2025-07-10 22:14:25,546 - INFO - Optimizer step 10: log_σ²=0.220859, weight=0.801830
+2025-07-10 22:14:48,886 - INFO - log_σ² gradient: -0.419853
+2025-07-10 22:14:48,958 - INFO - Optimizer step 11: log_σ²=0.221381, weight=0.801411
+2025-07-10 22:15:13,301 - INFO - log_σ² gradient: -0.425393
+2025-07-10 22:15:13,373 - INFO - Optimizer step 12: log_σ²=0.221905, weight=0.800991
+2025-07-10 22:15:35,322 - INFO - log_σ² gradient: -0.426195
+2025-07-10 22:15:35,396 - INFO - Optimizer step 13: log_σ²=0.222431, weight=0.800571
+2025-07-10 22:15:58,620 - INFO - log_σ² gradient: -0.421831
+2025-07-10 22:15:58,692 - INFO - Optimizer step 14: log_σ²=0.222957, weight=0.800149
+2025-07-10 22:16:22,931 - INFO - log_σ² gradient: -0.414767
+2025-07-10 22:16:23,005 - INFO - Optimizer step 15: log_σ²=0.223484, weight=0.799728
+2025-07-10 22:16:46,045 - INFO - log_σ² gradient: -0.430506
+2025-07-10 22:16:46,117 - INFO - Optimizer step 16: log_σ²=0.224013, weight=0.799305
+2025-07-10 22:17:11,357 - INFO - log_σ² gradient: -0.423460
+2025-07-10 22:17:11,431 - INFO - Optimizer step 17: log_σ²=0.224543, weight=0.798881
+2025-07-10 22:17:34,600 - INFO - log_σ² gradient: -0.422109
+2025-07-10 22:17:34,675 - INFO - Optimizer step 18: log_σ²=0.225075, weight=0.798457
+2025-07-10 22:17:57,717 - INFO - log_σ² gradient: -0.429039
+2025-07-10 22:17:57,783 - INFO - Optimizer step 19: log_σ²=0.225607, weight=0.798031
+2025-07-10 22:18:22,795 - INFO - log_σ² gradient: -0.426637
+2025-07-10 22:18:22,874 - INFO - Optimizer step 20: log_σ²=0.226142, weight=0.797605
+2025-07-10 22:18:46,314 - INFO - log_σ² gradient: -0.422398
+2025-07-10 22:18:46,385 - INFO - Optimizer step 21: log_σ²=0.226677, weight=0.797178
+2025-07-10 22:19:10,465 - INFO - log_σ² gradient: -0.420785
+2025-07-10 22:19:10,536 - INFO - Optimizer step 22: log_σ²=0.227213, weight=0.796751
+2025-07-10 22:19:33,904 - INFO - log_σ² gradient: -0.421726
+2025-07-10 22:19:33,969 - INFO - Optimizer step 23: log_σ²=0.227749, weight=0.796324
+2025-07-10 22:19:57,720 - INFO - log_σ² gradient: -0.421712
+2025-07-10 22:19:57,792 - INFO - Optimizer step 24: log_σ²=0.228287, weight=0.795896
+2025-07-10 22:20:22,398 - INFO - log_σ² gradient: -0.422968
+2025-07-10 22:20:22,461 - INFO - Optimizer step 25: log_σ²=0.228825, weight=0.795468
+2025-07-10 22:20:46,070 - INFO - log_σ² gradient: -0.420888
+2025-07-10 22:20:46,138 - INFO - Optimizer step 26: log_σ²=0.229364, weight=0.795039
+2025-07-10 22:21:10,197 - INFO - log_σ² gradient: -0.416712
+2025-07-10 22:21:10,275 - INFO - Optimizer step 27: log_σ²=0.229903, weight=0.794611
+2025-07-10 22:21:33,321 - INFO - log_σ² gradient: -0.416728
+2025-07-10 22:21:33,389 - INFO - Optimizer step 28: log_σ²=0.230442, weight=0.794182
+2025-07-10 22:21:59,186 - INFO - log_σ² gradient: -0.417007
+2025-07-10 22:21:59,264 - INFO - Optimizer step 29: log_σ²=0.230982, weight=0.793754
+2025-07-10 22:22:22,987 - INFO - log_σ² gradient: -0.413504
+2025-07-10 22:22:23,060 - INFO - Optimizer step 30: log_σ²=0.231521, weight=0.793326
+2025-07-10 22:22:34,772 - INFO - log_σ² gradient: -0.193922
+2025-07-10 22:22:34,850 - INFO - Optimizer step 31: log_σ²=0.232033, weight=0.792920
+2025-07-10 22:22:35,046 - INFO - Epoch 26: Total optimizer steps: 31
+2025-07-10 22:25:53,226 - INFO - Validation metrics:
+2025-07-10 22:25:53,226 - INFO -   Loss: 0.5252
+2025-07-10 22:25:53,226 - INFO -   Average similarity: 0.8957
+2025-07-10 22:25:53,226 - INFO -   Median similarity: 0.9922
+2025-07-10 22:25:53,226 - INFO -   Clean sample similarity: 0.8957
+2025-07-10 22:25:53,226 - INFO -   Corrupted sample similarity: 0.3398
+2025-07-10 22:25:53,226 - INFO -   Similarity gap (clean - corrupt): 0.5559
+2025-07-10 22:25:53,333 - INFO - Epoch 26/30 - Train Loss: 0.5422, Val Loss: 0.5252, Clean Sim: 0.8957, Corrupt Sim: 0.3398, Gap: 0.5559, Time: 967.97s
+2025-07-10 22:28:30,838 - INFO - Epoch 26 Validation Alignment: Pos=0.147, Neg=0.071, Gap=0.076
+2025-07-10 22:29:39,297 - INFO - log_σ² gradient: -0.419699
+2025-07-10 22:29:39,369 - INFO - Optimizer step 1: log_σ²=0.232548, weight=0.792512
+2025-07-10 22:30:03,206 - INFO - log_σ² gradient: -0.423079
+2025-07-10 22:30:03,286 - INFO - Optimizer step 2: log_σ²=0.233066, weight=0.792101
+2025-07-10 22:30:27,440 - INFO - log_σ² gradient: -0.423107
+2025-07-10 22:30:27,506 - INFO - Optimizer step 3: log_σ²=0.233589, weight=0.791687
+2025-07-10 22:30:51,530 - INFO - log_σ² gradient: -0.419849
+2025-07-10 22:30:51,604 - INFO - Optimizer step 4: log_σ²=0.234114, weight=0.791272
+2025-07-10 22:31:16,836 - INFO - log_σ² gradient: -0.424075
+2025-07-10 22:31:16,909 - INFO - Optimizer step 5: log_σ²=0.234642, weight=0.790854
+2025-07-10 22:31:39,758 - INFO - log_σ² gradient: -0.418975
+2025-07-10 22:31:39,829 - INFO - Optimizer step 6: log_σ²=0.235173, weight=0.790434
+2025-07-10 22:32:04,635 - INFO - log_σ² gradient: -0.412314
+2025-07-10 22:32:04,703 - INFO - Optimizer step 7: log_σ²=0.235705, weight=0.790014
+2025-07-10 22:32:30,238 - INFO - log_σ² gradient: -0.427261
+2025-07-10 22:32:30,309 - INFO - Optimizer step 8: log_σ²=0.236240, weight=0.789591
+2025-07-10 22:32:53,875 - INFO - log_σ² gradient: -0.415846
+2025-07-10 22:32:53,950 - INFO - Optimizer step 9: log_σ²=0.236777, weight=0.789168
+2025-07-10 22:33:19,473 - INFO - log_σ² gradient: -0.417668
+2025-07-10 22:33:19,541 - INFO - Optimizer step 10: log_σ²=0.237315, weight=0.788743
+2025-07-10 22:33:41,706 - INFO - log_σ² gradient: -0.414233
+2025-07-10 22:33:41,780 - INFO - Optimizer step 11: log_σ²=0.237854, weight=0.788318
+2025-07-10 22:34:04,729 - INFO - log_σ² gradient: -0.417848
+2025-07-10 22:34:04,800 - INFO - Optimizer step 12: log_σ²=0.238395, weight=0.787891
+2025-07-10 22:34:29,668 - INFO - log_σ² gradient: -0.415106
+2025-07-10 22:34:29,732 - INFO - Optimizer step 13: log_σ²=0.238937, weight=0.787464
+2025-07-10 22:34:53,844 - INFO - log_σ² gradient: -0.408954
+2025-07-10 22:34:53,923 - INFO - Optimizer step 14: log_σ²=0.239479, weight=0.787038
+2025-07-10 22:35:17,243 - INFO - log_σ² gradient: -0.409812
+2025-07-10 22:35:17,315 - INFO - Optimizer step 15: log_σ²=0.240022, weight=0.786611
+2025-07-10 22:35:39,607 - INFO - log_σ² gradient: -0.421921
+2025-07-10 22:35:39,678 - INFO - Optimizer step 16: log_σ²=0.240567, weight=0.786182
+2025-07-10 22:36:03,717 - INFO - log_σ² gradient: -0.411932
+2025-07-10 22:36:03,783 - INFO - Optimizer step 17: log_σ²=0.241112, weight=0.785753
+2025-07-10 22:36:26,794 - INFO - log_σ² gradient: -0.409461
+2025-07-10 22:36:26,856 - INFO - Optimizer step 18: log_σ²=0.241658, weight=0.785325
+2025-07-10 22:36:51,115 - INFO - log_σ² gradient: -0.414012
+2025-07-10 22:36:51,193 - INFO - Optimizer step 19: log_σ²=0.242205, weight=0.784896
+2025-07-10 22:37:14,801 - INFO - log_σ² gradient: -0.415098
+2025-07-10 22:37:14,868 - INFO - Optimizer step 20: log_σ²=0.242752, weight=0.784466
+2025-07-10 22:37:39,752 - INFO - log_σ² gradient: -0.415714
+2025-07-10 22:37:39,822 - INFO - Optimizer step 21: log_σ²=0.243301, weight=0.784035
+2025-07-10 22:38:03,563 - INFO - log_σ² gradient: -0.421395
+2025-07-10 22:38:03,638 - INFO - Optimizer step 22: log_σ²=0.243852, weight=0.783603
+2025-07-10 22:38:26,892 - INFO - log_σ² gradient: -0.415266
+2025-07-10 22:38:26,960 - INFO - Optimizer step 23: log_σ²=0.244404, weight=0.783171
+2025-07-10 22:38:50,280 - INFO - log_σ² gradient: -0.410478
+2025-07-10 22:38:50,359 - INFO - Optimizer step 24: log_σ²=0.244956, weight=0.782739
+2025-07-10 22:39:14,917 - INFO - log_σ² gradient: -0.412311
+2025-07-10 22:39:14,993 - INFO - Optimizer step 25: log_σ²=0.245509, weight=0.782306
+2025-07-10 22:39:40,568 - INFO - log_σ² gradient: -0.415902
+2025-07-10 22:39:40,640 - INFO - Optimizer step 26: log_σ²=0.246063, weight=0.781873
+2025-07-10 22:40:03,752 - INFO - log_σ² gradient: -0.399741
+2025-07-10 22:40:03,826 - INFO - Optimizer step 27: log_σ²=0.246615, weight=0.781441
+2025-07-10 22:40:27,799 - INFO - log_σ² gradient: -0.413292
+2025-07-10 22:40:27,871 - INFO - Optimizer step 28: log_σ²=0.247169, weight=0.781009
+2025-07-10 22:40:52,940 - INFO - log_σ² gradient: -0.417621
+2025-07-10 22:40:53,007 - INFO - Optimizer step 29: log_σ²=0.247724, weight=0.780575
+2025-07-10 22:41:16,478 - INFO - log_σ² gradient: -0.413058
+2025-07-10 22:41:16,549 - INFO - Optimizer step 30: log_σ²=0.248280, weight=0.780141
+2025-07-10 22:41:28,642 - INFO - log_σ² gradient: -0.188966
+2025-07-10 22:41:28,718 - INFO - Optimizer step 31: log_σ²=0.248807, weight=0.779731
+2025-07-10 22:41:28,873 - INFO - Epoch 27: Total optimizer steps: 31
+2025-07-10 22:44:47,067 - INFO - Validation metrics:
+2025-07-10 22:44:47,067 - INFO -   Loss: 0.5085
+2025-07-10 22:44:47,067 - INFO -   Average similarity: 0.8074
+2025-07-10 22:44:47,067 - INFO -   Median similarity: 0.9717
+2025-07-10 22:44:47,067 - INFO -   Clean sample similarity: 0.8074
+2025-07-10 22:44:47,067 - INFO -   Corrupted sample similarity: 0.2591
+2025-07-10 22:44:47,067 - INFO -   Similarity gap (clean - corrupt): 0.5483
+2025-07-10 22:44:47,189 - INFO - Epoch 27/30 - Train Loss: 0.5337, Val Loss: 0.5085, Clean Sim: 0.8074, Corrupt Sim: 0.2591, Gap: 0.5483, Time: 976.35s
+2025-07-10 22:44:47,189 - INFO - New best validation loss: 0.5085
+2025-07-10 22:46:01,561 - INFO - log_σ² gradient: -0.413667
+2025-07-10 22:46:01,633 - INFO - Optimizer step 1: log_σ²=0.249337, weight=0.779317
+2025-07-10 22:46:26,250 - INFO - log_σ² gradient: -0.414822
+2025-07-10 22:46:26,318 - INFO - Optimizer step 2: log_σ²=0.249872, weight=0.778901
+2025-07-10 22:46:50,314 - INFO - log_σ² gradient: -0.411625
+2025-07-10 22:46:50,387 - INFO - Optimizer step 3: log_σ²=0.250409, weight=0.778482
+2025-07-10 22:47:14,253 - INFO - log_σ² gradient: -0.412753
+2025-07-10 22:47:14,317 - INFO - Optimizer step 4: log_σ²=0.250949, weight=0.778062
+2025-07-10 22:47:38,995 - INFO - log_σ² gradient: -0.414952
+2025-07-10 22:47:39,082 - INFO - Optimizer step 5: log_σ²=0.251492, weight=0.777639
+2025-07-10 22:48:00,996 - INFO - log_σ² gradient: -0.405456
+2025-07-10 22:48:01,066 - INFO - Optimizer step 6: log_σ²=0.252037, weight=0.777216
+2025-07-10 22:48:24,953 - INFO - log_σ² gradient: -0.415193
+2025-07-10 22:48:25,025 - INFO - Optimizer step 7: log_σ²=0.252585, weight=0.776790
+2025-07-10 22:48:46,327 - INFO - log_σ² gradient: -0.403567
+2025-07-10 22:48:46,399 - INFO - Optimizer step 8: log_σ²=0.253133, weight=0.776364
+2025-07-10 22:49:11,613 - INFO - log_σ² gradient: -0.413557
+2025-07-10 22:49:11,687 - INFO - Optimizer step 9: log_σ²=0.253684, weight=0.775937
+2025-07-10 22:49:36,078 - INFO - log_σ² gradient: -0.420608
+2025-07-10 22:49:36,149 - INFO - Optimizer step 10: log_σ²=0.254238, weight=0.775507
+2025-07-10 22:49:59,794 - INFO - log_σ² gradient: -0.404697
+2025-07-10 22:49:59,866 - INFO - Optimizer step 11: log_σ²=0.254793, weight=0.775077
+2025-07-10 22:50:23,531 - INFO - log_σ² gradient: -0.414637
+2025-07-10 22:50:23,613 - INFO - Optimizer step 12: log_σ²=0.255350, weight=0.774645
+2025-07-10 22:50:47,454 - INFO - log_σ² gradient: -0.409827
+2025-07-10 22:50:47,524 - INFO - Optimizer step 13: log_σ²=0.255909, weight=0.774213
+2025-07-10 22:51:12,696 - INFO - log_σ² gradient: -0.409518
+2025-07-10 22:51:12,770 - INFO - Optimizer step 14: log_σ²=0.256468, weight=0.773780
+2025-07-10 22:51:36,679 - INFO - log_σ² gradient: -0.408953
+2025-07-10 22:51:36,755 - INFO - Optimizer step 15: log_σ²=0.257029, weight=0.773346
+2025-07-10 22:52:00,545 - INFO - log_σ² gradient: -0.411743
+2025-07-10 22:52:00,619 - INFO - Optimizer step 16: log_σ²=0.257591, weight=0.772911
+2025-07-10 22:52:24,659 - INFO - log_σ² gradient: -0.409812
+2025-07-10 22:52:24,723 - INFO - Optimizer step 17: log_σ²=0.258154, weight=0.772476
+2025-07-10 22:52:49,687 - INFO - log_σ² gradient: -0.406604
+2025-07-10 22:52:49,763 - INFO - Optimizer step 18: log_σ²=0.258718, weight=0.772040
+2025-07-10 22:53:12,344 - INFO - log_σ² gradient: -0.405698
+2025-07-10 22:53:12,415 - INFO - Optimizer step 19: log_σ²=0.259283, weight=0.771605
+2025-07-10 22:53:37,019 - INFO - log_σ² gradient: -0.410662
+2025-07-10 22:53:37,093 - INFO - Optimizer step 20: log_σ²=0.259849, weight=0.771168
+2025-07-10 22:54:01,524 - INFO - log_σ² gradient: -0.408365
+2025-07-10 22:54:01,602 - INFO - Optimizer step 21: log_σ²=0.260415, weight=0.770732
+2025-07-10 22:54:26,778 - INFO - log_σ² gradient: -0.404820
+2025-07-10 22:54:26,853 - INFO - Optimizer step 22: log_σ²=0.260982, weight=0.770295
+2025-07-10 22:54:49,769 - INFO - log_σ² gradient: -0.401714
+2025-07-10 22:54:49,836 - INFO - Optimizer step 23: log_σ²=0.261549, weight=0.769858
+2025-07-10 22:55:14,530 - INFO - log_σ² gradient: -0.409264
+2025-07-10 22:55:14,604 - INFO - Optimizer step 24: log_σ²=0.262118, weight=0.769421
+2025-07-10 22:55:37,537 - INFO - log_σ² gradient: -0.408126
+2025-07-10 22:55:37,612 - INFO - Optimizer step 25: log_σ²=0.262687, weight=0.768983
+2025-07-10 22:56:02,423 - INFO - log_σ² gradient: -0.399906
+2025-07-10 22:56:02,494 - INFO - Optimizer step 26: log_σ²=0.263256, weight=0.768545
+2025-07-10 22:56:26,536 - INFO - log_σ² gradient: -0.402494
+2025-07-10 22:56:26,600 - INFO - Optimizer step 27: log_σ²=0.263825, weight=0.768108
+2025-07-10 22:56:50,711 - INFO - log_σ² gradient: -0.400197
+2025-07-10 22:56:50,785 - INFO - Optimizer step 28: log_σ²=0.264394, weight=0.767671
+2025-07-10 22:57:14,679 - INFO - log_σ² gradient: -0.405515
+2025-07-10 22:57:14,758 - INFO - Optimizer step 29: log_σ²=0.264964, weight=0.767233
+2025-07-10 22:57:37,002 - INFO - log_σ² gradient: -0.410242
+2025-07-10 22:57:37,080 - INFO - Optimizer step 30: log_σ²=0.265536, weight=0.766795
+2025-07-10 22:57:48,581 - INFO - log_σ² gradient: -0.183440
+2025-07-10 22:57:48,660 - INFO - Optimizer step 31: log_σ²=0.266077, weight=0.766380
+2025-07-10 22:57:48,834 - INFO - Epoch 28: Total optimizer steps: 31
+2025-07-10 23:01:06,110 - INFO - Validation metrics:
+2025-07-10 23:01:06,110 - INFO -   Loss: 0.5027
+2025-07-10 23:01:06,110 - INFO -   Average similarity: 0.7844
+2025-07-10 23:01:06,110 - INFO -   Median similarity: 0.9843
+2025-07-10 23:01:06,110 - INFO -   Clean sample similarity: 0.7844
+2025-07-10 23:01:06,110 - INFO -   Corrupted sample similarity: 0.2361
+2025-07-10 23:01:06,110 - INFO -   Similarity gap (clean - corrupt): 0.5483
+2025-07-10 23:01:06,230 - INFO - Epoch 28/30 - Train Loss: 0.5293, Val Loss: 0.5027, Clean Sim: 0.7844, Corrupt Sim: 0.2361, Gap: 0.5483, Time: 973.04s
+2025-07-10 23:01:06,231 - INFO - New best validation loss: 0.5027
+2025-07-10 23:03:51,526 - INFO - Epoch 28 Validation Alignment: Pos=0.135, Neg=0.064, Gap=0.071
+2025-07-10 23:04:57,093 - INFO - log_σ² gradient: -0.408042
+2025-07-10 23:04:57,172 - INFO - Optimizer step 1: log_σ²=0.266622, weight=0.765962
+2025-07-10 23:05:21,290 - INFO - log_σ² gradient: -0.405703
+2025-07-10 23:05:21,361 - INFO - Optimizer step 2: log_σ²=0.267171, weight=0.765542
+2025-07-10 23:05:45,924 - INFO - log_σ² gradient: -0.411940
+2025-07-10 23:05:45,995 - INFO - Optimizer step 3: log_σ²=0.267724, weight=0.765119
+2025-07-10 23:06:10,965 - INFO - log_σ² gradient: -0.397752
+2025-07-10 23:06:11,041 - INFO - Optimizer step 4: log_σ²=0.268279, weight=0.764694
+2025-07-10 23:06:34,876 - INFO - log_σ² gradient: -0.398251
+2025-07-10 23:06:34,950 - INFO - Optimizer step 5: log_σ²=0.268836, weight=0.764269
+2025-07-10 23:06:58,233 - INFO - log_σ² gradient: -0.401476
+2025-07-10 23:06:58,305 - INFO - Optimizer step 6: log_σ²=0.269395, weight=0.763842
+2025-07-10 23:07:21,635 - INFO - log_σ² gradient: -0.399305
+2025-07-10 23:07:21,709 - INFO - Optimizer step 7: log_σ²=0.269955, weight=0.763414
+2025-07-10 23:07:46,001 - INFO - log_σ² gradient: -0.402837
+2025-07-10 23:07:46,079 - INFO - Optimizer step 8: log_σ²=0.270518, weight=0.762984
+2025-07-10 23:08:09,267 - INFO - log_σ² gradient: -0.394636
+2025-07-10 23:08:09,345 - INFO - Optimizer step 9: log_σ²=0.271081, weight=0.762555
+2025-07-10 23:08:33,227 - INFO - log_σ² gradient: -0.405319
+2025-07-10 23:08:33,295 - INFO - Optimizer step 10: log_σ²=0.271647, weight=0.762123
+2025-07-10 23:08:58,537 - INFO - log_σ² gradient: -0.397017
+2025-07-10 23:08:58,608 - INFO - Optimizer step 11: log_σ²=0.272214, weight=0.761691
+2025-07-10 23:09:22,874 - INFO - log_σ² gradient: -0.400395
+2025-07-10 23:09:22,948 - INFO - Optimizer step 12: log_σ²=0.272782, weight=0.761259
+2025-07-10 23:09:47,101 - INFO - log_σ² gradient: -0.398416
+2025-07-10 23:09:47,177 - INFO - Optimizer step 13: log_σ²=0.273352, weight=0.760825
+2025-07-10 23:10:11,896 - INFO - log_σ² gradient: -0.401500
+2025-07-10 23:10:11,975 - INFO - Optimizer step 14: log_σ²=0.273923, weight=0.760391
+2025-07-10 23:10:36,727 - INFO - log_σ² gradient: -0.404077
+2025-07-10 23:10:36,801 - INFO - Optimizer step 15: log_σ²=0.274495, weight=0.759955
+2025-07-10 23:11:00,123 - INFO - log_σ² gradient: -0.402971
+2025-07-10 23:11:00,194 - INFO - Optimizer step 16: log_σ²=0.275070, weight=0.759519
+2025-07-10 23:11:27,722 - INFO - log_σ² gradient: -0.399028
+2025-07-10 23:11:27,801 - INFO - Optimizer step 17: log_σ²=0.275645, weight=0.759082
+2025-07-10 23:11:49,967 - INFO - log_σ² gradient: -0.402856
+2025-07-10 23:11:50,041 - INFO - Optimizer step 18: log_σ²=0.276222, weight=0.758645
+2025-07-10 23:12:14,614 - INFO - log_σ² gradient: -0.392941
+2025-07-10 23:12:14,685 - INFO - Optimizer step 19: log_σ²=0.276799, weight=0.758207
+2025-07-10 23:12:39,173 - INFO - log_σ² gradient: -0.398856
+2025-07-10 23:12:39,256 - INFO - Optimizer step 20: log_σ²=0.277377, weight=0.757769
+2025-07-10 23:13:00,447 - INFO - log_σ² gradient: -0.401482
+2025-07-10 23:13:00,517 - INFO - Optimizer step 21: log_σ²=0.277956, weight=0.757331
+2025-07-10 23:13:24,180 - INFO - log_σ² gradient: -0.397162
+2025-07-10 23:13:24,251 - INFO - Optimizer step 22: log_σ²=0.278535, weight=0.756892
+2025-07-10 23:13:47,745 - INFO - log_σ² gradient: -0.408184
+2025-07-10 23:13:47,819 - INFO - Optimizer step 23: log_σ²=0.279117, weight=0.756451
+2025-07-10 23:14:12,334 - INFO - log_σ² gradient: -0.400418
+2025-07-10 23:14:12,408 - INFO - Optimizer step 24: log_σ²=0.279700, weight=0.756011
+2025-07-10 23:14:36,117 - INFO - log_σ² gradient: -0.394485
+2025-07-10 23:14:36,192 - INFO - Optimizer step 25: log_σ²=0.280283, weight=0.755570
+2025-07-10 23:15:01,822 - INFO - log_σ² gradient: -0.397468
+2025-07-10 23:15:01,901 - INFO - Optimizer step 26: log_σ²=0.280866, weight=0.755129
+2025-07-10 23:15:25,148 - INFO - log_σ² gradient: -0.398808
+2025-07-10 23:15:25,227 - INFO - Optimizer step 27: log_σ²=0.281450, weight=0.754688
+2025-07-10 23:15:48,647 - INFO - log_σ² gradient: -0.405459
+2025-07-10 23:15:48,721 - INFO - Optimizer step 28: log_σ²=0.282036, weight=0.754246
+2025-07-10 23:16:13,667 - INFO - log_σ² gradient: -0.396640
+2025-07-10 23:16:13,743 - INFO - Optimizer step 29: log_σ²=0.282623, weight=0.753804
+2025-07-10 23:16:36,361 - INFO - log_σ² gradient: -0.400180
+2025-07-10 23:16:36,433 - INFO - Optimizer step 30: log_σ²=0.283210, weight=0.753361
+2025-07-10 23:16:47,095 - INFO - log_σ² gradient: -0.178048
+2025-07-10 23:16:47,163 - INFO - Optimizer step 31: log_σ²=0.283766, weight=0.752943
+2025-07-10 23:16:47,332 - INFO - Epoch 29: Total optimizer steps: 31
+2025-07-10 23:20:04,739 - INFO - Validation metrics:
+2025-07-10 23:20:04,739 - INFO -   Loss: 0.4967
+2025-07-10 23:20:04,739 - INFO -   Average similarity: 0.8746
+2025-07-10 23:20:04,739 - INFO -   Median similarity: 0.9826
+2025-07-10 23:20:04,739 - INFO -   Clean sample similarity: 0.8746
+2025-07-10 23:20:04,739 - INFO -   Corrupted sample similarity: 0.3010
+2025-07-10 23:20:04,739 - INFO -   Similarity gap (clean - corrupt): 0.5735
+2025-07-10 23:20:04,847 - INFO - Epoch 29/30 - Train Loss: 0.5201, Val Loss: 0.4967, Clean Sim: 0.8746, Corrupt Sim: 0.3010, Gap: 0.5735, Time: 973.32s
+2025-07-10 23:20:04,848 - INFO - New best validation loss: 0.4967
+2025-07-10 23:21:17,901 - INFO - log_σ² gradient: -0.389742
+2025-07-10 23:21:17,972 - INFO - Optimizer step 1: log_σ²=0.284324, weight=0.752522
+2025-07-10 23:21:42,724 - INFO - log_σ² gradient: -0.399307
+2025-07-10 23:21:42,792 - INFO - Optimizer step 2: log_σ²=0.284887, weight=0.752099
+2025-07-10 23:22:06,044 - INFO - log_σ² gradient: -0.396182
+2025-07-10 23:22:06,120 - INFO - Optimizer step 3: log_σ²=0.285452, weight=0.751674
+2025-07-10 23:22:29,873 - INFO - log_σ² gradient: -0.387181
+2025-07-10 23:22:29,938 - INFO - Optimizer step 4: log_σ²=0.286019, weight=0.751248
+2025-07-10 23:22:54,343 - INFO - log_σ² gradient: -0.397746
+2025-07-10 23:22:54,417 - INFO - Optimizer step 5: log_σ²=0.286589, weight=0.750820
+2025-07-10 23:23:19,766 - INFO - log_σ² gradient: -0.393937
+2025-07-10 23:23:19,841 - INFO - Optimizer step 6: log_σ²=0.287161, weight=0.750391
+2025-07-10 23:23:43,357 - INFO - log_σ² gradient: -0.396711
+2025-07-10 23:23:43,434 - INFO - Optimizer step 7: log_σ²=0.287736, weight=0.749959
+2025-07-10 23:24:07,571 - INFO - log_σ² gradient: -0.393242
+2025-07-10 23:24:07,637 - INFO - Optimizer step 8: log_σ²=0.288313, weight=0.749527
+2025-07-10 23:24:33,730 - INFO - log_σ² gradient: -0.392161
+2025-07-10 23:24:33,806 - INFO - Optimizer step 9: log_σ²=0.288891, weight=0.749094
+2025-07-10 23:24:56,691 - INFO - log_σ² gradient: -0.400291
+2025-07-10 23:24:56,767 - INFO - Optimizer step 10: log_σ²=0.289472, weight=0.748659
+2025-07-10 23:25:21,262 - INFO - log_σ² gradient: -0.399264
+2025-07-10 23:25:21,338 - INFO - Optimizer step 11: log_σ²=0.290055, weight=0.748222
+2025-07-10 23:25:45,648 - INFO - log_σ² gradient: -0.390364
+2025-07-10 23:25:45,719 - INFO - Optimizer step 12: log_σ²=0.290639, weight=0.747785
+2025-07-10 23:26:07,150 - INFO - log_σ² gradient: -0.394739
+2025-07-10 23:26:07,226 - INFO - Optimizer step 13: log_σ²=0.291225, weight=0.747347
+2025-07-10 23:26:30,172 - INFO - log_σ² gradient: -0.379849
+2025-07-10 23:26:30,244 - INFO - Optimizer step 14: log_σ²=0.291810, weight=0.746910
+2025-07-10 23:26:53,634 - INFO - log_σ² gradient: -0.394951
+2025-07-10 23:26:53,710 - INFO - Optimizer step 15: log_σ²=0.292397, weight=0.746472
+2025-07-10 23:27:17,927 - INFO - log_σ² gradient: -0.396081
+2025-07-10 23:27:18,006 - INFO - Optimizer step 16: log_σ²=0.292985, weight=0.746033
+2025-07-10 23:27:42,022 - INFO - log_σ² gradient: -0.389301
+2025-07-10 23:27:42,094 - INFO - Optimizer step 17: log_σ²=0.293574, weight=0.745594
+2025-07-10 23:28:05,756 - INFO - log_σ² gradient: -0.393791
+2025-07-10 23:28:05,823 - INFO - Optimizer step 18: log_σ²=0.294164, weight=0.745154
+2025-07-10 23:28:29,491 - INFO - log_σ² gradient: -0.394413
+2025-07-10 23:28:29,564 - INFO - Optimizer step 19: log_σ²=0.294756, weight=0.744713
+2025-07-10 23:28:54,059 - INFO - log_σ² gradient: -0.397074
+2025-07-10 23:28:54,131 - INFO - Optimizer step 20: log_σ²=0.295349, weight=0.744272
+2025-07-10 23:29:17,555 - INFO - log_σ² gradient: -0.389693
+2025-07-10 23:29:17,627 - INFO - Optimizer step 21: log_σ²=0.295943, weight=0.743830
+2025-07-10 23:29:42,099 - INFO - log_σ² gradient: -0.386676
+2025-07-10 23:29:42,178 - INFO - Optimizer step 22: log_σ²=0.296537, weight=0.743388
+2025-07-10 23:30:06,197 - INFO - log_σ² gradient: -0.387596
+2025-07-10 23:30:06,276 - INFO - Optimizer step 23: log_σ²=0.297131, weight=0.742947
+2025-07-10 23:30:29,953 - INFO - log_σ² gradient: -0.390319
+2025-07-10 23:30:30,026 - INFO - Optimizer step 24: log_σ²=0.297726, weight=0.742505
+2025-07-10 23:30:54,176 - INFO - log_σ² gradient: -0.382272
+2025-07-10 23:30:54,251 - INFO - Optimizer step 25: log_σ²=0.298321, weight=0.742063
+2025-07-10 23:31:18,783 - INFO - log_σ² gradient: -0.386564
+2025-07-10 23:31:18,855 - INFO - Optimizer step 26: log_σ²=0.298916, weight=0.741622
+2025-07-10 23:31:42,945 - INFO - log_σ² gradient: -0.382704
+2025-07-10 23:31:43,010 - INFO - Optimizer step 27: log_σ²=0.299510, weight=0.741181
+2025-07-10 23:32:06,687 - INFO - log_σ² gradient: -0.391649
+2025-07-10 23:32:06,763 - INFO - Optimizer step 28: log_σ²=0.300106, weight=0.740739
+2025-07-10 23:32:31,419 - INFO - log_σ² gradient: -0.389508
+2025-07-10 23:32:31,494 - INFO - Optimizer step 29: log_σ²=0.300703, weight=0.740298
+2025-07-10 23:32:53,051 - INFO - log_σ² gradient: -0.387492
+2025-07-10 23:32:53,123 - INFO - Optimizer step 30: log_σ²=0.301300, weight=0.739855
+2025-07-10 23:33:04,061 - INFO - log_σ² gradient: -0.182172
+2025-07-10 23:33:04,129 - INFO - Optimizer step 31: log_σ²=0.301867, weight=0.739436
+2025-07-10 23:33:04,294 - INFO - Epoch 30: Total optimizer steps: 31
+2025-07-10 23:36:22,351 - INFO - Validation metrics:
+2025-07-10 23:36:22,351 - INFO -   Loss: 0.4777
+2025-07-10 23:36:22,351 - INFO -   Average similarity: 0.7371
+2025-07-10 23:36:22,352 - INFO -   Median similarity: 0.9539
+2025-07-10 23:36:22,352 - INFO -   Clean sample similarity: 0.7371
+2025-07-10 23:36:22,352 - INFO -   Corrupted sample similarity: 0.2115
+2025-07-10 23:36:22,352 - INFO -   Similarity gap (clean - corrupt): 0.5256
+2025-07-10 23:36:22,477 - INFO - Epoch 30/30 - Train Loss: 0.5073, Val Loss: 0.4777, Clean Sim: 0.7371, Corrupt Sim: 0.2115, Gap: 0.5256, Time: 971.64s
+2025-07-10 23:36:22,477 - INFO - New best validation loss: 0.4777
+2025-07-10 23:39:11,943 - INFO - Epoch 30 Validation Alignment: Pos=0.145, Neg=0.068, Gap=0.077
+2025-07-10 23:39:11,943 - INFO - Training completed!
+2025-07-10 23:39:17,631 - INFO - Evaluating best models on test set...
+2025-07-10 23:39:21,161 - INFO - Loaded best loss model from epoch 30
+2025-07-10 23:42:56,776 - INFO - Test (Best Loss) metrics:
+2025-07-10 23:42:56,776 - INFO -   Loss: 0.4783
+2025-07-10 23:42:56,776 - INFO -   Average similarity: 0.7342
+2025-07-10 23:42:56,776 - INFO -   Median similarity: 0.9554
+2025-07-10 23:42:56,776 - INFO -   Clean sample similarity: 0.7342
+2025-07-10 23:42:56,776 - INFO -   Corrupted sample similarity: 0.2117
+2025-07-10 23:42:56,776 - INFO -   Similarity gap (clean - corrupt): 0.5226
+2025-07-10 23:46:02,047 - INFO - Loaded best gap model from epoch 25
+2025-07-10 23:49:31,744 - INFO - Test (Best Gap) metrics:
+2025-07-10 23:49:31,744 - INFO -   Loss: 0.4949
+2025-07-10 23:49:31,744 - INFO -   Average similarity: 0.8834
+2025-07-10 23:49:31,744 - INFO -   Median similarity: 0.9939
+2025-07-10 23:49:31,744 - INFO -   Clean sample similarity: 0.8834
+2025-07-10 23:49:31,744 - INFO -   Corrupted sample similarity: 0.3090
+2025-07-10 23:49:31,744 - INFO -   Similarity gap (clean - corrupt): 0.5744
+2025-07-10 23:52:25,093 - INFO - Evaluation completed!
+2025-07-10 23:52:25,093 - INFO - Test results for best_loss_model:
+2025-07-10 23:52:25,093 - INFO -   Loss: 0.4783
+2025-07-10 23:52:25,093 - INFO -   Clean Sample Similarity: 0.7342
+2025-07-10 23:52:25,093 - INFO -   Corrupted Sample Similarity: 0.2117
+2025-07-10 23:52:25,093 - INFO -   Similarity Gap: 0.5226
+2025-07-10 23:52:25,093 - INFO - Test results for best_gap_model:
+2025-07-10 23:52:25,093 - INFO -   Loss: 0.4949
+2025-07-10 23:52:25,093 - INFO -   Clean Sample Similarity: 0.8834
+2025-07-10 23:52:25,093 - INFO -   Corrupted Sample Similarity: 0.3090
+2025-07-10 23:52:25,093 - INFO -   Similarity Gap: 0.5744
+2025-07-10 23:52:25,373 - INFO - All tasks completed!

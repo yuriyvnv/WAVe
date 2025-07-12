@@ -24,7 +24,10 @@ rm get-pip.py
 
 pip install vastai
 # 4. Install UV Package Manager
+<<<<<<< HEAD
+=======
 pip install vastai
+>>>>>>> main
 echo -e "\n[4/9] Installing UV package manager..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source $HOME/.local/bin/env
@@ -40,12 +43,17 @@ uv pip install --system \
     datasets>=3.6.0 \
     librosa==0.10.1 \
 <<<<<<< HEAD
+    matplotlib \
+    numpy \
+=======
+<<<<<<< HEAD
     matplotlib>=3.10.3 \
     numpy==2.0 \
 =======
     matplotlib \
     numpy \
 >>>>>>> 13dc2ffc0ae6f7b9351b566570ae276eb2d06626
+>>>>>>> main
     dotenv \
     setuptools==77.0.1 \
     soundfile==0.12.1 \
@@ -71,9 +79,13 @@ echo "Please login to HuggingFace:"
 huggingface-cli login
 
 <<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
 =======
 
 >>>>>>> 13dc2ffc0ae6f7b9351b566570ae276eb2d06626
+>>>>>>> main
 
 echo -e "\n======================================"
 echo "Setup Complete!"

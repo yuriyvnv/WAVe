@@ -49,8 +49,8 @@ def run_cv_inference(num_samples=10):
     # Extract model configuration from checkpoint
     epoch = checkpoint.get("epoch", "unknown")
     val_loss = checkpoint.get("val_loss", "unknown") 
-    temperature = checkpoint.get("temperature", 0.07)
-    projection_dim = checkpoint.get("projection_dim", 1024)
+    temperature = checkpoint.get("temperature", 0.1)
+
     
     # Check the state_dict for clues about model configuration
     state_dict = checkpoint["model_state_dict"]
