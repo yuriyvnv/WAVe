@@ -34,7 +34,7 @@ model = EnhancedAudioTextModel(
     projection_dim=checkpoint.get('projection_dim', 768),
     use_cross_modal=checkpoint.get('use_cross_modal', False),
     use_attentive_pooling=checkpoint.get('use_attentive_pooling', False),
-    use_word_alignment=checkpoint.get('use_word_alignment', True),
+    use_word_alignment=checkpoint.get('use_word_alignment', False),
     freeze_encoders="none"
 )
 
