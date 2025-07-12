@@ -1358,7 +1358,11 @@ def evaluate(model,
                          for k, v in batch.items()}
 
                 # Run forward pass with both positive and negative examples
+<<<<<<< HEAD
                 autocast_ctx = torch.amp.autocast(device_type='cuda') if fp16 else torch.amp.autocast("cuda",enabled=False)
+=======
+                autocast_ctx = torch.amp.autocast('cuda') if fp16 else torch.amp.autocast("cuda", enabled=False)
+>>>>>>> main
                 with autocast_ctx:
                     # Use compute_pos_neg_embeddings to get embeddings - same as in training
                     txt_pos_emb, txt_neg_emb, aud_emb = EnhancedAudioTextModel.compute_pos_neg_embeddings(model, batch)

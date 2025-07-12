@@ -6,16 +6,28 @@
 # Exit on error
 set -e
 
-
 # Default values
 DATA_DIR="./common_voice_data"
+<<<<<<< HEAD
 OUTPUT_DIR="./3_alignment_MHGLU_twoWay_loss"
+=======
+<<<<<<< HEAD
+OUTPUT_DIR="./3_layers_wt_alignment_correct_loss"
+=======
+OUTPUT_DIR="./3layers_wt_alignment_correct_loss"
+>>>>>>> 13dc2ffc0ae6f7b9351b566570ae276eb2d06626
+>>>>>>> main
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
 BATCH_SIZE=48 # 35*76 = 760 with accumulation steps
+<<<<<<< HEAD
 NUM_EPOCHS=30
 LEARNING_RATE=0.0008
+=======
+NUM_EPOCHS=1
+LEARNING_RATE=2.1e-3
+>>>>>>> main
 WEIGHT_DECAY=0.01
 TEMPERATURE=0.1
 MAX_TEXT_LENGTH=128
@@ -29,10 +41,10 @@ FP16_FLAG="--no_fp16"
 FREEZE_STRATEGY="partial"  # New: default to partial freezing
 TEXT_LAYERS_TO_UNFREEZE=3  # New: default unfreezing 3 text layers
 AUDIO_LAYERS_TO_UNFREEZE=3 # New: default unfreezing 3 audio layers
+USE_WORD_ALIGNMENT=TRUE    # New: TRUE or FALSE for word alignment
 DEBUG_FLAG=""
 BUCKET_FLAG=""
 VALIDATE_GRADIENTS_FLAG=""
-NO_WORD_ALIGNMENT_FLAG=""  # New: word alignment flag
 
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
@@ -113,11 +125,20 @@ while [[ $# -gt 0 ]]; do
       AUDIO_LAYERS_TO_UNFREEZE="$2"
       shift 2
       ;;
-    --no_word_alignment)
-      NO_WORD_ALIGNMENT_FLAG="--no_word_alignment"
-      # Update output directory name to reflect no alignment
-      OUTPUT_DIR=$(echo "$OUTPUT_DIR" | sed 's/wt_alignment/wo_alignment/g')
-      shift
+    --use_word_alignment)
+      USE_WORD_ALIGNMENT="$2"
+      # Validate TRUE/FALSE
+      if [[ "$USE_WORD_ALIGNMENT" != "TRUE" && "$USE_WORD_ALIGNMENT" != "FALSE" ]]; then
+        echo "Error: --use_word_alignment must be TRUE or FALSE"
+        exit 1
+      fi
+      # Update output directory name based on alignment
+      if [[ "$USE_WORD_ALIGNMENT" == "FALSE" ]]; then
+        OUTPUT_DIR=$(echo "$OUTPUT_DIR" | sed 's/wt_alignment/wo_alignment/g')
+      else
+        OUTPUT_DIR=$(echo "$OUTPUT_DIR" | sed 's/wo_alignment/wt_alignment/g')
+      fi
+      shift 2
       ;;
     --bucket)
       BUCKET_FLAG="--bucket"
@@ -165,15 +186,21 @@ while [[ $# -gt 0 ]]; do
       echo "  --audio_layers_to_unfreeze N      Number of audio encoder layers to unfreeze for partial freezing (default: $AUDIO_LAYERS_TO_UNFREEZE)"
       echo ""
       echo "Training Optimizations:"
+      echo "  --use_word_alignment TRUE/FALSE   Enable/disable word-level alignment (default: $USE_WORD_ALIGNMENT)"
       echo "  --bucket                Enable length-based bucketing for efficiency"
       echo "  --no_fp16               Disable mixed precision training"
       echo "  --debug                 Enable debug logging"
       echo "  --validate_gradients    Run gradient accumulation validation only (no training)"
-      echo "  --no_word_alignment     Disable word-level alignment (changes output dir to wo_alignment)"
       echo ""
       echo "Examples:"
-      echo "  # Default partial unfreezing (recommended)"
+      echo "  # Default partial unfreezing with word alignment"
       echo "  $0"
+      echo ""
+      echo "  # Disable word alignment"
+      echo "  $0 --use_word_alignment FALSE"
+      echo ""
+      echo "  # Enable word alignment with custom settings"
+      echo "  $0 --use_word_alignment TRUE --freeze_encoders partial"
       echo ""
       echo "  # Partial unfreezing with custom layer counts"
       echo "  $0 --freeze_encoders partial --text_layers_to_unfreeze 5 --audio_layers_to_unfreeze 4"
@@ -187,9 +214,6 @@ while [[ $# -gt 0 ]]; do
       echo "  # High learning rate with partial unfreezing"
       echo "  $0 --learning_rate 1e-4 --freeze_encoders partial --text_layers_to_unfreeze 2"
       echo ""
-      echo "  # Training without word alignment"
-      echo "  $0 --no_word_alignment"
-      echo ""
       echo "  # Validate gradient accumulation setup"
       echo "  $0 --validate_gradients --acc_steps 8"
       echo ""
@@ -199,7 +223,7 @@ while [[ $# -gt 0 ]]; do
       echo "  - Use 'full' freezing for fastest training, 'partial' for best performance"
       echo "  - Gradient accumulation is properly implemented with correct scheduler timing"
       echo "  - Use --validate_gradients to test gradient accumulation setup before training"
-      echo "  - Word alignment is enabled by default, use --no_word_alignment to disable"
+      echo "  - Word alignment is enabled by default (TRUE), use --use_word_alignment FALSE to disable"
       exit 0
       ;;
     *)
@@ -268,7 +292,7 @@ echo "  Max audio length:       $MAX_AUDIO_LEN samples ($( echo "scale=1; $MAX_A
 echo "  Random seed:            $SEED"
 echo "  Mixed precision:        $([ "$FP16_FLAG" = "--no_fp16" ] && echo "Disabled" || echo "Enabled")"
 echo "  Length bucketing:       $([ -n "$BUCKET_FLAG" ] && echo "Enabled" || echo "Disabled")"
-echo "  Word alignment:         $([ -n "$NO_WORD_ALIGNMENT_FLAG" ] && echo "DISABLED" || echo "ENABLED")"
+echo "  Word alignment:         $USE_WORD_ALIGNMENT"
 echo "  Debug logging:          $([ -n "$DEBUG_FLAG" ] && echo "Enabled" || echo "Disabled")"
 echo "================================================================"
 echo ""
@@ -314,9 +338,12 @@ if [ -n "$VALIDATE_GRADIENTS_FLAG" ]; then
   CMD+=" $VALIDATE_GRADIENTS_FLAG"
 fi
 
-if [ -n "$NO_WORD_ALIGNMENT_FLAG" ]; then
-  CMD+=" $NO_WORD_ALIGNMENT_FLAG"
+# Handle word alignment flag based on TRUE/FALSE
+if [[ "$USE_WORD_ALIGNMENT" == "FALSE" ]]; then
+  CMD+=" --no_word_alignment"
 fi
+# Note: If TRUE, we don't add any flag (Python default will handle it)
+
 echo "Creating output directory: $OUTPUT_DIR"
 
 # Create output directory if it doesn't exist
@@ -352,7 +379,6 @@ echo ""
 
 export CUDA_VISIBLE_DEVICES=0
 export PYTORCH_CUDA_ALLOC_CONF="max_split_size_mb:512,expandable_segments:True"
-
 
 # Run the command with Python
 eval "$CMD"
