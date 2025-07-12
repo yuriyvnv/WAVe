@@ -1,0 +1,152 @@
+[
+  {
+    "audio": "audio_01.mp3",
+    "text": "A manhã amanheceu com brisa suave, anunciando um dia cheio de possibilidades.",
+    "similarity": 0.8335874080657959,
+    "alignment": 0.8540463447570801
+  },
+  {
+    "audio": "audio_02.mp3",
+    "text": "Lembre‑se de beber água e alongar o corpo antes de começar seu trabalho.",
+    "similarity": 0.6160644292831421,
+    "alignment": 0.8394468426704407
+  },
+  {
+    "audio": "audio_03.mp3",
+    "text": "O café na mesa ainda solta vapor, perfumando toda a cozinha.",
+    "similarity": 0.6129351854324341,
+    "alignment": 0.7935951352119446
+  },
+  {
+    "audio": "audio_04.mp3",
+    "text": "Escreva seus objetivos do dia e revise‑os quando o sol se pôr.",
+    "similarity": 0.600859135389328,
+    "alignment": 0.8083798289299011
+  },
+  {
+    "audio": "audio_05.mp3",
+    "text": "A luz dourada do pôr do sol reflete nos prédios da cidade.",
+    "similarity": 0.7145356237888336,
+    "alignment": 0.8240704536437988
+  },
+  {
+    "audio": "audio_06.mp3",
+    "text": "A música suave ao fundo cria o ambiente perfeito para concentração.",
+    "similarity": 0.6019385829567909,
+    "alignment": 0.8505772948265076
+  },
+  {
+    "audio": "audio_07.mp3",
+    "text": "Cada pequeno passo aproxima você de um grande resultado.",
+    "similarity": 0.46743325144052505,
+    "alignment": 0.7913234233856201
+  },
+  {
+    "audio": "audio_08.mp3",
+    "text": "Respire fundo, conte até cinco e deixe a ansiedade escoar.",
+    "similarity": 0.5225079115480185,
+    "alignment": 0.8098711967468262
+  },
+  {
+    "audio": "audio_09.mp3",
+    "text": "O som das ondas lembra que tudo na vida é movimento.",
+    "similarity": 0.7790693938732147,
+    "alignment": 0.871832549571991
+  },
+  {
+    "audio": "audio_10.mp3",
+    "text": "Compartilhe um sorriso hoje; ele pode mudar o dia de alguém.",
+    "similarity": 0.6757414638996124,
+    "alignment": 0.8617434501647949
+  },
+  {
+    "audio": "audio_11.mp3",
+    "text": "Abra a janela e deixe o vento trazer novas ideias.",
+    "similarity": 0.823455810546875,
+    "alignment": 0.8678816556930542
+  },
+  {
+    "audio": "audio_12.mp3",
+    "text": "Organize sua mesa; um espaço limpo clareia a mente.",
+    "similarity": 0.49576850701123476,
+    "alignment": 0.8296456336975098
+  },
+  {
+    "audio": "audio_13.mp3",
+    "text": "Aprender algo novo expande horizontes e renova a criatividade.",
+    "similarity": 0.5750060677528381,
+    "alignment": 0.8016899824142456
+  },
+  {
+    "audio": "audio_14.mp3",
+    "text": "A noite estrelada convida a sonhar acordado e planejar o amanhã.",
+    "similarity": 0.5394197553396225,
+    "alignment": 0.8113282322883606
+  },
+  {
+    "audio": "audio_15.mp3",
+    "text": "Valorize cada encontro; toda pessoa traz uma história única.",
+    "similarity": 0.4072202742099762,
+    "alignment": 0.7864837646484375
+  },
+  {
+    "audio": "audio_16.mp3",
+    "text": "Uma pausa de cinco minutos pode render horas de produtividade.",
+    "similarity": 0.5071947369724512,
+    "alignment": 0.7919301390647888
+  },
+  {
+    "audio": "audio_17.mp3",
+    "text": "Ler um bom livro é viajar sem sair do lugar.",
+    "similarity": 0.6580273061990738,
+    "alignment": 0.8338386416435242
+  },
+  {
+    "audio": "audio_18.mp3",
+    "text": "A gratidão diária transforma desafios em oportunidades.",
+    "similarity": 0.4279087036848068,
+    "alignment": 0.7858977913856506
+  },
+  {
+    "audio": "audio_19.mp3",
+    "text": "Movimentar o corpo libera energia e melhora o humor.",
+    "similarity": 0.6165471896529198,
+    "alignment": 0.8027445673942566
+  },
+  {
+    "audio": "audio_20.mp3",
+    "text": "Faça hoje algo que seu futuro vai agradecer.",
+    "similarity": 0.5164466220885515,
+    "alignment": 0.8346014618873596
+  },
+  {
+    "audio": "audio_21.mp3",
+    "text": "O silêncio também é música quando a mente está em paz.",
+    "similarity": 0.5286224950104952,
+    "alignment": 0.8196226954460144
+  },
+  {
+    "audio": "audio_22.mp3",
+    "text": "Plantar uma semente de bondade gera florestas de empatia.",
+    "similarity": 0.5721508264541626,
+    "alignment": 0.807929277420044
+  },
+  {
+    "audio": "audio_23.mp3",
+    "text": "Pequenas vitórias merecem grande celebração interior.",
+    "similarity": 0.8121846318244934,
+    "alignment": 0.8470467925071716
+  },
+  {
+    "audio": "audio_24.mp3",
+    "text": "Confie no processo; a jornada molda o destino.",
+    "similarity": 0.2029935121536255,
+    "alignment": 0.7236849069595337
+  },
+  {
+    "audio": "audio_25.mp3",
+    "text": "Cada amanhecer traz a chance de recomeçar melhor.",
+    "similarity": 0.6236468255519867,
+    "alignment": 0.8254823684692383
+  }
+]
