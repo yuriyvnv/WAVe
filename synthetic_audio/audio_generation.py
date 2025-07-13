@@ -38,7 +38,7 @@ TTS_VOICES = ["alloy", "ash", "coral", "echo", "fable", "nova", "onyx", "sage", 
 
 # Audio generation settings
 AUDIO_FORMAT = "mp3"  # Options: "mp3", "opus", "aac", "flac", "wav", "pcm"
-MAX_CONCURRENT = 50  # Concurrent TTS requests
+MAX_CONCURRENT = 50  
 RETRY_ATTEMPTS = 3
 CHUNK_SIZE = 1024 * 8  # For file writing
 
@@ -130,7 +130,9 @@ tts_tracker = TTSTracker()
 # ───────────────────────── AUDIO GENERATION ─────────────────────────
 def get_audio_filename(text: str, voice: str, model: str) -> str:
     """Generate deterministic filename based on content"""
-    content_hash = hashlib.md5(f"{text}_{voice}_{model}".encode()).hexdigest()[:12]
+    # ✅ FIX: Ensure consistent encoding for hash generation
+    content_str = f"{text}_{voice}_{model}"
+    content_hash = hashlib.md5(content_str.encode('utf-8')).hexdigest()[:12]
     return f"audio_{content_hash}_{voice}.{AUDIO_FORMAT}"
 
 async def generate_audio(text: str, voice: str, audio_dir: Path, semaphore: asyncio.Semaphore) -> Optional[Dict]:
@@ -144,6 +146,7 @@ async def generate_audio(text: str, voice: str, audio_dir: Path, semaphore: asyn
             file_size = audio_path.stat().st_size
             estimated_duration = len(text) * 0.1  # Rough estimate: 0.1s per character
             return {
+                'text': text,  # ✅ STORE TEXT WITH RESULT
                 'audio_path': str(audio_path),
                 'voice': voice,
                 'model': TTS_MODEL,
@@ -181,6 +184,7 @@ async def generate_audio(text: str, voice: str, audio_dir: Path, semaphore: asyn
                 logger.debug(f"✅ Audio saved: {filename} | {file_size/1024:.1f}KB")
                 
                 return {
+                    'text': text,  # ✅ STORE TEXT WITH RESULT
                     'audio_path': str(audio_path),
                     'voice': voice,
                     'model': TTS_MODEL,
@@ -213,12 +217,12 @@ async def process_batch(texts: List[str], voices: List[str], audio_dir: Path,
     results = []
     for coro in asyncio.as_completed(tasks):
         result = await coro
-        if result:
+        if result:  # ✅ Only add non-None results
             results.append(result)
         pbar.update(1)
         
         # Log progress every 50 completions
-        if len(results) % 50 == 0:
+        if len(results) % 50 == 0 and len(results) > 0:
             stats = tts_tracker.get_stats()
             logger.info(f"🎵 Progress: {stats['successful_requests']}/{stats['total_requests']} "
                        f"({stats['success_rate']:.1f}% success) | "
@@ -229,20 +233,25 @@ async def process_batch(texts: List[str], voices: List[str], audio_dir: Path,
 
 # ───────────────────────── DATASET CREATION ─────────────────────────
 def create_audio_dataset(texts: List[str], audio_results: List[Dict]) -> Dataset:
-    """Create HuggingFace dataset with audio column"""
-    # Create mapping from text to audio result
+    """Create HuggingFace dataset with audio column - FIXED VERSION"""
+    
+    # ✅ FIX: Create mapping from text to audio result (instead of assuming order)
     audio_map = {}
     for result in audio_results:
-        # Find corresponding text (we need to match somehow)
-        audio_map[result['audio_path']] = result
+        if result and 'text' in result:
+            audio_map[result['text']] = result
     
-    # Build dataset records
+    logger.info(f"📊 Audio mapping: {len(audio_map)} audio files mapped to texts")
+    
+    # Build dataset records with correct matching
     records = []
-    audio_result_idx = 0
+    matched_count = 0
+    missing_count = 0
     
-    for i, text in enumerate(texts):
-        if audio_result_idx < len(audio_results):
-            result = audio_results[audio_result_idx]
+    for text in texts:
+        if text in audio_map:
+            # ✅ CORRECTLY MATCHED: Use audio that was generated for this specific text
+            result = audio_map[text]
             records.append({
                 'text': text,
                 'audio': result['audio_path'],
@@ -253,9 +262,9 @@ def create_audio_dataset(texts: List[str], audio_results: List[Dict]) -> Dataset
                 'estimated_duration': result['estimated_duration'],
                 'generation_status': result['status']
             })
-            audio_result_idx += 1
+            matched_count += 1
         else:
-            # No audio generated for this text
+            # No audio generated for this text (failed generation)
             records.append({
                 'text': text,
                 'audio': None,
@@ -266,10 +275,14 @@ def create_audio_dataset(texts: List[str], audio_results: List[Dict]) -> Dataset
                 'estimated_duration': 0,
                 'generation_status': 'failed'
             })
+            missing_count += 1
+    
+    logger.info(f"✅ Dataset created: {matched_count} with audio, {missing_count} without audio")
     
     # Create dataset with Audio feature
     dataset = Dataset.from_list(records)
-    dataset = dataset.cast_column("audio", Audio(sampling_rate=None))  # Auto-detect sampling rate
+    if matched_count > 0:
+        dataset = dataset.cast_column("audio", Audio(sampling_rate=None))  # Auto-detect sampling rate
     
     return dataset
 
@@ -308,8 +321,14 @@ async def main():
     logger.info(f"⏱️  Estimated audio: {estimated_hours:.1f} hours")
     logger.info(f"🎯 Target: {len(texts)} audio files across {len(TTS_VOICES)} voices")
     
-    # Confirm before proceeding
-    confirm = input(f"\n💡 Proceed with generation? Estimated cost: ${estimated_cost:.2f} (y/N): ")
+    # Confirm before proceeding (skip if audio already exists)
+    if AUDIO_DIR.exists() and any(AUDIO_DIR.glob(f"*.{AUDIO_FORMAT}")):
+        existing_files = len(list(AUDIO_DIR.glob(f"*.{AUDIO_FORMAT}")))
+        logger.info(f"📁 Found {existing_files} existing audio files - will use cached files and rebuild dataset")
+        confirm = input(f"\n💡 Rebuild dataset with existing audio files? (y/N): ")
+    else:
+        confirm = input(f"\n💡 Proceed with generation? Estimated cost: ${estimated_cost:.2f} (y/N): ")
+    
     if confirm.lower() != 'y':
         logger.info("❌ Generation cancelled by user")
         return
@@ -330,7 +349,9 @@ async def main():
             logger.info(f"📦 Processing batch {i//batch_size + 1}/{(len(texts)-1)//batch_size + 1}")
             
             batch_results = await process_batch(batch_texts, TTS_VOICES, AUDIO_DIR, semaphore, pbar)
-            all_results.extend(batch_results)
+            # ✅ FIX: Filter out None results before adding to all_results
+            valid_results = [result for result in batch_results if result is not None]
+            all_results.extend(valid_results)
             
             # Small delay between batches to avoid overwhelming API
             await asyncio.sleep(1)

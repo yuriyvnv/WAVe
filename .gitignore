@@ -48,3 +48,11 @@ audio_text_model_optimized_unfreeze_5_layers_wt_alignment_correct_encoder/best_m
 audio_text_model_optimized_unfreeze_5_layers_wt_alignment_correct_encoder/checkpoint_epoch_15.pt
 **/*.mp3
 synthetic_audio/audios/
+synthetic_audio/synthetic_cv17_pt_text_only/
+synthetic_audio/synthetic_cv17_pt_with_audio/
+synthetic_audio/synthetic_audio_files/
+synthetic_audio/histogram_logs/
+synthetic_audio/synthetic_cv17_pt_fixed_audio/
+synthetic_audio/tts_logs/
+synthetic_audio/synthetic_cv17_pt_text_only/
+synthetic_audio/audio_verification_results.json
