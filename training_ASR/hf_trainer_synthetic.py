@@ -147,13 +147,14 @@ training_args = Seq2SeqTrainingArguments(
     fp16=False,                       # Enable fp16 for faster training
     eval_strategy="steps",
     predict_with_generate=False,
-    save_steps=500,                  # Save more frequently
-    eval_steps=25,                  # Evaluate more frequently
+    save_steps=1000,                  # Save more frequently
+    eval_steps=250,                  # Evaluate more frequently
     logging_steps=25,
     report_to=["wandb"],
     load_best_model_at_end=True,
     metric_for_best_model="wer",
     greater_is_better=False,
+    optim="adamw_torch_fused",
     push_to_hub=True,
     run_name=f"{MODEL_NAME}-synthetic-audio",  # ✅ CHANGED: Custom run name
 )
