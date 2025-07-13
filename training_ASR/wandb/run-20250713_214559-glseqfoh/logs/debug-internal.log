@@ -1,0 +1,12 @@
+{"time":"2025-07-13T21:45:59.795287573Z","level":"INFO","msg":"stream: starting","core version":"0.21.0"}
+{"time":"2025-07-13T21:46:00.053677331Z","level":"INFO","msg":"stream: created new stream","id":"glseqfoh"}
+{"time":"2025-07-13T21:46:00.053704188Z","level":"INFO","msg":"stream: started","id":"glseqfoh"}
+{"time":"2025-07-13T21:46:00.053712148Z","level":"INFO","msg":"handler: started","stream_id":"glseqfoh"}
+{"time":"2025-07-13T21:46:00.053722622Z","level":"INFO","msg":"writer: Do: started","stream_id":"glseqfoh"}
+{"time":"2025-07-13T21:46:00.053714846Z","level":"INFO","msg":"sender: started","stream_id":"glseqfoh"}
+{"time":"2025-07-13T22:02:23.148411128Z","level":"INFO","msg":"stream: closing","id":"glseqfoh"}
+{"time":"2025-07-13T22:02:23.602779401Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-07-13T22:02:23.959478587Z","level":"INFO","msg":"handler: closed","stream_id":"glseqfoh"}
+{"time":"2025-07-13T22:02:23.959511176Z","level":"INFO","msg":"writer: Close: closed","stream_id":"glseqfoh"}
+{"time":"2025-07-13T22:02:23.959518458Z","level":"INFO","msg":"sender: closed","stream_id":"glseqfoh"}
+{"time":"2025-07-13T22:02:23.95960272Z","level":"INFO","msg":"stream: closed","id":"glseqfoh"}

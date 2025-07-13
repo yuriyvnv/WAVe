@@ -1,6 +1,6 @@
 import torch
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 print(torch.cuda.is_available())
 torch.cuda.empty_cache()
 print(torch.cuda.current_device())
@@ -21,37 +21,37 @@ import wandb
 
 load_dotenv()
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
-MODEL_NAME = "whisper-tiny-synthetic-pt"  # ✅ CHANGED: Reflect synthetic training
+MODEL_NAME = "whisper-tiny-mixed-pt"  # ✅ UPDATED: Reflect mixed training
 os.environ["WANDB_PROJECT"] = MODEL_NAME
 HF_TOKEN= os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
 
-# ✅ CHANGED: Load your synthetic Portuguese dataset
-print("Loading synthetic Portuguese dataset...")
+# ✅ UPDATED: Load your mixed dataset (synthetic train + CV val/test)
+print("Loading mixed synthetic-CommonVoice Portuguese dataset...")
 dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", token=HF_TOKEN)
 
 # Cast audio column to 16kHz sampling rate
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
-# ✅ CHANGED: Create train/validation/test splits since synthetic dataset only has "train"
-print(f"Total samples: {len(dataset['train'])}")
+# ✅ FIXED: Use the actual splits instead of creating artificial ones
+train_dataset = dataset["train"]        # Synthetic training data
+val_dataset = dataset["validation"]     # Real Common Voice validation
+test_dataset = dataset["test"]          # Real Common Voice test
 
-# Create splits: 80% train, 10% validation, 10% test
-train_size = int(0.8 * len(dataset["train"]))
-val_size = int(0.1 * len(dataset["train"]))
-test_size = len(dataset["train"]) - train_size - val_size
+print(f"✅ Mixed dataset loaded:")
+print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
+print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples") 
+print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
-print(f"Split sizes - Train: {train_size}, Val: {val_size}, Test: {test_size}")
+# ✅ CHECK: Verify dataset sources
+train_sources = set(train_dataset["dataset_source"])
+val_sources = set(val_dataset["dataset_source"])
+test_sources = set(test_dataset["dataset_source"])
 
-# Split the dataset
-train_dataset = dataset["train"].select(range(0, train_size))
-val_dataset = dataset["train"].select(range(train_size, train_size + val_size))
-test_dataset = dataset["train"].select(range(train_size + val_size, train_size + val_size + test_size))
-
-print(f"✅ Datasets created:")
-print(f"   Train: {len(train_dataset)} samples")
-print(f"   Validation: {len(val_dataset)} samples") 
-print(f"   Test: {len(test_dataset)} samples")
+print(f"📊 Dataset composition:")
+print(f"   Train sources: {train_sources}")
+print(f"   Validation sources: {val_sources}")
+print(f"   Test sources: {test_sources}")
 
 model_pretrained = f"openai/whisper-tiny"  # Keep base model name for loading
 
@@ -70,7 +70,7 @@ def prepare_dataset(batch):
         audio["array"], sampling_rate=audio["sampling_rate"]
     ).input_features[0]
     
-    # ✅ CHANGED: Use "text" column instead of "sentence" for synthetic dataset
+    # ✅ WORKS: Both synthetic and CV data now use "text" column
     batch["labels"] = processor.tokenizer(batch["text"]).input_ids
 
     return batch
@@ -120,8 +120,8 @@ def compute_metrics(pred):
     
     return {"wer": wer}
 
-# ✅ CHANGED: Update checkpoint folder name to reflect synthetic training
-checkpoint_folder = f"/home/yperezhohin/research/src/trained_models/{MODEL_NAME}"
+# ✅ UPDATED: Update checkpoint folder name to reflect mixed training
+checkpoint_folder = f"/root/speech_transcript_embeddings/training_ASR/trained_models/{MODEL_NAME}"
 
 # Load model
 print("Loading Whisper model...")
@@ -136,19 +136,19 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(
     decoder_start_token_id=model.config.decoder_start_token_id,
 )   
 
-# ✅ OPTIMIZED: Adjusted training arguments for synthetic data
+# ✅ ADJUSTED: Training arguments for mixed synthetic→real evaluation
 training_args = Seq2SeqTrainingArguments(
     output_dir=checkpoint_folder,
-    per_device_train_batch_size=128,  # Reduced batch size for synthetic data
+    per_device_train_batch_size=128,  # Keep your H100-optimized batch size
     per_device_eval_batch_size=64,
-    learning_rate=1e-5,              # Lower learning rate for synthetic data
-    warmup_steps=500,                # Reduced warmup steps
-    num_train_epochs=5,              # Fewer epochs might be sufficient for synthetic data
-    fp16=False,                       # Enable fp16 for faster training
+    learning_rate=1e-5,              # Good LR for synthetic data
+    warmup_steps=500,                
+    num_train_epochs=5,              
+    fp16=True,                      
     eval_strategy="steps",
-    predict_with_generate=False,
-    save_steps=1000,                  # Save more frequently
-    eval_steps=250,                  # Evaluate more frequently
+    predict_with_generate=False,      # ✅ CHANGED: Enable for better WER calculation
+    save_steps=1000,                 
+    eval_steps=250,                  # Frequent evaluation on real data
     logging_steps=25,
     report_to=["wandb"],
     load_best_model_at_end=True,
@@ -156,7 +156,7 @@ training_args = Seq2SeqTrainingArguments(
     greater_is_better=False,
     optim="adamw_torch_fused",
     push_to_hub=True,
-    run_name=f"{MODEL_NAME}-synthetic-audio",  # ✅ CHANGED: Custom run name
+    run_name=f"{MODEL_NAME}-synthetic-to-real",  # ✅ UPDATED: Better description
 )
 
 print("Setting up trainer...")
@@ -170,42 +170,50 @@ trainer = Seq2SeqTrainer(
     compute_metrics=compute_metrics,
 )
 
-# ✅ ADDED: Log dataset info to wandb
+# ✅ UPDATED: Log mixed dataset info to wandb
 if wandb.run is not None:
     wandb.log({
         "dataset_name": "yuriyvnv/synthetic_transcript_pt",
-        "total_samples": train_size + val_size + test_size,
-        "train_samples": train_size,
-        "val_samples": val_size,
-        "test_samples": test_size,
-        "dataset_type": "synthetic_openai_tts"
+        "dataset_type": "mixed_synthetic_real",
+        "train_samples": len(train_dataset),
+        "train_type": "synthetic_openai_tts",
+        "val_samples": len(val_dataset),
+        "val_type": "real_common_voice",
+        "test_samples": len(test_dataset),
+        "test_type": "real_common_voice",
+        "training_paradigm": "synthetic_train_real_eval"
     })
 
-print("🚀 Starting training on synthetic Portuguese dataset...")
+print("🚀 Starting training: Synthetic data → Real speech evaluation...")
+print("🤖 Training on synthetic Portuguese TTS data")
+print("🎤 Evaluating on real Common Voice Portuguese speech")
+
 # Train the model
 trainer.train()
 trainer.save_model(checkpoint_folder + "/trainer_save")
 
 # Evaluate on test set
-print("Evaluating on test set...")
+print("Evaluating on real Common Voice test set...")
 test_results = trainer.evaluate(eval_dataset=test_dataset)
-print(f"Test WER: {test_results['eval_wer']:.2f}%")
+print(f"🎯 Test WER (Synthetic→Real): {test_results['eval_wer']:.2f}%")
 
-# ✅ ENHANCED: Save comprehensive results with dataset info
+# ✅ ENHANCED: Save comprehensive results with mixed dataset info
 results_summary = {
     "model_name": MODEL_NAME,
     "dataset": "yuriyvnv/synthetic_transcript_pt",
-    "dataset_type": "synthetic_openai_tts",
-    "total_samples": train_size + val_size + test_size,
-    "train_samples": train_size,
-    "val_samples": val_size,
-    "test_samples": test_size,
-    "test_wer": test_results['eval_wer'],
+    "dataset_type": "mixed_synthetic_real",
+    "training_paradigm": "synthetic_train_real_eval",
+    "train_samples": len(train_dataset),
+    "train_data_type": "synthetic_openai_tts",
+    "val_samples": len(val_dataset),
+    "val_data_type": "real_common_voice",
+    "test_samples": len(test_dataset),
+    "test_data_type": "real_common_voice",
+    "test_wer_synthetic_to_real": test_results['eval_wer'],
     "training_args": {
         "epochs": training_args.num_train_epochs,
         "learning_rate": training_args.learning_rate,
         "batch_size": training_args.per_device_train_batch_size,
-        "gradient_accumulation_steps": training_args.gradient_accumulation_steps
     }
 }
 
@@ -213,7 +221,13 @@ results_summary = {
 with open(checkpoint_folder + "/test_results.json", "w") as f:
     json.dump(results_summary, f, indent=2)
 
-print(f"✅ Training completed!")
-print(f"📊 Final Test WER: {test_results['eval_wer']:.2f}%")
+print(f"✅ Mixed training completed!")
+print(f"🤖 Trained on: {len(train_dataset):,} synthetic samples")
+print(f"🎤 Evaluated on: {len(test_dataset):,} real speech samples") 
+print(f"📊 Final WER (Synthetic→Real): {test_results['eval_wer']:.2f}%")
 print(f"💾 Model saved to: {checkpoint_folder}")
 print(f"📋 Results saved to: {checkpoint_folder}/test_results.json")
+
+print(f"\n🔬 RESEARCH INSIGHT:")
+print(f"   This WER shows how well synthetic TTS training generalizes to real speech!")
+print(f"   Compare this to models trained on real Common Voice data.")
