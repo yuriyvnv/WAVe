@@ -56,3 +56,14 @@ synthetic_audio/synthetic_cv17_pt_fixed_audio/
 synthetic_audio/tts_logs/
 synthetic_audio/synthetic_cv17_pt_text_only/
 synthetic_audio/audio_verification_results.json
+training/filtered_datasets/
+training/plots/
+training_ASR/mixed_dataset_backup/
+training_ASR/wandb/
+training_ASR/wandb_logs/
+training_ASR/wandb_logs_backup/
+training_ASR/wandb_logs_backup_2/
+training_ASR/wandb_logs_backup_3/
+training_ASR/wandb_logs_backup_4/
+training_ASR/wandb_logs_backup_5/
+training_ASR/wandb_logs_backup_6/
