@@ -63,9 +63,9 @@ def prepare_dataset(batch):
     return batch
 
 print("🔧 PRE-PROCESSING DATASETS...")
-train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names,num_proc=5, batch_size=1000, desc="Processing train dataset")
-val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,num_proc=5, batch_size=1000, desc="Processing val dataset")
-test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names,num_proc=5, batch_size=1000, desc="Processing test dataset")
+train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, batch_size=100, desc="Processing train dataset")
+val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names, batch_size=100, desc="Processing val dataset")
+test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names, batch_size=100, desc="Processing test dataset")
 train_dataset = train_dataset.shuffle(seed=42)
 val_dataset = val_dataset.shuffle(seed=42)
 test_dataset = test_dataset.shuffle(seed=42)
@@ -113,9 +113,9 @@ training_args = Seq2SeqTrainingArguments(
     gradient_checkpointing=True,
     per_device_train_batch_size=256,
     per_device_eval_batch_size=8,
-    learning_rate=1e-5,
-    warmup_steps=10,
-    max_steps=50,
+    learning_rate=1e-6,
+    warmup_steps=80,
+    max_steps=810,
     bf16=True,
     dataloader_num_workers=16,
     dataloader_pin_memory=True,
@@ -198,8 +198,8 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
         num_batches = 0
         
         with torch.no_grad():
-            for i in tqdm(range(0, len(val_subset), 75), desc="Computing loss", unit="batch"): 
-                batch_samples = [val_subset[j] for j in range(i, min(i+75, len(val_subset)))]
+            for i in tqdm(range(0, len(val_subset), 512), desc="Computing loss", unit="batch"): 
+                batch_samples = [val_subset[j] for j in range(i, min(i+512, len(val_subset)))]
                 
                 # Prepare batch using data collator
                 batch = data_collator(batch_samples)
@@ -228,8 +228,8 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
         
         # Generate text for WER calculation (small batches to avoid OOM)
         with torch.no_grad():
-            for i in tqdm(range(0, len(val_subset), 75), desc="Computing WER", unit="batch"):  # Process 10 samples at a time
-                batch = [val_subset[j] for j in range(i, min(i+75, len(val_subset)))]
+            for i in tqdm(range(0, len(val_subset), 512), desc="Computing WER", unit="batch"):  # Process 10 samples at a time
+                batch = [val_subset[j] for j in range(i, min(i+512, len(val_subset)))]
                 
                 # Prepare inputs
                 input_features = [sample["input_features"] for sample in batch]
@@ -345,8 +345,8 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     num_batches = 0
     
     with torch.no_grad():
-        for i in tqdm(range(0, len(test_dataset), 75), desc="Computing test loss", unit="batch"):  # Process 75 samples at a time
-            batch_samples = [test_dataset[j] for j in range(i, min(i+75, len(test_dataset)))]
+        for i in tqdm(range(0, len(test_dataset), 512), desc="Computing test loss", unit="batch"):  # Process 75 samples at a time
+            batch_samples = [test_dataset[j] for j in range(i, min(i+512, len(test_dataset)))]
             
             # Prepare batch using data collator
             batch = data_collator(batch_samples)
@@ -376,8 +376,8 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     references = []
     
     with torch.no_grad():
-        for i in tqdm(range(0, len(test_subset), 75), desc="Computing test WER", unit="batch"):
-            batch = [test_subset[j] for j in range(i, min(i+75, len(test_subset)))]
+        for i in tqdm(range(0, len(test_subset), 512), desc="Computing test WER", unit="batch"):
+            batch = [test_subset[j] for j in range(i, min(i+512, len(test_subset)))]
             
             input_features = [sample["input_features"] for sample in batch]
             input_batch = processor.feature_extractor.pad(
