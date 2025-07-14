@@ -6,6 +6,9 @@ torch.cuda.empty_cache()
 print(torch.cuda.current_device())
 print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+from transformers.utils import is_torch_sdpa_available
+print(is_torch_sdpa_available())
+
 
 import json
 import pandas as pd
@@ -34,7 +37,7 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 
 # Load and preprocess dataset
 print("Loading mixed synthetic-CommonVoice Portuguese dataset...")
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", token=HF_TOKEN, subset="mixed_cv_synthetic")
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
@@ -63,6 +66,9 @@ print("🔧 PRE-PROCESSING DATASETS...")
 train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, batch_size=100, desc="Processing train dataset")
 val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names, batch_size=100, desc="Processing val dataset")
 test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names, batch_size=100, desc="Processing test dataset")
+train_dataset = train_dataset.shuffle(seed=42)
+val_dataset = val_dataset.shuffle(seed=42)
+test_dataset = test_dataset.shuffle(seed=42)
 print("✅ Preprocessing complete!")
 
 @dataclass
@@ -89,7 +95,7 @@ checkpoint_folder = f"/root/speech_transcript_embeddings/training_ASR/trained_mo
 
 # Load model
 print("Loading Whisper model...")
-model = WhisperForConditionalGeneration.from_pretrained(model_pretrained)
+model = WhisperForConditionalGeneration.from_pretrained(model_pretrained,low_cpu_mem_usage=True,attn_implementation="sdpa")
 model.generation_config.language = "pt"
 model.generation_config.task = "transcribe"
 model.generation_config.forced_decoder_ids = None
@@ -105,27 +111,26 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(
 training_args = Seq2SeqTrainingArguments(
     output_dir=checkpoint_folder,
     gradient_checkpointing=True,
-    per_device_train_batch_size=60,
-    per_device_eval_batch_size=1,
-    eval_accumulation_steps=75,
+    per_device_train_batch_size=256,
+    per_device_eval_batch_size=8,
     learning_rate=1e-5,
-    warmup_steps=200,
-    num_train_epochs=5,
+    warmup_steps=10,
+    max_steps=50,
     bf16=True,
-    dataloader_num_workers=32,
-    dataloader_pin_memory=False,
+    dataloader_num_workers=6,
+    dataloader_pin_memory=True,
     dataloader_persistent_workers=True,
     
     # Evaluation settings
     eval_strategy="steps",
-    eval_steps=150,
+    eval_steps=50,
     predict_with_generate=False,
     metric_for_best_model="eval_loss",
     greater_is_better=False,
     
     # Save settings
     save_strategy="steps",
-    save_steps=150,
+    save_steps=50,
     save_total_limit=None,
     load_best_model_at_end=True,
     
@@ -144,12 +149,7 @@ trainer = Seq2SeqTrainer(
     eval_dataset=val_dataset,
     data_collator=data_collator,
     processing_class=processor,
-    # No compute_metrics - removed as discussed
 )
-
-print("🚀 Starting training with eval loss monitoring...")
-print("📊 Tracking validation loss every 150 steps")
-print("💾 Saving checkpoints every 150 steps")
 
 # Train the model
 trainer.train()
@@ -185,7 +185,7 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
     
     try:
         # Load model from checkpoint
-        model = WhisperForConditionalGeneration.from_pretrained(checkpoint_path)
+        model = WhisperForConditionalGeneration.from_pretrained(checkpoint_path,low_cpu_mem_usage=True, attn_implementation="sdpa")
         model.eval()
         model.cuda()
         
@@ -198,8 +198,12 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
         num_batches = 0
         
         with torch.no_grad():
-            for i in tqdm(range(0, len(val_subset), 75), desc="Computing loss", unit="batch"):  # Process 8 samples at a time
+            for i in tqdm(range(0, len(val_subset), 75), desc="Computing loss", unit="batch"): 
                 batch_samples = val_subset[i:i+75]
+                print("DEBUGGING:")
+                print(f"batch_samples type: {type(batch_samples)}")
+                print(f"batch_samples[0] type: {type(batch_samples[0])}")
+                print(f"batch_samples[0] content: {batch_samples[0]}") # Process 8 samples at a time
                 
                 # Prepare batch using data collator
                 batch = data_collator(batch_samples)
@@ -335,7 +339,7 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     print(f"🎯 Final evaluation on test set using: {best_checkpoint_path}")
     
     # Load best model
-    model = WhisperForConditionalGeneration.from_pretrained(best_checkpoint_path)
+    model = WhisperForConditionalGeneration.from_pretrained(best_checkpoint_path,low_cpu_mem_usage=True, attn_implementation="sdpa")
     model.eval()
     model.cuda()
     
