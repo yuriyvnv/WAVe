@@ -10,6 +10,7 @@ dependencies = [
     "dotenv>=0.9.9",
     "evaluate>=0.4.5",
     "ffmpeg>=1.4",
+    "huggingface>=0.0.1",
     "huggingface-hub[cli]>=0.33.0",
     "jiwer>=4.0.0",
     "librosa==0.10.1",
@@ -26,5 +27,6 @@ dependencies = [
     "tqdm>=4.67.1",
     "transformers==4.50.2",
     "update>=0.0.1",
+    "vastai>=0.2.8",
     "wandb>=0.21.0",
 ]

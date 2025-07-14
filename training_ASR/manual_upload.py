@@ -103,8 +103,7 @@ def recreate_mixed_dataset():
         standardize_synthetic, 
         batched=True, 
         remove_columns=synthetic_train.column_names,
-        num_proc= max_workers, 
-        batch_size=2000,              
+        num_proc= 64
     )
     
     logger.info("🔄 Standardizing Common Voice validation data...")
@@ -112,8 +111,7 @@ def recreate_mixed_dataset():
         standardize_cv, 
         batched=True, 
         remove_columns=cv_validation.column_names,
-        num_proc= max_workers,
-        batch_size=2000,              
+        num_proc= 64
     )
     
     logger.info("🔄 Standardizing Common Voice test data...")
@@ -121,8 +119,7 @@ def recreate_mixed_dataset():
         standardize_cv, 
         batched=True, 
         remove_columns=cv_test.column_names,
-        num_proc= max_workers,
-        batch_size=2000,              
+        num_proc= 64
     )
     
     # Verify schemas match

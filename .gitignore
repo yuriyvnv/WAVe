@@ -17,7 +17,8 @@ audio_text_model_optimized_wo_alignment/
 audio_text_model_optimized_unfreeze_3_layers/
 audio_text_model_optimized_unfreeze_5_layers/
 audio_text_model_optimized_wt_word_alignment/
-
+training_ASR/trained_models/
+training_ASR/wandb/
 common_voice_data/
 cv_results/
 .env

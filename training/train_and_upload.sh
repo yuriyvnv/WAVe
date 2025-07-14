@@ -2,16 +2,12 @@
 set -e  # Exit on any error
 
 echo "=== Starting training ==="
-<<<<<<< HEAD
 
 uv run ./run_embedding_trainer_unfreeze.sh
 
-echo "=== Pushing logs to GitHub ==="
 
-=======
 
 echo "=== Pushing logs to GitHub ==="
->>>>>>> main
 git add .
 git commit -m "Training completed: $(date)"
 git push
