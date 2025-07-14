@@ -198,8 +198,8 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
         num_batches = 0
         
         with torch.no_grad():
-            for i in tqdm(range(0, len(val_subset), 8), desc="Computing loss", unit="batch"):  # Process 8 samples at a time
-                batch_samples = val_subset[i:i+8]
+            for i in tqdm(range(0, len(val_subset), 75), desc="Computing loss", unit="batch"):  # Process 8 samples at a time
+                batch_samples = val_subset[i:i+75]
                 
                 # Prepare batch using data collator
                 batch = data_collator(batch_samples)
