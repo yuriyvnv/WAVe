@@ -651,6 +651,15 @@ wheels = [
 ]
 
 [[package]]
+name = "huggingface"
+version = "0.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9d/a4/168b574a23c1841fab5b24ecac98a88ea626ea3c746c481f79eb360c81f2/huggingface-0.0.1.tar.gz", hash = "sha256:0a2f228fd956801d68b7c6a8bef478dfa60c4b7d7eba572ea7de39ecf87e505a", size = 2320 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f4/8c/e61fbc39c0a37140e1d4941c4af29e2d53bacf9f4559e3de24d8f4e484f0/huggingface-0.0.1-py3-none-any.whl", hash = "sha256:98a3409537557cd2fd768997ef94cab08529f86c5e106e6d54bbabdd5ee03910", size = 2455 },
+]
+
+[[package]]
 name = "huggingface-hub"
 version = "0.33.2"
 source = { registry = "https://pypi.org/simple" }
@@ -2192,6 +2201,7 @@ dependencies = [
     { name = "dotenv" },
     { name = "evaluate" },
     { name = "ffmpeg" },
+    { name = "huggingface" },
     { name = "huggingface-hub", extra = ["cli"] },
     { name = "jiwer" },
     { name = "librosa" },
@@ -2208,6 +2218,7 @@ dependencies = [
     { name = "tqdm" },
     { name = "transformers" },
     { name = "update" },
+    { name = "vastai" },
     { name = "wandb" },
 ]
 
@@ -2219,6 +2230,7 @@ requires-dist = [
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "evaluate", specifier = ">=0.4.5" },
     { name = "ffmpeg", specifier = ">=1.4" },
+    { name = "huggingface", specifier = ">=0.0.1" },
     { name = "huggingface-hub", extras = ["cli"], specifier = ">=0.33.0" },
     { name = "jiwer", specifier = ">=4.0.0" },
     { name = "librosa", specifier = "==0.10.1" },
@@ -2235,6 +2247,7 @@ requires-dist = [
     { name = "tqdm", specifier = ">=4.67.1" },
     { name = "transformers", specifier = "==4.50.2" },
     { name = "update", specifier = ">=0.0.1" },
+    { name = "vastai", specifier = ">=0.2.8" },
     { name = "wandb", specifier = ">=0.21.0" },
 ]
 
@@ -2442,6 +2455,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/15/22/9ee70a2574a4f4599c47dd506532914ce044817c7752a79b6a51286319bc/urllib3-2.5.0.tar.gz", hash = "sha256:3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760", size = 393185 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a7/c2/fe1e52489ae3122415c51f387e221dd0773709bad6c6cdaa599e8a2c5185/urllib3-2.5.0-py3-none-any.whl", hash = "sha256:e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc", size = 129795 },
+]
+
+[[package]]
+name = "vastai"
+version = "0.2.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/83/2f/4c0da2eb30cbadaf69505db3172422d9ae44dfc22d623fb8a94d4bfedc7e/vastai-0.2.8.tar.gz", hash = "sha256:efbc9976c01709bf5bdb604b9c8e192f34bbbed273ca10b484bd885e01c69303", size = 73729 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/36/d0/e8c73570452538f3f23f4f519fc029a17b718cf411be5a5e36086a095dc7/vastai-0.2.8-py3-none-any.whl", hash = "sha256:1818e448fef894f35ba9e3c0a7a79621fd01342bdd60afd1b20d38ab19f3af3b", size = 58851 },
 ]
 
 [[package]]
