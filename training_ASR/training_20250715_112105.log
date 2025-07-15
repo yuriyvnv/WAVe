@@ -32,3 +32,10 @@ Traceback (most recent call last):
 datasets.exceptions.NonMatchingSplitsSizesError: [{'expected': SplitInfo(name='train', num_bytes=0, num_examples=41149, shard_lengths=None, dataset_name=None), 'recorded': SplitInfo(name='train', num_bytes=1768231034, num_examples=21968, shard_lengths=[6292, 6192, 6292, 3192], dataset_name='synthetic_transcript_pt')}]
 [0;32m[SUCCESS][0m Training completed successfully! 🎉
 [0;34m[INFO][0m 📤 Model automatically pushed to Hub during training
+[0;32m[SUCCESS][0m 🎉 TRAINING COMPLETED!
+[0;34m[INFO][0m 📊 Model: whisper-tiny-mixed-pt
+[0;34m[INFO][0m 📁 Local path: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-tiny-mixed-pt
+[0;34m[INFO][0m 🔗 Hub URL: https://huggingface.co/yuriyvnv/whisper-tiny-mixed-pt
+[0;34m[INFO][0m 📋 Log file: training_20250715_112105.log
+[0;34m[INFO][0m 🚫 Skipping VastAI instance stop (--no-stop mode)
+[0;32m[SUCCESS][0m 🎉 Training completed! Instance still running.
