@@ -9,7 +9,7 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
 import datetime
-log_filename = f"training_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+log_filename = f"training_log_.txt"
 
 import logging
 import sys

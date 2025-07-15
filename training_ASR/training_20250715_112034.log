@@ -19,3 +19,10 @@ Traceback (most recent call last):
 AttributeError: module 'datetime' has no attribute 'now'
 [0;32m[SUCCESS][0m Training completed successfully! 🎉
 [0;34m[INFO][0m 📤 Model automatically pushed to Hub during training
+[0;32m[SUCCESS][0m 🎉 TRAINING COMPLETED!
+[0;34m[INFO][0m 📊 Model: whisper-tiny-mixed-pt
+[0;34m[INFO][0m 📁 Local path: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-tiny-mixed-pt
+[0;34m[INFO][0m 🔗 Hub URL: https://huggingface.co/yuriyvnv/whisper-tiny-mixed-pt
+[0;34m[INFO][0m 📋 Log file: training_20250715_112034.log
+[0;34m[INFO][0m 🚫 Skipping VastAI instance stop (--no-stop mode)
+[0;32m[SUCCESS][0m 🎉 Training completed! Instance still running.
