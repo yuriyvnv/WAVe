@@ -8,6 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
+MODEL_NAME = "whisper-large-v3-mixed-pt"
 
 import json
 from datasets import load_dataset, Audio
@@ -24,7 +25,7 @@ import logging
 from datetime import datetime
 
 # Quick logging setup
-log_file = f"training_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+log_file = f"training_log_{MODEL_NAME}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(message)s',
@@ -42,7 +43,6 @@ PROJECT_NAME = "whisper-large-v3-training"
 os.environ["WANDB_PROJECT"] = PROJECT_NAME
 HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
-MODEL_NAME = "whisper-large-v3-mixed-pt"
 
 
 
