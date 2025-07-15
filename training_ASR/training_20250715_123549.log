@@ -1,0 +1,42 @@
+[0;34m[INFO][0m 🚫 NO-STOP MODE: Will skip stopping VastAI instance
+[0;34m[INFO][0m 🔍 Checking prerequisites...
+[0;34m[INFO][0m GPU detected: NVIDIA H200
+[0;32m[SUCCESS][0m Prerequisites check passed ✅
+[0;34m[INFO][0m 🚀 Starting Whisper training...
+[0;34m[INFO][0m Script: hf_trainer_complete.py
+[0;34m[INFO][0m Model: whisper-tiny-mixed-pt
+[0;34m[INFO][0m Log file: training_20250715_123549.log
+[0;34m[INFO][0m 📤 HF Hub push: Automatic (via push_to_hub=True)
+─────────────────────────────────────────
+2025-07-15 12:35:53,924 - Loading mixed synthetic-CommonVoice Portuguese dataset...
+2025-07-15 12:35:56,218 - Available configs: ['fully_synthetic', 'mixed_cv_synthetic', 'cv_only']
+2025-07-15 12:35:58,028 - fully_synthetic: ['train', 'validation', 'test']
+2025-07-15 12:36:00,038 - mixed_cv_synthetic: ['train', 'validation', 'test']
+2025-07-15 12:36:01,891 - cv_only: ['train', 'validation', 'test']
+True
+0
+NVIDIA H200
+True
+Loading mixed synthetic-CommonVoice Portuguese dataset...
+Available configs: ['fully_synthetic', 'mixed_cv_synthetic', 'cv_only']
+fully_synthetic: ['train', 'validation', 'test']
+mixed_cv_synthetic: ['train', 'validation', 'test']
+cv_only: ['train', 'validation', 'test']
+Generating train split:   0%|          | 0/41149 [00:00<?, ? examples/s]Generating train split:   1%|          | 400/41149 [00:00<00:14, 2847.83 examples/s]Generating train split:   3%|▎         | 1200/41149 [00:00<00:09, 4416.06 examples/s]Generating train split:   5%|▍         | 2000/41149 [00:00<00:07, 5300.00 examples/s]Generating train split:   7%|▋         | 3000/41149 [00:00<00:05, 6754.55 examples/s]Generating train split:  10%|▉         | 4100/41149 [00:00<00:04, 7415.57 examples/s]Generating train split:  13%|█▎        | 5200/41149 [00:00<00:04, 8226.46 examples/s]Generating train split:  15%|█▌        | 6292/41149 [00:00<00:04, 8097.17 examples/s]Generating train split:  18%|█▊        | 7492/41149 [00:01<00:03, 8904.48 examples/s]Generating train split:  21%|██        | 8692/41149 [00:01<00:03, 9230.84 examples/s]Generating train split:  24%|██▍       | 9892/41149 [00:01<00:03, 9589.70 examples/s]Generating train split:  27%|██▋       | 11084/41149 [00:01<00:03, 9598.28 examples/s]Generating train split:  30%|███       | 12484/41149 [00:01<00:02, 10338.64 examples/s]Generating train split:  33%|███▎      | 13684/41149 [00:01<00:02, 10426.15 examples/s]Generating train split:  36%|███▋      | 14984/41149 [00:01<00:02, 10321.17 examples/s]Generating train split:  39%|███▉      | 16184/41149 [00:01<00:02, 10606.30 examples/s]Generating train split:  43%|████▎     | 17776/41149 [00:01<00:01, 11722.64 examples/s]Generating train split:  48%|████▊     | 19676/41149 [00:02<00:01, 13156.51 examples/s]Generating train split:  52%|█████▏    | 21276/41149 [00:02<00:01, 13201.55 examples/s]Generating train split:  53%|█████▎    | 21968/41149 [00:02<00:01, 9945.37 examples/s] 
+Generating validation split:   0%|          | 0/9464 [00:00<?, ? examples/s]Generating validation split:   4%|▍         | 400/9464 [00:00<00:02, 3146.85 examples/s]Generating validation split:  11%|█         | 1000/9464 [00:00<00:01, 4503.85 examples/s]Generating validation split:  18%|█▊        | 1700/9464 [00:00<00:01, 5265.38 examples/s]Generating validation split:  25%|██▌       | 2400/9464 [00:00<00:01, 5429.26 examples/s]Generating validation split:  32%|███▏      | 3000/9464 [00:00<00:01, 5115.35 examples/s]Generating validation split:  38%|███▊      | 3555/9464 [00:00<00:01, 4692.93 examples/s]Generating validation split:  46%|████▌     | 4355/9464 [00:00<00:01, 4867.43 examples/s]Generating validation split:  52%|█████▏    | 4955/9464 [00:00<00:00, 5091.98 examples/s]Generating validation split:  61%|██████    | 5755/9464 [00:01<00:00, 5527.89 examples/s]Generating validation split:  68%|██████▊   | 6410/9464 [00:01<00:00, 5322.25 examples/s]Generating validation split:  75%|███████▌  | 7110/9464 [00:01<00:00, 5626.67 examples/s]Generating validation split:  83%|████████▎ | 7810/9464 [00:01<00:00, 5449.90 examples/s]Generating validation split:  91%|█████████ | 8610/9464 [00:01<00:00, 5865.08 examples/s]Generating validation split:  99%|█████████▉| 9410/9464 [00:01<00:00, 6229.55 examples/s]Generating validation split: 100%|██████████| 9464/9464 [00:01<00:00, 5449.67 examples/s]
+Generating test split:   0%|          | 0/9467 [00:00<?, ? examples/s]Generating test split:   6%|▋         | 600/9467 [00:00<00:02, 4378.48 examples/s]Generating test split:  13%|█▎        | 1200/9467 [00:00<00:01, 4895.44 examples/s]Generating test split:  19%|█▉        | 1800/9467 [00:00<00:01, 4720.05 examples/s]Generating test split:  24%|██▍       | 2300/9467 [00:00<00:01, 4710.51 examples/s]Generating test split:  30%|██▉       | 2800/9467 [00:00<00:01, 4570.01 examples/s]Generating test split:  38%|███▊      | 3556/9467 [00:00<00:01, 4507.33 examples/s]Generating test split:  44%|████▍     | 4156/9467 [00:00<00:01, 4532.74 examples/s]Generating test split:  50%|█████     | 4756/9467 [00:01<00:00, 4807.78 examples/s]Generating test split:  57%|█████▋    | 5356/9467 [00:01<00:00, 4867.90 examples/s]Generating test split:  64%|██████▍   | 6056/9467 [00:01<00:00, 5026.28 examples/s]Generating test split:  71%|███████   | 6712/9467 [00:01<00:00, 5045.29 examples/s]Generating test split:  79%|███████▉  | 7512/9467 [00:01<00:00, 5338.73 examples/s]Generating test split:  87%|████████▋ | 8212/9467 [00:01<00:00, 5522.57 examples/s]Generating test split:  94%|█████████▍| 8912/9467 [00:01<00:00, 5545.11 examples/s]Generating test split: 100%|██████████| 9467/9467 [00:01<00:00, 5106.20 examples/s]
+Traceback (most recent call last):
+  File "/root/speech_transcript_embeddings/training_ASR/hf_trainer_complete.py", line 67, in <module>
+    dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,download_mode="force_redownload")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/load.py", line 2084, in load_dataset
+    builder_instance.download_and_prepare(
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/builder.py", line 925, in download_and_prepare
+    self._download_and_prepare(
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/builder.py", line 1019, in _download_and_prepare
+    verify_splits(self.info.splits, split_dict)
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/utils/info_utils.py", line 77, in verify_splits
+    raise NonMatchingSplitsSizesError(str(bad_splits))
+datasets.exceptions.NonMatchingSplitsSizesError: [{'expected': SplitInfo(name='train', num_bytes=0, num_examples=41149, shard_lengths=None, dataset_name=None), 'recorded': SplitInfo(name='train', num_bytes=1768231034, num_examples=21968, shard_lengths=[6292, 6192, 6292, 3192], dataset_name='synthetic_transcript_pt')}]
+[0;32m[SUCCESS][0m Training completed successfully! 🎉
+[0;34m[INFO][0m 📤 Model automatically pushed to Hub during training

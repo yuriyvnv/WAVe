@@ -9,7 +9,7 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
 
-from datasets import load_from_disk
+from datasets import load_from_disk, get_dataset_config_names, get_dataset_split_names
 import json
 import pandas as pd
 import numpy as np
@@ -53,7 +53,18 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 
 # Load and preprocess dataset
 log_print("Loading mixed synthetic-CommonVoice Portuguese dataset...")
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,)
+# Check available configs
+configs = get_dataset_config_names("yuriyvnv/synthetic_transcript_pt")
+log_print(f"Available configs: {configs}")
+
+# Check what's in each config
+for config in configs:
+    try:
+        splits = get_dataset_split_names("yuriyvnv/synthetic_transcript_pt", config_name=config)
+        log_print(f"{config}: {splits}")
+    except Exception as e:
+        log_print(f"{config}: Error - {e}")
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,download_mode="force_redownload")
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
