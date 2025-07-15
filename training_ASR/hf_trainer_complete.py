@@ -10,7 +10,6 @@ from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
 
 from datasets import load_from_disk
-from datasets import save_to_disk
 import json
 import pandas as pd
 import numpy as np
