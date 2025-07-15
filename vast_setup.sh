@@ -27,8 +27,6 @@ pip install vastai
 echo -e "\n[4/9] Installing UV package manager..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source $HOME/.local/bin/env
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-export PATH="$HOME/.local/bin:$PATH"
 
 # 5. Install Python Packages
 echo -e "\n[5/9] Installing Python packages..."

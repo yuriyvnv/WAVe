@@ -9,7 +9,8 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
 
-
+from datasets import load_from_disk
+from datasets import save_to_disk
 import json
 import pandas as pd
 import numpy as np
@@ -27,7 +28,23 @@ from pathlib import Path
 import glob
 import re
 from tqdm import tqdm
+import sys
+import logging
+from datetime import datetime
 
+# Quick logging setup
+log_file = f"training_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_file),
+        logging.StreamHandler()
+    ]
+)
+def log_print(message):
+    print(message)  # Still shows in terminal
+    logging.info(message) 
 load_dotenv()
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
 MODEL_NAME = "whisper-large-v3-mixed-pt"
@@ -36,23 +53,25 @@ HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
 
 # Load and preprocess dataset
-print("Loading mixed synthetic-CommonVoice Portuguese dataset...")
+log_print("Loading mixed synthetic-CommonVoice Portuguese dataset...")
 dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
 val_dataset = dataset["validation"]
 test_dataset = dataset["test"]
+cache_dir = f"/root/speech_transcript_embeddings/training_ASR/cached_datasets/{MODEL_NAME}_mixed_cv_synthetic"
 
-print(f"✅ Mixed dataset loaded:")
-print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
-print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples") 
-print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
+log_print(f"✅ Mixed dataset loaded:")
+log_print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
+log_print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples") 
+log_print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
 model_pretrained = "openai/whisper-large-v3"
 feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN)
 tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
 processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
+log_print("🔧 PRE-PROCESSING DATASETS...")
 
 def prepare_dataset(batch):
     audio = batch["audio"]
@@ -61,15 +80,32 @@ def prepare_dataset(batch):
     ).input_features[0]
     batch["labels"] = processor.tokenizer(batch["text"]).input_ids
     return batch
+# Check if cached data exists
+if Path(cache_dir).exists():
+    log_print("📂 Loading cached preprocessed datasets...")
+    train_dataset = load_from_disk(f"{cache_dir}/train")
+    val_dataset = load_from_disk(f"{cache_dir}/validation") 
+    test_dataset = load_from_disk(f"{cache_dir}/test")
+    log_print("✅ Cached datasets loaded!")
+else:
+    log_print("🔧 PRE-PROCESSING DATASETS...")
+    # Your original preprocessing code
+    train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names,   desc="Processing train dataset")
+    val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,  desc="Processing val dataset")
+    test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names,  desc="Processing test dataset")
+    train_dataset = train_dataset.shuffle(seed=42)
+    val_dataset = val_dataset.shuffle(seed=42)
+    test_dataset = test_dataset.shuffle(seed=42)
+    
+    # Save to cache
+    log_print("💾 Saving to cache for future runs...")
+    Path(cache_dir).mkdir(parents=True, exist_ok=True)
+    train_dataset.save_to_disk(f"{cache_dir}/train")
+    val_dataset.save_to_disk(f"{cache_dir}/validation")
+    test_dataset.save_to_disk(f"{cache_dir}/test")
+    log_print("✅ Preprocessing complete and cached!")
 
-print("🔧 PRE-PROCESSING DATASETS...")
-train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, desc="Processing train dataset")
-val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,  desc="Processing val dataset")
-test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names, desc="Processing test dataset")
-train_dataset = train_dataset.shuffle(seed=42)
-val_dataset = val_dataset.shuffle(seed=42)
-test_dataset = test_dataset.shuffle(seed=42)
-print("✅ Preprocessing complete!")
+log_print("✅ Preprocessing complete!")
 
 @dataclass
 class DataCollatorSpeechSeq2SeqWithPadding:
@@ -94,7 +130,7 @@ class DataCollatorSpeechSeq2SeqWithPadding:
 checkpoint_folder = f"/root/speech_transcript_embeddings/training_ASR/trained_models/{MODEL_NAME}"
 
 # Load model
-print("Loading Whisper model...")
+log_print("Loading Whisper model...")
 model = WhisperForConditionalGeneration.from_pretrained(model_pretrained,low_cpu_mem_usage=True,attn_implementation="sdpa")
 model.generation_config.language = "pt"
 model.generation_config.task = "transcribe"
@@ -117,9 +153,8 @@ training_args = Seq2SeqTrainingArguments(
     warmup_steps=80,
     max_steps=810,
     bf16=True,
-    dataloader_num_workers=16,
-    dataloader_pin_memory=True,
-    dataloader_persistent_workers=True,
+    dataloader_num_workers=32,
+
     
     # Evaluation settings
     eval_strategy="steps",
@@ -141,7 +176,7 @@ training_args = Seq2SeqTrainingArguments(
     run_name=f"{MODEL_NAME}-synthetic-to-real",
 )
 
-print("Setting up trainer...")
+log_print("Setting up trainer...")
 trainer = Seq2SeqTrainer(
     args=training_args,
     model=model,
@@ -156,7 +191,7 @@ trainer.train()
 
 # Save final model
 trainer.save_model(checkpoint_folder + "/final_model")
-print("✅ Training completed! Now evaluating all checkpoints...")
+log_print("✅ Training completed! Now evaluating all checkpoints...")
 
 # ==========================================
 # POST-TRAINING CHECKPOINT EVALUATION
@@ -181,7 +216,7 @@ def get_all_checkpoints(checkpoint_folder):
 
 def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, data_collator, max_samples=500):
     """Evaluate a single checkpoint on validation set - FIXED VERSION"""
-    print(f"📊 Evaluating checkpoint: {checkpoint_path}")
+    log_print(f"📊 Evaluating checkpoint: {checkpoint_path}")
     
     try:
         # Load model from checkpoint
@@ -193,7 +228,7 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
         val_subset = val_dataset.select(range(min(max_samples, len(val_dataset))))
         
         # DIRECT LOSS CALCULATION (no trainer needed)
-        print("   Computing evaluation loss...")
+        log_print("   Computing evaluation loss...")
         total_loss = 0.0
         num_batches = 0
         
@@ -222,7 +257,7 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
         eval_loss = total_loss / num_batches
         
         # DIRECT WER CALCULATION
-        print("   Computing WER with text generation...")
+        log_print("   Computing WER with text generation...")
         predictions = []
         references = []
         
@@ -278,17 +313,17 @@ def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, d
         }
         
     except Exception as e:
-        print(f"   ❌ Detailed error: {str(e)}")
+        log_print(f"   ❌ Detailed error: {str(e)}")
         # Clear any remaining GPU memory
         torch.cuda.empty_cache()
         raise e
 
 def find_best_checkpoint(checkpoint_folder, val_dataset, processor, data_collator):
     """Evaluate all checkpoints and find the best one - FIXED VERSION"""
-    print("🔍 Finding best checkpoint based on validation metrics...")
+    log_print("🔍 Finding best checkpoint based on validation metrics...")
     
     checkpoints = get_all_checkpoints(checkpoint_folder)
-    print(f"Found {len(checkpoints)} checkpoints to evaluate")
+    log_print(f"Found {len(checkpoints)} checkpoints to evaluate")
     
     results = []
     
@@ -305,15 +340,15 @@ def find_best_checkpoint(checkpoint_folder, val_dataset, processor, data_collato
             }
             results.append(result)
             
-            print(f"   ✅ Step {step_num}: Loss={metrics['eval_loss']:.4f}, WER={metrics['wer']:.2f}%")
+            log_print(f"   ✅ Step {step_num}: Loss={metrics['eval_loss']:.4f}, WER={metrics['wer']:.2f}%")
             
         except Exception as e:
-            print(f"   ❌ Error evaluating step {step_num}: {e}")
+            log_print(f"   ❌ Error evaluating step {step_num}: {e}")
             continue
     
     # CHECK IF ANY RESULTS EXIST
     if not results:
-        print("❌ No checkpoints could be evaluated!")
+        log_print("❌ No checkpoints could be evaluated!")
         return None, []
     
     # Save all results
@@ -324,15 +359,15 @@ def find_best_checkpoint(checkpoint_folder, val_dataset, processor, data_collato
     best_by_loss = min(results, key=lambda x: x['eval_loss'])
     best_by_wer = min(results, key=lambda x: x['wer'])
     
-    print(f"\n📊 CHECKPOINT EVALUATION RESULTS:")
-    print(f"   Best by Loss: Step {best_by_loss['step']} (Loss={best_by_loss['eval_loss']:.4f}, WER={best_by_loss['wer']:.2f}%)")
-    print(f"   Best by WER:  Step {best_by_wer['step']} (Loss={best_by_wer['eval_loss']:.4f}, WER={best_by_wer['wer']:.2f}%)")
+    log_print(f"\n📊 CHECKPOINT EVALUATION RESULTS:")
+    log_print(f"   Best by Loss: Step {best_by_loss['step']} (Loss={best_by_loss['eval_loss']:.4f}, WER={best_by_loss['wer']:.2f}%)")
+    log_print(f"   Best by WER:  Step {best_by_wer['step']} (Loss={best_by_wer['eval_loss']:.4f}, WER={best_by_wer['wer']:.2f}%)")
     
     return best_by_loss, results
 
 def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, data_collator):
     """Evaluate the best model on test set - FIXED VERSION"""
-    print(f"🎯 Final evaluation on test set using: {best_checkpoint_path}")
+    log_print(f"🎯 Final evaluation on test set using: {best_checkpoint_path}")
     
     # Load best model
     model = WhisperForConditionalGeneration.from_pretrained(best_checkpoint_path,low_cpu_mem_usage=True, attn_implementation="sdpa")
@@ -340,7 +375,7 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     model.cuda()
     
     # DIRECT LOSS CALCULATION (no trainer)
-    print("   Computing test loss...")
+    log_print("   Computing test loss...")
     total_loss = 0.0
     num_batches = 0
     
@@ -371,7 +406,7 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     # Calculate WER on subset of test set (to avoid memory issues)
     test_subset = test_dataset.select(range(min(1000, len(test_dataset))))
     
-    print(f"   Computing WER on {len(test_subset)} test samples...")
+    log_print(f"   Computing WER on {len(test_subset)} test samples...")
     predictions = []
     references = []
     
@@ -428,7 +463,7 @@ if __name__ == "__main__":
         best_checkpoint, all_results = find_best_checkpoint(checkpoint_folder, val_dataset, processor, data_collator)
         
         if best_checkpoint is None:
-            print("❌ No valid checkpoints found. Exiting.")
+            log_print("❌ No valid checkpoints found. Exiting.")
             exit(1)
         
         # Evaluate best model on test set
@@ -453,13 +488,13 @@ if __name__ == "__main__":
         with open(os.path.join(checkpoint_folder, "final_evaluation_results.json"), "w") as f:
             json.dump(complete_results, f, indent=2)
         
-        print(f"\n🎉 FINAL RESULTS:")
-        print(f"   Best checkpoint: Step {best_checkpoint['step']}")
-        print(f"   Validation Loss: {best_checkpoint['eval_loss']:.4f}")
-        print(f"   Validation WER: {best_checkpoint['wer']:.2f}%")
-        print(f"   Test Loss: {final_results['test_loss']:.4f}")
-        print(f"   Test WER: {final_results['test_wer']:.2f}%")
-        print(f"   Results saved to: {checkpoint_folder}/final_evaluation_results.json")
+        log_print(f"\n🎉 FINAL RESULTS:")
+        log_print(f"   Best checkpoint: Step {best_checkpoint['step']}")
+        log_print(f"   Validation Loss: {best_checkpoint['eval_loss']:.4f}")
+
+        log_print(f"   Test Loss: {final_results['test_loss']:.4f}")
+        log_print(f"   Test WER: {final_results['test_wer']:.2f}%")
+        log_print(f"   Results saved to: {checkpoint_folder}/final_evaluation_results.json")
         
         # Log to wandb
         if wandb.run is not None:
@@ -471,12 +506,12 @@ if __name__ == "__main__":
                 "final_test_wer": final_results['test_wer']
             })
         
-        print(f"\n🔬 RESEARCH INSIGHT:")
-        print(f"   This methodology shows the optimal stopping point for synthetic→real transfer!")
-        print(f"   Best checkpoint was at step {best_checkpoint['step']} with {best_checkpoint['wer']:.2f}% validation WER")
+        log_print(f"\n🔬 RESEARCH INSIGHT:")
+        log_print(f"   This methodology shows the optimal stopping point for synthetic→real transfer!")
+        log_print(f"   Best checkpoint was at step {best_checkpoint['step']} with {best_checkpoint['wer']:.2f}% validation WER")
         
     except Exception as e:
-        print(f"\n❌ FATAL ERROR: {e}")
+        log_print(f"\n❌ FATAL ERROR: {e}")
         import traceback
         traceback.print_exc()
         exit(1)
