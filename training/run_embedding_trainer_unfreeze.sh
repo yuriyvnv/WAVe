@@ -8,7 +8,7 @@ set -e
 
 # Default values
 DATA_DIR="./common_voice_data"
-OUTPUT_DIR="./3_alignment_MHGLU_twoWay_loss"
+OUTPUT_DIR="./3_alignment_MHGLU_Dutch"
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
