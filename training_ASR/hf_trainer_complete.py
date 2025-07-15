@@ -63,9 +63,9 @@ def prepare_dataset(batch):
     return batch
 
 print("🔧 PRE-PROCESSING DATASETS...")
-train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, batch_size=100, desc="Processing train dataset")
-val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names, batch_size=100, desc="Processing val dataset")
-test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names, batch_size=100, desc="Processing test dataset")
+train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, desc="Processing train dataset")
+val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,  desc="Processing val dataset")
+test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names, desc="Processing test dataset")
 train_dataset = train_dataset.shuffle(seed=42)
 val_dataset = val_dataset.shuffle(seed=42)
 test_dataset = test_dataset.shuffle(seed=42)
@@ -137,7 +137,7 @@ training_args = Seq2SeqTrainingArguments(
     logging_steps=25,
     report_to=["wandb"],
     optim="adamw_torch_fused",
-    push_to_hub=False,
+    push_to_hub=True,
     run_name=f"{MODEL_NAME}-synthetic-to-real",
 )
 

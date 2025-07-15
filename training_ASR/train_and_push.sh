@@ -10,13 +10,13 @@
 set -e  # Exit on any error
 
 # ─────────────────────── CONFIG ───────────────────────
-TRAINING_SCRIPT="hf_trainer_synthetic.py"
+TRAINING_SCRIPT="hf_trainer_complete.py"
 MODEL_NAME="whisper-tiny-mixed-pt"
 MODEL_DIR="/root/speech_transcript_embeddings/training_ASR/trained_models/${MODEL_NAME}"
 LOG_FILE="training_$(date +%Y%m%d_%H%M%S).log"
 
 # VastAI configuration
-VASTAI_INSTANCE_ID="22969355"
+VASTAI_INSTANCE_ID="23121547"
 VASTAI_API_KEY="8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43"  # Set this environment variable
 
 # Colors for output
@@ -72,9 +72,12 @@ run_training() {
     echo "─────────────────────────────────────────" | tee -a "$LOG_FILE"
     
     # Run training with output to both console and log
-    if python "$TRAINING_SCRIPT" 2>&1 | tee -a "$LOG_FILE"; then
+    if python3 "$TRAINING_SCRIPT" 2>&1 | tee -a "$LOG_FILE"; then
         log_success "Training completed successfully! 🎉"
         log_info "📤 Model automatically pushed to Hub during training"
+        git add .
+        git commit -m "Training complete"
+        git push
         return 0
     else
         log_error "Training failed! ❌"
