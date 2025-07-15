@@ -16,7 +16,7 @@ MODEL_DIR="/root/speech_transcript_embeddings/training_ASR/trained_models/${MODE
 LOG_FILE="training_$(date +%Y%m%d_%H%M%S).log"
 
 # VastAI configuration
-VASTAI_INSTANCE_ID="23121547"
+VASTAI_INSTANCE_ID="23177966"
 VASTAI_API_KEY="8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43"  # Set this environment variable
 
 # Colors for output
