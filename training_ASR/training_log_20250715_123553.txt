@@ -1,5 +1,0 @@
-2025-07-15 12:35:53,924 - Loading mixed synthetic-CommonVoice Portuguese dataset...
-2025-07-15 12:35:56,218 - Available configs: ['fully_synthetic', 'mixed_cv_synthetic', 'cv_only']
-2025-07-15 12:35:58,028 - fully_synthetic: ['train', 'validation', 'test']
-2025-07-15 12:36:00,038 - mixed_cv_synthetic: ['train', 'validation', 'test']
-2025-07-15 12:36:01,891 - cv_only: ['train', 'validation', 'test']

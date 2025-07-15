@@ -9,25 +9,17 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
 
-from datasets import load_from_disk, get_dataset_config_names, get_dataset_split_names
 import json
-import pandas as pd
-import numpy as np
-from datasets import load_dataset, Audio, DatasetDict
+from datasets import load_dataset, Audio
 from transformers import WhisperFeatureExtractor, WhisperTokenizer, WhisperProcessor, Seq2SeqTrainer
-from transformers import WhisperForConditionalGeneration, AutoConfig
+from transformers import WhisperForConditionalGeneration
 from dataclasses import dataclass
-from typing import Any, Dict, List, Union
+from typing import Any
 from transformers import Seq2SeqTrainingArguments
-import evaluate
 from dotenv import load_dotenv
 import wandb
 import jiwer
-from pathlib import Path
-import glob
-import re
 from tqdm import tqdm
-import sys
 import logging
 from datetime import datetime
 
@@ -46,31 +38,21 @@ def log_print(message):
     logging.info(message) 
 load_dotenv()
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
-MODEL_NAME = "whisper-large-v3-mixed-pt"
-os.environ["WANDB_PROJECT"] = MODEL_NAME
+PROJECT_NAME = "whisper-large-v3-training"
+os.environ["WANDB_PROJECT"] = PROJECT_NAME
 HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
+MODEL_NAME = "whisper-large-v3-mixed-pt"
 
-# Load and preprocess dataset
-log_print("Loading mixed synthetic-CommonVoice Portuguese dataset...")
-# Check available configs
-configs = get_dataset_config_names("yuriyvnv/synthetic_transcript_pt")
-log_print(f"Available configs: {configs}")
 
-# Check what's in each config
-for config in configs:
-    try:
-        splits = get_dataset_split_names("yuriyvnv/synthetic_transcript_pt", config_name=config)
-        log_print(f"{config}: {splits}")
-    except Exception as e:
-        log_print(f"{config}: Error - {e}")
+
 dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,download_mode="force_redownload")
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
 val_dataset = dataset["validation"]
 test_dataset = dataset["test"]
-cache_dir = f"/root/speech_transcript_embeddings/training_ASR/cached_datasets/{MODEL_NAME}_mixed_cv_synthetic"
+
 
 log_print(f"✅ Mixed dataset loaded:")
 log_print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
@@ -91,30 +73,17 @@ def prepare_dataset(batch):
     batch["labels"] = processor.tokenizer(batch["text"]).input_ids
     return batch
 # Check if cached data exists
-if Path(cache_dir).exists():
-    log_print("📂 Loading cached preprocessed datasets...")
-    train_dataset = load_from_disk(f"{cache_dir}/train")
-    val_dataset = load_from_disk(f"{cache_dir}/validation") 
-    test_dataset = load_from_disk(f"{cache_dir}/test")
-    log_print("✅ Cached datasets loaded!")
-else:
-    log_print("🔧 PRE-PROCESSING DATASETS...")
-    # Your original preprocessing code
-    train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names,   desc="Processing train dataset")
-    val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,  desc="Processing val dataset")
-    test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names,  desc="Processing test dataset")
-    train_dataset = train_dataset.shuffle(seed=42)
-    val_dataset = val_dataset.shuffle(seed=42)
-    test_dataset = test_dataset.shuffle(seed=42)
-    
-    # Save to cache
-    log_print("💾 Saving to cache for future runs...")
-    Path(cache_dir).mkdir(parents=True, exist_ok=True)
-    train_dataset.save_to_disk(f"{cache_dir}/train")
-    val_dataset.save_to_disk(f"{cache_dir}/validation")
-    test_dataset.save_to_disk(f"{cache_dir}/test")
-    log_print("✅ Preprocessing complete and cached!")
 
+
+log_print("🔧 PRE-PROCESSING DATASETS...")
+# Your original preprocessing code
+train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names,   desc="Processing train dataset")
+val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,  desc="Processing val dataset")
+test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names,  desc="Processing test dataset")
+train_dataset = train_dataset.shuffle(seed=42)
+val_dataset = val_dataset.shuffle(seed=42)
+test_dataset = test_dataset.shuffle(seed=42)
+    
 log_print("✅ Preprocessing complete!")
 
 @dataclass
@@ -160,8 +129,8 @@ training_args = Seq2SeqTrainingArguments(
     per_device_train_batch_size=256,
     per_device_eval_batch_size=8,
     learning_rate=1e-5,
-    warmup_steps=80,
-    max_steps=810,
+    num_train_epochs=10,
+    warmup_ratio=0.1,
     bf16=True,
     dataloader_num_workers=32,
 
@@ -175,15 +144,14 @@ training_args = Seq2SeqTrainingArguments(
     
     # Save settings
     save_strategy="steps",
-    save_steps=50,
-    save_total_limit=None,
+    save_total_limit=1,
     load_best_model_at_end=True,
     
     logging_steps=25,
     report_to=["wandb"],
     optim="adamw_torch_fused",
     push_to_hub=True,
-    run_name=f"{MODEL_NAME}-synthetic-to-real",
+    run_name=f"{MODEL_NAME}",
 )
 
 log_print("Setting up trainer...")
@@ -204,176 +172,96 @@ trainer.save_model(checkpoint_folder + "/final_model")
 log_print("✅ Training completed! Now evaluating all checkpoints...")
 
 # ==========================================
-# POST-TRAINING CHECKPOINT EVALUATION
+# POST-TRAINING CHECKPOINT EVALUATION TEST
 # ==========================================
-
-def get_all_checkpoints(checkpoint_folder):
-    """Get all checkpoint folders sorted by step number"""
-    checkpoint_pattern = os.path.join(checkpoint_folder, "checkpoint-*")
-    checkpoint_dirs = glob.glob(checkpoint_pattern)
+def evaluate_final_model_on_validation(best_checkpoint_path, validation_dataset, processor, data_collator):
+    """Evaluate the best model on validation set - FULL DATASET VERSION"""
+    log_print(f"🎯 Final evaluation on validation set using: {best_checkpoint_path}")
     
-    # Extract step numbers and sort
-    checkpoints = []
-    for checkpoint_dir in checkpoint_dirs:
-        match = re.search(r'checkpoint-(\d+)', checkpoint_dir)
-        if match:
-            step_num = int(match.group(1))
-            checkpoints.append((step_num, checkpoint_dir))
+    # Load best model
+    model = WhisperForConditionalGeneration.from_pretrained(best_checkpoint_path,low_cpu_mem_usage=True, attn_implementation="sdpa")
+    model.eval()
+    model.cuda()
     
-    # Sort by step number
-    checkpoints.sort(key=lambda x: x[0])
-    return checkpoints
-
-def evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, data_collator, max_samples=500):
-    """Evaluate a single checkpoint on validation set - FIXED VERSION"""
-    log_print(f"📊 Evaluating checkpoint: {checkpoint_path}")
+    # DIRECT LOSS CALCULATION (no trainer)
+    log_print("   Computing validation loss...")
+    total_loss = 0.0
+    num_batches = 0
     
-    try:
-        # Load model from checkpoint
-        model = WhisperForConditionalGeneration.from_pretrained(checkpoint_path,low_cpu_mem_usage=True, attn_implementation="sdpa")
-        model.eval()
-        model.cuda()
-        
-        # Use subset of validation data to avoid memory issues
-        val_subset = val_dataset.select(range(min(max_samples, len(val_dataset))))
-        
-        # DIRECT LOSS CALCULATION (no trainer needed)
-        log_print("   Computing evaluation loss...")
-        total_loss = 0.0
-        num_batches = 0
-        
-        with torch.no_grad():
-            for i in tqdm(range(0, len(val_subset), 512), desc="Computing loss", unit="batch"): 
-                batch_samples = [val_subset[j] for j in range(i, min(i+512, len(val_subset)))]
-                
-                # Prepare batch using data collator
-                batch = data_collator(batch_samples)
-                
-                # Move to GPU
-                input_features = batch["input_features"].cuda()
-                labels = batch["labels"].cuda()
-                
-                # Forward pass
-                outputs = model(input_features=input_features, labels=labels)
-                loss = outputs.loss
-                
-                total_loss += loss.item()
-                num_batches += 1
-                
-                # Clear memory
-                del batch, input_features, labels, outputs
-                torch.cuda.empty_cache()
-        
-        eval_loss = total_loss / num_batches
-        
-        # DIRECT WER CALCULATION
-        log_print("   Computing WER with text generation...")
-        predictions = []
-        references = []
-        
-        # Generate text for WER calculation (small batches to avoid OOM)
-        with torch.no_grad():
-            for i in tqdm(range(0, len(val_subset), 512), desc="Computing WER", unit="batch"):  # Process 10 samples at a time
-                batch = [val_subset[j] for j in range(i, min(i+512, len(val_subset)))]
-                
-                # Prepare inputs
-                input_features = [sample["input_features"] for sample in batch]
-                input_batch = processor.feature_extractor.pad(
-                    [{"input_features": f} for f in input_features], 
-                    return_tensors="pt"
-                ).to(model.device)
-                
-                # Generate with strict memory limits
-                generated_ids = model.generate(
-                    input_batch["input_features"],
-                    max_length=448,          
-                )
-                
-                # Decode predictions
-                pred_texts = processor.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
-                
-                # Get references
-                ref_texts = []
-                for sample in batch:
-                    # Decode reference labels
-                    labels = sample["labels"]
-                    # Remove -100 tokens
-                    labels = [l for l in labels if l != -100]
-                    ref_text = processor.tokenizer.decode(labels, skip_special_tokens=True)
-                    ref_texts.append(ref_text)
-                
-                predictions.extend(pred_texts)
-                references.extend(ref_texts)
-                
-                # Clear memory
-                del input_batch, generated_ids
-                torch.cuda.empty_cache()
-        
-        # Calculate WER using jiwer
-        wer = jiwer.wer(references, predictions) * 100
-        
-        # Clear model from memory
-        del model
-        torch.cuda.empty_cache()
-        
-        return {
-            'eval_loss': eval_loss,
-            'wer': wer,
-            'num_samples': len(val_subset)
-        }
-        
-    except Exception as e:
-        log_print(f"   ❌ Detailed error: {str(e)}")
-        # Clear any remaining GPU memory
-        torch.cuda.empty_cache()
-        raise e
-
-def find_best_checkpoint(checkpoint_folder, val_dataset, processor, data_collator):
-    """Evaluate all checkpoints and find the best one - FIXED VERSION"""
-    log_print("🔍 Finding best checkpoint based on validation metrics...")
-    
-    checkpoints = get_all_checkpoints(checkpoint_folder)
-    log_print(f"Found {len(checkpoints)} checkpoints to evaluate")
-    
-    results = []
-    
-    for step_num, checkpoint_path in tqdm(checkpoints, desc="Evaluating checkpoints", unit="checkpoint"):
-        try:
-            metrics = evaluate_checkpoint_on_validation(checkpoint_path, val_dataset, processor, data_collator)
+    with torch.no_grad():
+        for i in tqdm(range(0, len(validation_dataset), 128), desc="Computing validation loss", unit="batch"):
+            batch_samples = [validation_dataset[j] for j in range(i, min(i+128, len(validation_dataset)))]
             
-            result = {
-                'step': step_num,
-                'checkpoint_path': checkpoint_path,
-                'eval_loss': metrics['eval_loss'],
-                'wer': metrics['wer'],
-                'num_samples': metrics['num_samples']
-            }
-            results.append(result)
+            # Prepare batch using data collator
+            batch = data_collator(batch_samples)
             
-            log_print(f"   ✅ Step {step_num}: Loss={metrics['eval_loss']:.4f}, WER={metrics['wer']:.2f}%")
+            # Move to GPU
+            input_features = batch["input_features"].cuda()
+            labels = batch["labels"].cuda()
             
-        except Exception as e:
-            log_print(f"   ❌ Error evaluating step {step_num}: {e}")
-            continue
+            # Forward pass
+            outputs = model(input_features=input_features, labels=labels)
+            loss = outputs.loss
+            
+            total_loss += loss.item()
+            num_batches += 1
+            
+            # Clear memory
+            del batch, input_features, labels, outputs
+            torch.cuda.empty_cache()
     
-    # CHECK IF ANY RESULTS EXIST
-    if not results:
-        log_print("❌ No checkpoints could be evaluated!")
-        return None, []
+    validation_loss = total_loss / num_batches
     
-    # Save all results
-    results_df = pd.DataFrame(results)
-    results_df.to_csv(os.path.join(checkpoint_folder, "checkpoint_evaluation_results.csv"), index=False)
+    # Calculate WER on FULL validation set
+    validation_subset = validation_dataset
     
-    # Find best checkpoint
-    best_by_loss = min(results, key=lambda x: x['eval_loss'])
-    best_by_wer = min(results, key=lambda x: x['wer'])
+    log_print(f"   Computing WER on {len(validation_subset)} validation samples...")
+    predictions = []
+    references = []
     
-    log_print(f"\n📊 CHECKPOINT EVALUATION RESULTS:")
-    log_print(f"   Best by Loss: Step {best_by_loss['step']} (Loss={best_by_loss['eval_loss']:.4f}, WER={best_by_loss['wer']:.2f}%)")
-    log_print(f"   Best by WER:  Step {best_by_wer['step']} (Loss={best_by_wer['eval_loss']:.4f}, WER={best_by_wer['wer']:.2f}%)")
+    with torch.no_grad():
+        for i in tqdm(range(0, len(validation_subset), 128), desc="Computing validation WER", unit="batch"):
+            batch = [validation_subset[j] for j in range(i, min(i+128, len(validation_subset)))]
+            
+            input_features = [sample["input_features"] for sample in batch]
+            input_batch = processor.feature_extractor.pad(
+                [{"input_features": f} for f in input_features], 
+                return_tensors="pt"
+            ).to(model.device)
+            
+            generated_ids = model.generate(
+                input_batch["input_features"],
+                max_length=448,
+            )
+            
+            pred_texts = processor.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
+            
+            ref_texts = []
+            for sample in batch:
+                labels = [l for l in sample["labels"] if l != -100]
+                ref_text = processor.tokenizer.decode(labels, skip_special_tokens=True)
+                ref_texts.append(ref_text)
+            
+            predictions.extend(pred_texts)
+            references.extend(ref_texts)
+            
+            del input_batch, generated_ids
+            torch.cuda.empty_cache()
     
-    return best_by_loss, results
+    validation_wer = jiwer.wer(references, predictions) * 100
+    
+    # Clear model from memory
+    del model
+    torch.cuda.empty_cache()
+    
+    return {
+        'validation_loss': validation_loss,
+        'validation_wer': validation_wer,
+        'validation_samples_for_wer': len(validation_subset),
+        'validation_samples_total': len(validation_dataset)
+    }
+
+
 
 def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, data_collator):
     """Evaluate the best model on test set - FIXED VERSION"""
@@ -390,8 +278,8 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     num_batches = 0
     
     with torch.no_grad():
-        for i in tqdm(range(0, len(test_dataset), 512), desc="Computing test loss", unit="batch"):  # Process 75 samples at a time
-            batch_samples = [test_dataset[j] for j in range(i, min(i+512, len(test_dataset)))]
+        for i in tqdm(range(0, len(test_dataset), 128), desc="Computing test loss", unit="batch"):  # Process 75 samples at a time
+            batch_samples = [test_dataset[j] for j in range(i, min(i+128, len(test_dataset)))]
             
             # Prepare batch using data collator
             batch = data_collator(batch_samples)
@@ -414,15 +302,15 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     test_loss = total_loss / num_batches
     
     # Calculate WER on subset of test set (to avoid memory issues)
-    test_subset = test_dataset.select(range(min(1000, len(test_dataset))))
+    test_subset = test_dataset
     
     log_print(f"   Computing WER on {len(test_subset)} test samples...")
     predictions = []
     references = []
     
     with torch.no_grad():
-        for i in tqdm(range(0, len(test_subset), 512), desc="Computing test WER", unit="batch"):
-            batch = [test_subset[j] for j in range(i, min(i+512, len(test_subset)))]
+        for i in tqdm(range(0, len(test_subset), 128), desc="Computing test WER", unit="batch"):
+            batch = [test_subset[j] for j in range(i, min(i+128, len(test_subset)))]
             
             input_features = [sample["input_features"] for sample in batch]
             input_batch = processor.feature_extractor.pad(
@@ -467,31 +355,28 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
 # EXECUTE CHECKPOINT EVALUATION
 # ==========================================
 
+
 if __name__ == "__main__":
     try:
-        # Find best checkpoint
-        best_checkpoint, all_results = find_best_checkpoint(checkpoint_folder, val_dataset, processor, data_collator)
+        # Use the final model from training
+        final_model_path = checkpoint_folder + "/final_model"
         
-        if best_checkpoint is None:
-            log_print("❌ No valid checkpoints found. Exiting.")
-            exit(1)
+        log_print(f"🎯 Using final trained model from: {final_model_path}")
         
-        # Evaluate best model on test set
-        final_results = evaluate_final_model_on_test(best_checkpoint['checkpoint_path'], test_dataset, processor, data_collator)
+        # Evaluate final model on validation set
+        validation_results = evaluate_final_model_on_validation(final_model_path, val_dataset, processor, data_collator)
+        
+        # Evaluate final model on test set
+        test_results = evaluate_final_model_on_test(final_model_path, test_dataset, processor, data_collator)
         
         # Combine results
         complete_results = {
             "model_name": MODEL_NAME,
             "dataset": "yuriyvnv/synthetic_transcript_pt",
             "training_paradigm": "synthetic_train_real_eval",
-            "best_checkpoint": {
-                "step": best_checkpoint['step'],
-                "path": best_checkpoint['checkpoint_path'],
-                "validation_loss": best_checkpoint['eval_loss'],
-                "validation_wer": best_checkpoint['wer']
-            },
-            "final_test_results": final_results,
-            "all_checkpoint_results": all_results
+            "final_model_path": final_model_path,
+            "final_validation_results": validation_results,
+            "final_test_results": test_results
         }
         
         # Save comprehensive results
@@ -499,26 +384,24 @@ if __name__ == "__main__":
             json.dump(complete_results, f, indent=2)
         
         log_print(f"\n🎉 FINAL RESULTS:")
-        log_print(f"   Best checkpoint: Step {best_checkpoint['step']}")
-        log_print(f"   Validation Loss: {best_checkpoint['eval_loss']:.4f}")
-
-        log_print(f"   Test Loss: {final_results['test_loss']:.4f}")
-        log_print(f"   Test WER: {final_results['test_wer']:.2f}%")
+        log_print(f"   Final model path: {final_model_path}")
+        log_print(f"   Validation Loss: {validation_results['validation_loss']:.4f}")
+        log_print(f"   Validation WER: {validation_results['validation_wer']:.2f}%")
+        log_print(f"   Test Loss: {test_results['test_loss']:.4f}")
+        log_print(f"   Test WER: {test_results['test_wer']:.2f}%")
         log_print(f"   Results saved to: {checkpoint_folder}/final_evaluation_results.json")
         
         # Log to wandb
         if wandb.run is not None:
             wandb.log({
-                "best_step": best_checkpoint['step'],
-                "best_validation_loss": best_checkpoint['eval_loss'],
-                "best_validation_wer": best_checkpoint['wer'],
-                "final_test_loss": final_results['test_loss'],
-                "final_test_wer": final_results['test_wer']
+                "final_validation_loss": validation_results['validation_loss'],
+                "final_validation_wer": validation_results['validation_wer'],
+                "final_test_loss": test_results['test_loss'],
+                "final_test_wer": test_results['test_wer']
             })
         
-        log_print(f"\n🔬 RESEARCH INSIGHT:")
-        log_print(f"   This methodology shows the optimal stopping point for synthetic→real transfer!")
-        log_print(f"   Best checkpoint was at step {best_checkpoint['step']} with {best_checkpoint['wer']:.2f}% validation WER")
+        log_print(f"\n🔬 EVALUATION COMPLETE:")
+        log_print(f"   Final model evaluated on both validation and test sets!")
         
     except Exception as e:
         log_print(f"\n❌ FATAL ERROR: {e}")
