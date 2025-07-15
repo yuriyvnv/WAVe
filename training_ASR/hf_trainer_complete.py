@@ -50,7 +50,7 @@ print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples")
 print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
 model_pretrained = "openai/whisper-tiny"
-feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN).to("cuda")
+feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN)
 tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN).to("cuda")
 processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN).to("cuda")
 
