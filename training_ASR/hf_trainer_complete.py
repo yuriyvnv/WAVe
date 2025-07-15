@@ -50,9 +50,9 @@ print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples")
 print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
 model_pretrained = "openai/whisper-tiny"
-feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN)
-tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
-processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
+feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN).to("cuda")
+tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN).to("cuda")
+processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN).to("cuda")
 
 def prepare_dataset(batch):
     audio = batch["audio"]
@@ -63,9 +63,9 @@ def prepare_dataset(batch):
     return batch
 
 print("🔧 PRE-PROCESSING DATASETS...")
-train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, desc="Processing train dataset")
-val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,  desc="Processing val dataset")
-test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names, desc="Processing test dataset")
+train_dataset = train_dataset.map(prepare_dataset, remove_columns=train_dataset.column_names, desc="Processing train dataset", num_proc=32, batch_size=1024)
+val_dataset = val_dataset.map(prepare_dataset, remove_columns=val_dataset.column_names,  desc="Processing val dataset", num_proc=32, batch_size=1024)
+test_dataset = test_dataset.map(prepare_dataset, remove_columns=test_dataset.column_names, desc="Processing test dataset", num_proc=32, batch_size=1024)
 train_dataset = train_dataset.shuffle(seed=42)
 val_dataset = val_dataset.shuffle(seed=42)
 test_dataset = test_dataset.shuffle(seed=42)
