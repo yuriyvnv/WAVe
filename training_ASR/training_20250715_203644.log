@@ -1,0 +1,22 @@
+[0;34m[INFO][0m 🔍 Checking prerequisites...
+[0;34m[INFO][0m GPU detected: NVIDIA H200
+[0;32m[SUCCESS][0m Prerequisites check passed ✅
+[0;34m[INFO][0m 🚀 Starting Whisper training...
+[0;34m[INFO][0m Script: hf_trainer_complete.py
+[0;34m[INFO][0m Model: whisper-large-v3-mixed-pt
+[0;34m[INFO][0m Log file: training_20250715_203644.log
+[0;34m[INFO][0m 📤 HF Hub push: Automatic (via push_to_hub=True)
+─────────────────────────────────────────
+True
+0
+NVIDIA H200
+True
+Traceback (most recent call last):
+  File "/root/speech_transcript_embeddings/training_ASR/hf_trainer_complete.py", line 40, in <module>
+    os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 684, in __setitem__
+  File "<frozen os>", line 758, in encode
+TypeError: str expected, not NoneType
+[0;32m[SUCCESS][0m Training completed successfully! 🎉
+[0;34m[INFO][0m 📤 Model automatically pushed to Hub during training
