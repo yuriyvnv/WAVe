@@ -24,5 +24,5 @@
 2025-07-16 05:52:03,478 -    Test WER: 8.60%
 2025-07-16 05:52:03,479 -    Results saved to: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-large-v3-mixed-pt/final_evaluation_results.json
 2025-07-16 05:52:03,479 - 
-🔬 EVALUATION COMPLETE:
+🔬 EVALUATION COMPLETE: ss
 2025-07-16 05:52:03,479 -    Final model evaluated on both validation and test sets!
