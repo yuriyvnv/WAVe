@@ -2195,7 +2195,7 @@ def main():
     logger.info("Loading Common Voice dataset...")
     
     try:
-        dataset = load_dataset("mozilla-foundation/common_voice_17_0", "nl", token=True)
+        dataset = load_dataset("mozilla-foundation/common_voice_17_0", "nl", trust_remote_code=True,token=True)
         
         # Cast to Audio column with 16kHz sampling rate
         dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
