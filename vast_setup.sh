@@ -22,13 +22,11 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3.11 get-pip.py
 rm get-pip.py
 
-pip install vastai
 # 4. Install UV Package Manager
+pip install vastai
 echo -e "\n[4/9] Installing UV package manager..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source $HOME/.local/bin/env
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-export PATH="$HOME/.local/bin:$PATH"
 
 # 5. Install Python Packages
 echo -e "\n[5/9] Installing Python packages..."
@@ -63,15 +61,3 @@ git config --global credential.helper store
 echo -e "\n[8/9] Setting up HuggingFace..."
 echo "Please login to HuggingFace:"
 huggingface-cli login
-
-echo -e "\n======================================"
-echo "Setup Complete!"
-echo "======================================"
-echo ""
-echo "Next steps:"
-echo "1. Create a .env file with your HF_TOKEN:"
-echo "   echo 'HF_TOKEN=your_token_here' > .env"
-echo ""
-echo "2. Run the training script:"
-echo "   ./run_embedding_trainer_unfreeze.sh"
-echo ""

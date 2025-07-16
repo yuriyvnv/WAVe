@@ -1,0 +1,15 @@
+[0;32m[SUCCESS][0m Training completed successfully! 🎉
+[0;34m[INFO][0m 📤 Model automatically pushed to Hub during training
+[0;32m[SUCCESS][0m 🎉 TRAINING COMPLETED!
+[0;34m[INFO][0m 📊 Model: whisper-large-v3-mixed-pt
+[0;34m[INFO][0m 📁 Local path: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-large-v3-mixed-pt
+[0;34m[INFO][0m 🔗 Hub URL: https://huggingface.co/yuriyvnv/whisper-large-v3-mixed-pt
+[0;34m[INFO][0m 📋 Log file: training_20250715_212751.log
+[0;34m[INFO][0m 🛑 Stopping VastAI instance to save costs...
+[0;34m[INFO][0m 🛑 Stopping VastAI instance...
+[0;34m[INFO][0m Instance ID: 23177966
+stopping instance 23177966.
+[0;32m[SUCCESS][0m ✅ VastAI instance stopped successfully!
+[0;34m[INFO][0m 💰 Instance 23177966 has been stopped to save costs
+[0;32m[SUCCESS][0m 🎉 All done! Your model is trained and instance stopped!
+[0;34m[INFO][0m 🧹 Cleaning up temporary files...
