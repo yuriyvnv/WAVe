@@ -22,9 +22,10 @@ import jiwer
 from tqdm import tqdm
 import logging
 from datetime import datetime
+MODEL_NAME = "whisper-large-v3-mixed-pt"
 
 # Quick logging setup
-log_file = f"training_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+log_file = f"training_log_{MODEL_NAME}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(message)s',
@@ -42,7 +43,6 @@ PROJECT_NAME = "whisper-large-v3-training"
 os.environ["WANDB_PROJECT"] = PROJECT_NAME
 HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
-MODEL_NAME = "whisper-large-v3-mixed-pt"
 
 
 
@@ -66,6 +66,17 @@ processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", ta
 log_print("🔧 PRE-PROCESSING DATASETS...")
 
 def prepare_dataset(batch):
+    transcription= batch["text"]
+    if transcription.startswith('"') and transcription.endswith('"'):
+    # we can remove trailing quotation marks as they do not affect the transcription
+        transcription = transcription[1:-1]
+    
+    if transcription[-1] not in [".", "?", "!"]:
+        # append a full-stop to sentences that do not end in punctuation
+        transcription = transcription + "."
+    
+    batch["text"] = transcription
+    
     audio = batch["audio"]
     batch["input_features"] = feature_extractor(
         audio["array"], sampling_rate=audio["sampling_rate"]
