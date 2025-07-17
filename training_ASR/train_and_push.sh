@@ -11,7 +11,7 @@ set -e  # Exit on any error
 
 # ─────────────────────── CONFIG ───────────────────────
 TRAINING_SCRIPT="hf_trainer_complete.py"
-MODEL_NAME="whisper-tiny-cv-only-pt"
+MODEL_NAME="whisper-small-cv-only-pt"
 MODEL_DIR="/root/speech_transcript_embeddings/training_ASR/trained_models/${MODEL_NAME}"
 LOG_FILE="training_$(date +%Y%m%d_%H%M%S).log"
 
@@ -103,7 +103,7 @@ stop_vastai_instance() {
     log_info "Instance ID: $VASTAI_INSTANCE_ID"
     
     # Stop the VastAI instance
-    if vastai stop instance "$VASTAI_INSTANCE_ID" --api-key "$VASTAI_API_KEY" 2>&1 | tee -a "$LOG_FILE"; then
+    if vastai stop instance "$VASTAI_INSTANCE_ID" --api-key "$VASTAI_API_KEY" ; then
         log_success "✅ VastAI instance stopped successfully!"
         log_info "💰 Instance $VASTAI_INSTANCE_ID has been stopped to save costs"
     else

@@ -8,7 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-tiny-mixed-pt"
+MODEL_NAME = "whisper-small-cv-only-pt"
 
 import json
 from datasets import load_dataset, Audio
@@ -39,14 +39,14 @@ def log_print(message):
     logging.info(message) 
 load_dotenv()
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
-PROJECT_NAME = "whisper-tiny-training"
+PROJECT_NAME = "whisper-small-training"
 os.environ["WANDB_PROJECT"] = PROJECT_NAME
 HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN)
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "cv-only",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
@@ -59,7 +59,7 @@ log_print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
 log_print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples") 
 log_print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
-model_pretrained = "openai/whisper-tiny"
+model_pretrained = "openai/whisper-small"
 feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN)
 tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
 processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
@@ -67,6 +67,14 @@ log_print("🔧 PRE-PROCESSING DATASETS...")
 
 def prepare_dataset(batch):
     audio = batch["audio"]
+    transcription = batch["text"]
+    if transcription.startswith('"') and transcription.endswith('"'):
+        # we can remove trailing quotation marks as they do not affect the transcription
+        transcription = transcription[1:-1]
+    if transcription[-1] not in [".", "?", "!"]:
+        # append a full-stop to sentences that do not end in punctuation
+        transcription = transcription + "."
+    batch["text"] = transcription
     batch["input_features"] = feature_extractor(
         audio["array"], sampling_rate=audio["sampling_rate"]
     ).input_features[0]
@@ -128,7 +136,7 @@ training_args = Seq2SeqTrainingArguments(
     gradient_checkpointing=True,
     per_device_train_batch_size=256,
     per_device_eval_batch_size=8,
-    learning_rate=5e-6,
+    learning_rate=1e-5,
     num_train_epochs=10,
     warmup_ratio=0.1,
     bf16=True,
