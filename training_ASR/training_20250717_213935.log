@@ -1,0 +1,31 @@
+[0;34m[INFO][0m 🔍 Checking prerequisites...
+[0;34m[INFO][0m GPU detected: NVIDIA H200 NVL
+[0;32m[SUCCESS][0m Prerequisites check passed ✅
+[0;34m[INFO][0m 🚀 Starting Whisper training...
+[0;34m[INFO][0m Script: hf_trainer_complete.py
+[0;34m[INFO][0m Model: whisper-small-cv-only-pt
+[0;34m[INFO][0m Log file: training_20250717_213935.log
+[0;34m[INFO][0m 📤 HF Hub push: Automatic (via push_to_hub=True)
+─────────────────────────────────────────
+True
+0
+NVIDIA H200 NVL
+True
+Traceback (most recent call last):
+  File "/root/speech_transcript_embeddings/training_ASR/hf_trainer_complete.py", line 49, in <module>
+    dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "cv-only",token=HF_TOKEN)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/load.py", line 2062, in load_dataset
+    builder_instance = load_dataset_builder(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/load.py", line 1819, in load_dataset_builder
+    builder_instance: DatasetBuilder = builder_cls(
+                                       ^^^^^^^^^^^^
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/builder.py", line 343, in __init__
+    self.config, self.config_id = self._create_builder_config(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/datasets/builder.py", line 570, in _create_builder_config
+    raise ValueError(
+ValueError: BuilderConfig 'cv-only' not found. Available: ['cv_only', 'fully_synthetic', 'mixed_cv_synthetic', 'mixed_cv_synthetic_all']
+[0;32m[SUCCESS][0m Training completed successfully! 🎉
+[0;34m[INFO][0m 📤 Model automatically pushed to Hub during training
