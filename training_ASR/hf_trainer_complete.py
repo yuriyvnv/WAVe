@@ -8,7 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-large-v3-cv-only-pt"
+MODEL_NAME = "whisper-tiny-mixed-pt"
 
 import json
 from datasets import load_dataset, Audio
@@ -39,14 +39,14 @@ def log_print(message):
     logging.info(message) 
 load_dotenv()
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
-PROJECT_NAME = "whisper-large-v3-training"
+PROJECT_NAME = "whisper-tiny-training"
 os.environ["WANDB_PROJECT"] = PROJECT_NAME
 HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "cv_only",token=HF_TOKEN)
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
@@ -59,7 +59,7 @@ log_print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
 log_print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples") 
 log_print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
-model_pretrained = "openai/whisper-large-v3"
+model_pretrained = "openai/whisper-tiny"
 feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN)
 tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
 processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
@@ -212,7 +212,7 @@ def evaluate_final_model_on_validation(best_checkpoint_path, validation_dataset,
             torch.cuda.empty_cache()
     
     validation_loss = total_loss / num_batches
-    
+    print(validation_loss)
     # Calculate WER on FULL validation set
     validation_subset = validation_dataset
     
@@ -250,7 +250,7 @@ def evaluate_final_model_on_validation(best_checkpoint_path, validation_dataset,
             torch.cuda.empty_cache()
     
     validation_wer = jiwer.wer(references, predictions) * 100
-    
+    print(validation_wer)
     # Clear model from memory
     del model
     torch.cuda.empty_cache()
@@ -269,7 +269,7 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
     log_print(f"🎯 Final evaluation on test set using: {best_checkpoint_path}")
     
     # Load best model
-    model = WhisperForConditionalGeneration.from_pretrained(best_checkpoint_path,low_cpu_mem_usage=True, attn_implementation="sdpa")
+    model = WhisperForConditionalGeneration.from_pretrained(best_checkpoint_path,low_cpu_mem_usage=True, attn_implementation="sdpa",)
     model.eval()
     model.cuda()
     
@@ -301,7 +301,7 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
             torch.cuda.empty_cache()
     
     test_loss = total_loss / num_batches
-    
+    print(test_loss)
     # Calculate WER on subset of test set (to avoid memory issues)
     test_subset = test_dataset
     
@@ -340,7 +340,7 @@ def evaluate_final_model_on_test(best_checkpoint_path, test_dataset, processor, 
             torch.cuda.empty_cache()
     
     test_wer = jiwer.wer(references, predictions) * 100
-    
+    print(test_wer)
     # Clear model from memory
     del model
     torch.cuda.empty_cache()
