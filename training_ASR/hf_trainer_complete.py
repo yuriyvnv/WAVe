@@ -8,7 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-large-v3-mixed-pt"
+MODEL_NAME = "whisper-large-v3-cv-only-pt"
 
 import json
 from datasets import load_dataset, Audio
@@ -46,7 +46,7 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,download_mode="force_redownload")
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "cv_only",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
@@ -128,7 +128,7 @@ training_args = Seq2SeqTrainingArguments(
     gradient_checkpointing=True,
     per_device_train_batch_size=256,
     per_device_eval_batch_size=8,
-    learning_rate=1e-5,
+    learning_rate=5e-6,
     num_train_epochs=10,
     warmup_ratio=0.1,
     bf16=True,
@@ -144,7 +144,8 @@ training_args = Seq2SeqTrainingArguments(
     
     # Save settings
     save_strategy="steps",
-    save_total_limit=1,
+    save_steps=50,
+    save_total_limit=3,
     load_best_model_at_end=True,
     
     logging_steps=25,
@@ -168,7 +169,7 @@ trainer = Seq2SeqTrainer(
 trainer.train()
 
 # Save final model
-trainer.save_model(checkpoint_folder + "/final_model")
+trainer.save_model(checkpoint_folder +"/final_model")
 log_print("✅ Training completed! Now evaluating all checkpoints...")
 
 # ==========================================

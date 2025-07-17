@@ -11,7 +11,7 @@ set -e  # Exit on any error
 
 # ─────────────────────── CONFIG ───────────────────────
 TRAINING_SCRIPT="hf_trainer_complete.py"
-MODEL_NAME="whisper-large-v3-mixed-pt"
+MODEL_NAME="whisper-large-v3-cv-only-pt"
 MODEL_DIR="/root/speech_transcript_embeddings/training_ASR/trained_models/${MODEL_NAME}"
 LOG_FILE="training_$(date +%Y%m%d_%H%M%S).log"
 
