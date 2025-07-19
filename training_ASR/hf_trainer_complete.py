@@ -8,7 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-tiny-mixed-pt"
+MODEL_NAME = "whisper-tiny-cv-full-synthetic-pt"
 
 import json
 from datasets import load_dataset, Audio
@@ -46,7 +46,7 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN)
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic_all",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
