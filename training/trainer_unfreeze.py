@@ -282,7 +282,9 @@ class WordLevelAlignmentModule(nn.Module):
         """
         batch_size, text_len, _ = text_hidden_states.shape
         _, audio_len, _ = audio_hidden_states.shape
-        
+        print("________________________________________________________")
+        print("USING ALIGNMENT")
+        print("________________________________________________________")
         # Project text and audio
         text_proj = self.text_projection(text_hidden_states)
         audio_proj = self.audio_projection(audio_hidden_states)
