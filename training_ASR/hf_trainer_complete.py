@@ -9,7 +9,7 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
 MODEL_NAME = "whisper-large-v3-cv-fully-synthetic-pt"
-
+print(MODEL_NAME)
 import json
 from datasets import load_dataset, Audio
 from transformers import WhisperFeatureExtractor, WhisperTokenizer, WhisperProcessor, Seq2SeqTrainer
