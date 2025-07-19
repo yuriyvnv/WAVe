@@ -46,7 +46,7 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic_all",token=HF_TOKEN)
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "cv_high_quality",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
@@ -136,6 +136,7 @@ training_args = Seq2SeqTrainingArguments(
     gradient_checkpointing=True,
     per_device_train_batch_size=256,
     per_device_eval_batch_size=8,
+    learning_rate=1e-5,
     learning_rate=1e-5,
     num_train_epochs=10,
     warmup_ratio=0.1,
