@@ -8,8 +8,12 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-large-v3-cv-capes-filtered-pt"
+MODEL_NAME = "whisper-large-v3-cv-capes-fs024-IEEE-pt"
 print(MODEL_NAME)
+print("PyTorch:", torch.__version__)
+print("CUDA available:", torch.cuda.is_available())
+print("bf16 supported by at least one device:",
+      getattr(torch.cuda, "is_bf16_supported", lambda: "n/a")())
 import json
 from datasets import load_dataset, Audio
 from transformers import WhisperFeatureExtractor, WhisperTokenizer, WhisperProcessor, Seq2SeqTrainer
@@ -49,9 +53,9 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 dataset = load_dataset("yuriyvnv/capes_synthetic_audio_filtered",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
-train_dataset = dataset["train"]
-val_dataset = dataset["validation"]
-test_dataset = dataset["test"]
+train_dataset = dataset["ieee_train"]
+val_dataset = dataset["ieee_validation"]
+test_dataset = dataset["ieee_test"]
 
 
 log_print(f"✅ Mixed dataset loaded:")
@@ -134,13 +138,15 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(
 training_args = Seq2SeqTrainingArguments(
     output_dir=checkpoint_folder,
     gradient_checkpointing=True,
-    per_device_train_batch_size=256,
+    gradient_accumulation_steps=2,
+    per_device_train_batch_size=128,
     per_device_eval_batch_size=8,
+    eval_accumulation_steps=50,
     learning_rate=5e-6,
-    num_train_epochs=10,
+    max_steps=1000,
     warmup_ratio=0.1,
     bf16=True,
-    dataloader_num_workers=32,
+    dataloader_num_workers=30,
 
     
     # Evaluation settings

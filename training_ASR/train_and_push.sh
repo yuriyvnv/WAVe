@@ -3,7 +3,7 @@ set -e  # Exit on any error
 
 echo "=== Starting training ==="
 
-uv run ./hf_trainer_complete.py
+uv run ./hf_trainer_complete_capes.py
 
 
 echo "=== Pushing logs to GitHub ==="
