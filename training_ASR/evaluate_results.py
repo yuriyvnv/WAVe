@@ -4,6 +4,44 @@ from tqdm import tqdm
 import jiwer
 import os
 import json
+import logging
+import pathlib
+import sys
+import time
+from datetime import datetime
+run_name = f"whisper_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+log_dir  = pathlib.Path("logs")
+log_dir.mkdir(exist_ok=True)
+
+log_path = log_dir / f"{run_name}.log"
+logging.basicConfig(
+    level=logging.INFO,                       # DEBUG for very detailed
+    format="%(asctime)s | %(levelname)7s | %(name)s | %(message)s",
+    handlers=[
+        logging.FileHandler(log_path, mode="w", encoding="utf‑8"),
+        logging.StreamHandler(sys.stdout),    # still see output in terminal
+    ],
+)
+
+logger = logging.getLogger(__name__)
+logger.info(f"🔖  Logging to {log_path}")
+
+class _StreamToLogger:
+    def __init__(self, level):
+        self.level = level
+        self.buf = ""
+
+    def write(self, msg):
+        if msg.rstrip():                      # skip empty lines
+            logging.log(self.level, msg.rstrip())
+
+    def flush(self):                          # dummy; logger handles it
+        pass
+
+sys.stdout = _StreamToLogger(logging.INFO)
+sys.stderr = _StreamToLogger(logging.ERROR)
+from transformers import logging as hf_logging
+hf_logging.set_verbosity_info()  
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import torch
@@ -86,8 +124,8 @@ def evaluate_split(split_name, split_data):
                 inputs.input_features,
                 attention_mask=inputs.attention_mask,
                 max_new_tokens=444,
-                num_beams=2,
                 temperature=0.0,
+                num_beams=3,
                 early_stopping=True,     # stop when all beams emit <|endoftext|>                                                                                                            
             )
             prediction = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
@@ -114,19 +152,6 @@ print("\n" + "="*60)
 print("🔍 EVALUATING ON VALIDATION SET")
 print("="*60)
 val_results = evaluate_split("validation", dataset["validation"])
-results_data = {
-    "model_name": MODEL_NAME,
-    "validation": {
-        "predictions": val_results['predictions'],
-        "references": val_results['references'],
-        "wer": val_results['wer'],
-        "num_samples": val_results['num_samples']
-    }}
-timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-filename = f"whisper_evaluation_results_{timestamp}.json"
-
-with open(filename, 'w', encoding='utf-8') as f:
-    json.dump(results_data, f, ensure_ascii=False, indent=2)
 # Evaluate on test set  
 print("\n" + "="*60)
 print("🔍 EVALUATING ON TEST SET")
