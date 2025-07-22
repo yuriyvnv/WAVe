@@ -8,10 +8,10 @@ uv run ./evaluate_results.py
 
 echo "=== Pushing logs to GitHub ==="
 git add .
-git commit -m "Evaluation done for model yuriyvnv/whisper-large-v3-high-mixed-pt: $(date)"
+git commit -m "Evaluation done for model yuriyvnv/whisper-large-v3-mixed-pt: $(date)"
 git push
 
 
 echo "=== All done! Shutting down instance ==="
-vastai stop instance 23763644 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
+vastai stop instance 23856129 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
 
