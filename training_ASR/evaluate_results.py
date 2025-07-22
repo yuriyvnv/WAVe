@@ -9,7 +9,7 @@ import pathlib
 import sys
 import time
 from datetime import datetime
-run_name = f"whisper_large_v3_cv_only_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+run_name = f"whisper_large_v3_cv_fully_synthetic_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 log_dir  = pathlib.Path("logs")
 log_dir.mkdir(exist_ok=True)
 
@@ -49,7 +49,7 @@ import torch
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device.type}")
 
-MODEL_NAME = "yuriyvnv/whisper-large-v3-cv-only-pt"
+MODEL_NAME = "yuriyvnv/whisper-large-v3-cv-fully-synthetic-pt"
 print(f"Using model: {MODEL_NAME}")
 # Load model and processor 🚀
 print("Loading model... 🎯")
