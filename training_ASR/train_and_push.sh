@@ -9,10 +9,10 @@ uv run ./hf_trainer_complete.py
 echo "=== Pushing logs to GitHub ==="
 git pull
 git add .
-git commit -m "Training Completed SMALl cv only: $(date)"
+git commit -m "Training Completed Large cv and full synhtetic: $(date)"
 git push
 
 
 echo "=== All done! Shutting down instance ==="
-vastai stop instance 23890879 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
+vastai stop instance 23916744 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
 
