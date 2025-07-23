@@ -7,11 +7,12 @@ uv run ./hf_trainer_complete_capes.py
 
 
 echo "=== Pushing logs to GitHub ==="
+git pull
 git add .
-git commit -m "Evaluation Completed Larve: $(date)"
+git commit -m "Training Completed Large: $(date)"
 git push
 
 
 echo "=== All done! Shutting down instance ==="
-vastai stop instance 23856129 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
+vastai stop instance 23890879 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
 

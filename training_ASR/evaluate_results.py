@@ -12,7 +12,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
-run_name = f"whisper_large_v3_mixed_synthetic_pt_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+run_name = f"whisper_large_v3_cv_only_nl_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 log_dir  = pathlib.Path("logs")
 log_dir.mkdir(exist_ok=True)
 
@@ -52,7 +52,7 @@ import torch
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device.type}")
 
-MODEL_NAME = "yuriyvnv/whisper-large-v3-mixed-pt"
+MODEL_NAME = "yuriyvnv/whisper-large-v3-cv-only-nl"
 print(f"Using model: {MODEL_NAME}")
 # Load model and processor 🚀
 print("Loading model... 🎯")
@@ -61,7 +61,7 @@ model = WhisperForConditionalGeneration.from_pretrained(
 )
 processor = WhisperProcessor.from_pretrained(
     MODEL_NAME,
-    language="pt", 
+    language="nl", 
     task="transcribe",
 )
 def prepare_dataset(batch):
@@ -89,7 +89,7 @@ print(f"Using device: {device} 💻")
 
 # Load Common Voice 17.0 dataset for Portuguese 🇵🇹
 print("Loading Common Voice 17.0 dataset... 📊")
-dataset = load_dataset("mozilla-foundation/common_voice_17_0", "pt", trust_remote_code=True)
+dataset = load_dataset("mozilla-foundation/common_voice_17_0", "nl", trust_remote_code=True)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 dataset["validation"] = dataset["validation"].map(
