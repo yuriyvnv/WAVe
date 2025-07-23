@@ -69,3 +69,5 @@ training_ASR/wandb_logs_backup_4/
 training_ASR/wandb_logs_backup_5/
 training_ASR/wandb_logs_backup_6/
 training/dataset_subsets/
+training_ASR/wandb/debug-internal.log
+training_ASR/wandb/latest-run
