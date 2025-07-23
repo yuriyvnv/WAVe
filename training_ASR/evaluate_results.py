@@ -12,7 +12,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
-run_name = f"whisper_large_v3_high_mixed_nl_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+run_name = f"whisper_small_cv_only_nl_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 log_dir  = pathlib.Path("logs")
 log_dir.mkdir(exist_ok=True)
 
