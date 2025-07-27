@@ -8,7 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-large-v3-mixed-cv-nl"
+MODEL_NAME = "whisper-small-mixed-cv-nl"
 print(MODEL_NAME)
 import json
 from datasets import load_dataset, Audio
@@ -39,7 +39,8 @@ def log_print(message):
     logging.info(message) 
 load_dotenv()
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
-PROJECT_NAME = "whisper-large-v3-training-nl"
+PROJECT_NAME = "whisper-small-training-nl"
+print(f"Project name: {PROJECT_NAME}")
 os.environ["WANDB_PROJECT"] = PROJECT_NAME
 HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
@@ -59,7 +60,7 @@ log_print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
 log_print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples") 
 log_print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
-model_pretrained = "openai/whisper-large-v3"
+model_pretrained = "openai/whisper-small"
 feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN)
 tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="nl", task="transcribe", token=HF_TOKEN)
 processor = WhisperProcessor.from_pretrained(model_pretrained, language="nl", task="transcribe", token=HF_TOKEN)
@@ -134,11 +135,9 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(
 training_args = Seq2SeqTrainingArguments(
     output_dir=checkpoint_folder,
     gradient_checkpointing=True,
-    gradient_accumulation_steps=2,
-    per_device_train_batch_size=128,
+    per_device_train_batch_size=256,
     per_device_eval_batch_size=8,
-    eval_accumulation_steps=50,
-    learning_rate=5e-6,
+    learning_rate=1e-5,
     num_train_epochs=5,
     warmup_ratio=0.1,
     bf16=True,
