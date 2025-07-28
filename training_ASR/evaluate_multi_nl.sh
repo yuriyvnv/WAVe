@@ -9,7 +9,7 @@ uv run ./evaluate_librispeech_nl.py
 echo "=== Pushing logs to GitHub ==="
 git pull
 git add .
-git commit -m "Evaluation done for multiple models: $(date)"
+git commit -m "Evaluation done for multiple TINY models: $(date)"
 git push
 
 
