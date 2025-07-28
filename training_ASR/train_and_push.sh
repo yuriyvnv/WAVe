@@ -9,7 +9,7 @@ uv run ./hf_trainer_complete.py
 echo "=== Pushing logs to GitHub ==="
 git pull
 git add .
-git commit -m "Training Completed Tiny cv only: $(date)"
+git commit -m "Training Completed Tiny high quality cv: $(date)"
 git push
 
 
