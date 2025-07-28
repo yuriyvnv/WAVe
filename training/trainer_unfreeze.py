@@ -80,7 +80,7 @@ class EnhancedProjection(nn.Module):
         activation="gelu"
     ):
         super().__init__()
-        
+        ### DEEMED  to be Successful from paper chen2020simple SimCLR  especially for contrastive learning. 
         if hidden_dim is None:
             hidden_dim = projection_dim * 2
         
