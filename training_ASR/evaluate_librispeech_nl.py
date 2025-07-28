@@ -11,7 +11,7 @@ from datetime import datetime
 import torch
 
 # Set up logging
-run_name = f"whisper_small_multi_eval_nl_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+run_name = f"whisper_tiny_multi_eval_nl_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 log_dir = pathlib.Path("logs")
 log_dir.mkdir(exist_ok=True)
 
@@ -53,10 +53,10 @@ print(f"Using device: {device.type}")
 
 # Models to evaluate
 MODELS = [
-    "yuriyvnv/whisper-small-high-mixed-nl",
-    "yuriyvnv/whisper-small-cv-only-nl", 
-    "yuriyvnv/whisper-small-mixed-cv-nl",
-    "yuriyvnv/whisper-small-cv-fully-synthetic-nl"
+    "yuriyvnv/whisper-tiny-mixed-nl",
+    "yuriyvnv/whisper-tiny-high-mixed-nl", 
+    "yuriyvnv/whisper-tiny-cv-only-nl",
+    "yuriyvnv/whisper-tiny-cv-fully-synthetic-nl"
 ]
 
 def prepare_dataset(batch, text_column="sentence"):
