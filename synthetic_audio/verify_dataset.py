@@ -1,8 +1,5 @@
 # verify_and_fix_audio_dataset.py
 """
-Verify that audio files match their corresponding text transcripts.
-Fix mismatched audio-text pairs in the dataset.
-
 The original script had a bug where audio files could get mismatched with text
 due to async processing and incorrect indexing in create_audio_dataset().
 """

@@ -1,7 +1,5 @@
 # generate_tts_audio.py
 """
-Generate audio for synthetic Portuguese transcripts using OpenAI TTS API.
-Creates MP3 files with all available speakers and builds audio dataset.
 
 Usage:
   export OPENAI_API_KEY=...

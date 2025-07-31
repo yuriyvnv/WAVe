@@ -136,7 +136,6 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(
 
 ### TRAINER SEED DEFAULTS TO 42 for reproducibility
 
-# Training arguments (your exact settings)
 training_args = Seq2SeqTrainingArguments(
     output_dir=checkpoint_folder,
     gradient_checkpointing=True,
@@ -149,7 +148,6 @@ training_args = Seq2SeqTrainingArguments(
     bf16=True,
     dataloader_num_workers=30,
 
-    
     # Evaluation settings
     eval_strategy="steps",
     eval_steps=50,

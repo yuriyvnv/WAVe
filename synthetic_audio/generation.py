@@ -1,16 +1,4 @@
 """
-Generate a **synthetic Portuguese transcription corpus** whose word-count
-distribution mirrors the *train* split of Mozilla Common Voice 17.
-
-ENHANCED WITH COMPREHENSIVE LOGGING:
-- Detailed API call tracking (total, successful, failed, retries)
-- Real-time progress monitoring with ETAs
-- Token usage and cost estimation
-- Generation statistics per bucket
-- Rate limiting monitoring
-- Resource usage tracking
-- Dashboard-style progress display
-
 Usage:
   export OPENAI_API_KEY=...
   python synthetic_cv17_pt_generator_enhanced_logging.py
