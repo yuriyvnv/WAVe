@@ -226,7 +226,7 @@ class DatasetSimilarityCalculator:
         
         return similarities, alignment_scores
 
-    def process_dataset(self, dataset_name="yuriyvnv/synthetic_transcript_nl", 
+    def process_dataset(self, dataset_name="ANONYMOUS_USER/synthetic_transcript_nl", 
                        split="train", output_file="dataset_similarities_nl.json",
                        save_every=100, max_samples=None):
         """Process the entire dataset and calculate similarities"""
@@ -372,8 +372,8 @@ class DatasetSimilarityCalculator:
 
 def main():
     # 🔧 EDIT THESE SETTINGS:
-    checkpoint_path = "/home/yperezhohin/speech_transcript_embeddings/training/3_alignment_MHGLU_Dutch/best_model_gap.pt"
-    dataset_name = "yuriyvnv/synthetic_transcript_nl"
+    checkpoint_path = "path/to/checkpoint/3_alignment_MHGLU_Dutch/best_model_gap.pt"
+    dataset_name = "ANONYMOUS_USER/synthetic_transcript_nl"
     output_file = "dataset_similarities_nl.json"
     
     # 🔧 DEBUG MODE - Set to True for testing, False for full run

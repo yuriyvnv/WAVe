@@ -8,7 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-large-v3-cv-capes-fs024-IEEE-pt"
+MODEL_NAME = "model_NAME"
 print(MODEL_NAME)
 print("PyTorch:", torch.__version__)
 print("CUDA available:", torch.cuda.is_available())
@@ -50,12 +50,12 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/capes_synthetic_audio_filtered",token=HF_TOKEN)
+dataset = load_dataset("ANONYMOUS_USER/capes_synthetic_audio_filtered",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
-train_dataset = dataset["ieee_train"]
-val_dataset = dataset["ieee_validation"]
-test_dataset = dataset["ieee_test"]
+train_dataset = dataset["base_train"]
+val_dataset = dataset["base_validation"]
+test_dataset = dataset["base_test"]
 
 
 log_print(f"✅ Mixed dataset loaded:")
@@ -118,7 +118,7 @@ class DataCollatorSpeechSeq2SeqWithPadding:
         batch["labels"] = labels
         return batch
 
-checkpoint_folder = f"/root/speech_transcript_embeddings/training_ASR/trained_models/{MODEL_NAME}"
+checkpoint_folder = f"path/to/project/training_ASR/trained_models/{MODEL_NAME}"
 
 # Load model
 log_print("Loading Whisper model...")
@@ -134,16 +134,17 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(
     decoder_start_token_id=model.config.decoder_start_token_id,
 )
 
+### TRAINER SEED DEFAULTS TO 42 for reproducibility
+
 # Training arguments (your exact settings)
 training_args = Seq2SeqTrainingArguments(
     output_dir=checkpoint_folder,
     gradient_checkpointing=True,
-    gradient_accumulation_steps=2,
-    per_device_train_batch_size=128,
+    per_device_train_batch_size=256,
     per_device_eval_batch_size=8,
     eval_accumulation_steps=50,
     learning_rate=5e-6,
-    max_steps=1000,
+    num_train_epochs=5,
     warmup_ratio=0.1,
     bf16=True,
     dataloader_num_workers=30,
@@ -188,7 +189,7 @@ trainer.push_to_hub(checkpoint_folder)
 log_print("✅ Training completed! Now evaluating all checkpoints...")
 
 # ==========================================
-# POST-TRAINING CHECKPOINT EVALUATION TEST
+# POST-TRAINING CHECKPOINT EVALUATION TEST WE PREFERED TO EVALUATE WITH OUR SCRIPT FOR OPTIMIZATION
 # ==========================================
 # def evaluate_final_model_on_validation(best_checkpoint_path, validation_dataset, processor, data_collator):
 #     """Evaluate the best model on validation set - FULL DATASET VERSION"""
@@ -388,7 +389,7 @@ log_print("✅ Training completed! Now evaluating all checkpoints...")
 #         # Combine results
 #         complete_results = {
 #             "model_name": MODEL_NAME,
-#             "dataset": "yuriyvnv/synthetic_transcript_pt",
+#             "dataset": "ANONYMOUS_USER/synthetic_transcript_pt",
 #             "training_paradigm": "synthetic_train_real_eval",
 #             "final_model_path": final_model_path,
 #             "final_validation_results": validation_results,

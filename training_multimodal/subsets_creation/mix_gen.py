@@ -1,7 +1,7 @@
 # create_mixed_synthetic_cv_dataset.py
 """
 Create a mixed dataset combining:
-- Training: Synthetic Portuguese audio (yuriyvnv/synthetic_transcript_pt)
+- Training: Synthetic Portuguese audio (ANONYMOUS_USER/synthetic_transcript_pt)
 - Validation: Common Voice 17 Portuguese validation split
 - Test: Common Voice 17 Portuguese test split
 
@@ -21,12 +21,12 @@ load_dotenv()
 HF_TOKEN = os.getenv("HF_TOKEN")
 
 # ───────────────────────── CONFIG ─────────────────────────
-SYNTHETIC_DATASET = "yuriyvnv/synthetic_transcript_pt"
+SYNTHETIC_DATASET = "ANONYMOUS_USER/synthetic_transcript_pt"
 COMMON_VOICE_DATASET = "mozilla-foundation/common_voice_17_0"
 LANGUAGE = "pt"
 
 # New dataset configuration
-NEW_DATASET_NAME = "yuriyvnv/synthetic_transcript_pt"
+NEW_DATASET_NAME = "ANONYMOUS_USER/synthetic_transcript_pt"
 NEW_DATASET_DESCRIPTION = "Mixed Portuguese dataset: Synthetic training + Common Voice validation/test"
 
 def standardize_columns(dataset, dataset_type="synthetic"):

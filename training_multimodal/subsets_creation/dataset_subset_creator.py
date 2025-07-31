@@ -42,7 +42,7 @@ class DatasetSubsetCreator:
     def load_current_dataset(self):
         """Load current HuggingFace dataset"""
         print("📥 Loading current HuggingFace dataset...")
-        dataset = load_dataset("yuriyvnv/synthetic_transcript_nl")
+        dataset = load_dataset("ANONYMOUS_USER/synthetic_transcript_nl")
         
         print(f"  Train: {len(dataset['train'])} samples")
         

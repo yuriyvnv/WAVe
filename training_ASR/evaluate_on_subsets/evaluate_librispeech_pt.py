@@ -53,10 +53,10 @@ print(f"Using device: {device.type}")
 
 # Models to evaluate
 MODELS = [
-    "yuriyvnv/whisper-small-high-mixed-pt",
-    "yuriyvnv/whisper-small-cv-only-pt", 
-    "yuriyvnv/whisper-small-mixed-pt",
-    "yuriyvnv/whisper-small-cv-full-synthetic-pt"
+    "ANONYMOUS_USER/whisper-small-high-mixed-pt",
+    "ANONYMOUS_USER/whisper-small-cv-only-pt", 
+    "ANONYMOUS_USER/whisper-small-mixed-pt",
+    "ANONYMOUS_USER/whisper-small-cv-full-synthetic-pt"
 ]
 
 def prepare_dataset(batch, text_column="sentence"):

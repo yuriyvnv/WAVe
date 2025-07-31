@@ -12,7 +12,7 @@ def upload_subsets():
     print("=" * 50)
     
     # Configuration
-    repo_id = "yuriyvnv/synthetic_transcript_nl"
+    repo_id = "ANONYMOUS_USER/synthetic_transcript_nl"
     subsets_dir = Path("dataset_subsets_nl")
     
     # Check if datasets exist
@@ -104,7 +104,7 @@ def test_uploads():
     
     print(f"\n🧪 Testing uploaded subsets...")
     
-    repo_id = "yuriyvnv/synthetic_transcript_nl"
+    repo_id = "ANONYMOUS_USER/synthetic_transcript_nl"
     subsets_to_test = ["fully_synthetic", "cv_only", "high_quality_cv", "mixed_cv_synthetic_all", "cv_fully_synthetic"]
     
     for subset_name in subsets_to_test:

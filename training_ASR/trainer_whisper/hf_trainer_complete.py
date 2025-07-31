@@ -47,7 +47,7 @@ os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/synthetic_transcript_nl", "mixed_cv_synthetic",token=HF_TOKEN)
+dataset = load_dataset("ANONYMOUS_USER/synthetic_transcript_nl", "mixed_cv_synthetic",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
@@ -126,7 +126,7 @@ class DataCollatorSpeechSeq2SeqWithPadding:
         batch["labels"] = labels
         return batch
 
-checkpoint_folder = f"/home/yperezhohin/speech_transcript_embeddings/training_ASR/trained_models/{MODEL_NAME}"
+checkpoint_folder = f"{os.path.expanduser('~')}/model_training/training_ASR/trained_models/{MODEL_NAME}"
 
 # Load model
 log_print("Loading Whisper model...")
@@ -394,7 +394,7 @@ log_print("✅ Training completed! Now evaluating all checkpoints...")
 #         # Combine results
 #         complete_results = {
 #             "model_name": MODEL_NAME,
-#             "dataset": "yuriyvnv/synthetic_transcript_pt",
+#             "dataset": "ANONYMOUS_USER/synthetic_transcript_pt",
 #             "training_paradigm": "synthetic_train_real_eval",
 #             "final_model_path": final_model_path,
 #             "final_validation_results": validation_results,

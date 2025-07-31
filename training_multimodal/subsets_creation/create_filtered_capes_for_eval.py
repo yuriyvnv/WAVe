@@ -21,7 +21,7 @@ class IEEESubsetCreator:
         self.synthetic_dataset_name = "my-north-ai/capes_synthetic_audio_PT"
         self.reference_dataset_name = "my-north-ai/cv_mls_psfb_fs0_24"
         self.cv_dataset_name = "mozilla-foundation/common_voice_13_0"
-        self.output_dataset_name = "yuriyvnv/capes_synthetic_audio_filtered"
+        self.output_dataset_name = "ANONYMOUS_USER/capes_synthetic_audio_filtered"
         
     def load_reference_sentences(self):
         """Load unique sentences from reference dataset"""
@@ -328,7 +328,7 @@ The IEEE configuration contains synthetic samples filtered by exact text matchin
 from datasets import load_dataset
 
 # Load the dataset
-dataset = load_dataset("yuriyvnv/capes_synthetic_audio_filtered")
+dataset = load_dataset("ANONYMOUS_USER/capes_synthetic_audio_filtered")
 
 # Access main configuration
 train_data = dataset['train']

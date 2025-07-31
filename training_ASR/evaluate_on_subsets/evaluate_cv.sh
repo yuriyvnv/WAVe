@@ -9,7 +9,7 @@ uv run ./evaluate_results.py
 echo "=== Pushing logs to GitHub ==="
 git pull
 git add .
-git commit -m "Evaluation done for model yuriyvnv/whisper-small-high-mixed-nl: $(date)"
+git commit -m "Evaluation done for model ANONYMOUS_USER/whisper-small-high-mixed-nl: $(date)"
 git push
 
 

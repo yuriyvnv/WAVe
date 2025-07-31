@@ -483,7 +483,7 @@ class DatasetSimilarityCalculator:
 
 def main():
     # 🔧 EDIT THESE SETTINGS:
-    checkpoint_path = "/home/yperezhohin/speech_transcript_embeddings/training/3_alignment_MHGLU_twoWay_loss/best_model_gap.pt"
+    checkpoint_path = "path/to/checkpoint/3_alignment_MHGLU_twoWay_loss/best_model_gap.pt"
     dataset_name = "my-north-ai/capes_synthetic_audio_PT"
     output_file = "capes_synthetic_dataset_similarities_mp3.json"
     

@@ -52,7 +52,7 @@ import torch
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device.type}")
 
-MODEL_NAME = "yuriyvnv/whisper-tiny-cv-only-nl"
+MODEL_NAME = "ANONYMOUS_USER/whisper-tiny-cv-only-nl"
 print(f"Using model: {MODEL_NAME}")
 # Load model and processor 🚀
 print("Loading model... 🎯")

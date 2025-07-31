@@ -13,12 +13,12 @@ def add_mixed_all_subset():
     
     # Load the fully_synthetic subset (ALL synthetic samples)
     print("  Loading fully_synthetic subset...")
-    fully_synthetic = load_dataset("yuriyvnv/synthetic_transcript_pt", "fully_synthetic")
+    fully_synthetic = load_dataset("ANONYMOUS_USER/synthetic_transcript_pt", "fully_synthetic")
     print(f"    Train: {len(fully_synthetic['train'])} samples")
     
     # Load the cv_only subset (already standardized CV17)
     print("  Loading cv_only subset...")
-    cv_only = load_dataset("yuriyvnv/synthetic_transcript_pt", "cv_only")
+    cv_only = load_dataset("ANONYMOUS_USER/synthetic_transcript_pt", "cv_only")
     print(f"    Train: {len(cv_only['train'])} samples")
     
     # Create the new subset: ALL synthetic + CV train
@@ -48,7 +48,7 @@ def add_mixed_all_subset():
     
     return new_subset
 
-def push_new_subset_to_hub(new_subset, repo_id="yuriyvnv/synthetic_transcript_pt"):
+def push_new_subset_to_hub(new_subset, repo_id="ANONYMOUS_USER/synthetic_transcript_pt"):
     """Push the new subset to HuggingFace Hub"""
     print(f"\n📤 Pushing new subset to {repo_id}...")
     
@@ -122,7 +122,7 @@ def main():
             
             # Show how to load it
             print("\n📋 To load the new subset:")
-            print('    dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic_all")')
+            print('    dataset = load_dataset("ANONYMOUS_USER/synthetic_transcript_pt", "mixed_cv_synthetic_all")')
         else:
             print("📋 Subset saved locally. You can push it later.")
             
