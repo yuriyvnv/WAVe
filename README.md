@@ -22,7 +22,7 @@ Contains Automatic Speech Recognition (ASR) training and evaluation:
 
 ### 📁 [synthetic_audio/](./synthetic_audio/)
 Contains synthetic audio generation and verification:
-- **Text-to-Speech (TTS) generation** for creating synthetic training data
+- **Transcript and Text-to-Speech (TTS) generation** for creating synthetic training data
 - **Dataset verification** and quality control scripts
 - **Audio processing utilities** for synthetic data creation
 
