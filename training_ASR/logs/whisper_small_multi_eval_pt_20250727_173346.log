@@ -1,0 +1,405 @@
+2025-07-27 17:33:46,866 |    INFO | __main__ | 🔖 Logging to logs/whisper_small_multi_eval_pt_20250727_173346.log
+2025-07-27 17:33:46,888 |    INFO | root | Using device: cuda
+2025-07-27 17:33:46,888 |    INFO | root | Loading Multilingual LibriSpeech dataset for Portuguese... 📚
+2025-07-27 17:33:50,370 |   ERROR | root | Resolving data files:   0%|          | 0/48 [00:00<?, ?it/s]
+2025-07-27 17:33:50,841 |   ERROR | root | Resolving data files:  23%|##2       | 11/48 [00:00<00:01, 23.38it/s]
+2025-07-27 17:33:50,946 |   ERROR | root | Resolving data files:  38%|###7      | 18/48 [00:00<00:00, 33.84it/s]
+2025-07-27 17:33:51,092 |   ERROR | root | Resolving data files:  48%|####7     | 23/48 [00:00<00:00, 34.00it/s]
+2025-07-27 17:33:51,188 |   ERROR | root | Resolving data files: 100%|##########| 48/48 [00:00<00:00, 58.74it/s]
+2025-07-27 17:33:52,546 |    INFO | root | ✅ MLS loaded: 871 test samples
+2025-07-27 17:33:52,546 |    INFO | root | 
+================================================================================
+2025-07-27 17:33:52,546 |    INFO | root | 🤖 EVALUATING MODEL 1/4: yuriyvnv/whisper-small-high-mixed-pt
+2025-07-27 17:33:52,546 |    INFO | root | ================================================================================
+2025-07-27 17:33:52,546 |    INFO | root | Loading model... 🎯
+2025-07-27 17:33:52,769 |   ERROR | root | config.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:33:52,770 |   ERROR | root | config.json: 1.33kB [00:00, 2.12MB/s]
+2025-07-27 17:33:53,267 |   ERROR | root | model.safetensors:   0%|          | 0.00/967M [00:00<?, ?B/s]
+2025-07-27 17:33:54,605 |   ERROR | root | model.safetensors:   0%|          | 1.18M/967M [00:01<18:17, 880kB/s]
+2025-07-27 17:33:54,740 |   ERROR | root | model.safetensors:  16%|#6        | 158M/967M [00:01<00:05, 147MB/s]
+2025-07-27 17:33:54,868 |   ERROR | root | model.safetensors:  31%|###       | 297M/967M [00:01<00:02, 284MB/s]
+2025-07-27 17:33:54,991 |   ERROR | root | model.safetensors:  45%|####4     | 431M/967M [00:01<00:01, 418MB/s]
+2025-07-27 17:33:55,102 |   ERROR | root | model.safetensors:  58%|#####8    | 565M/967M [00:01<00:00, 558MB/s]
+2025-07-27 17:33:55,224 |   ERROR | root | model.safetensors:  72%|#######2  | 699M/967M [00:01<00:00, 675MB/s]
+2025-07-27 17:33:55,338 |   ERROR | root | model.safetensors:  86%|########6 | 833M/967M [00:02<00:00, 789MB/s]
+2025-07-27 17:33:57,720 |   ERROR | root | model.safetensors: 100%|##########| 967M/967M [00:04<00:00, 151MB/s]
+2025-07-27 17:33:57,722 |   ERROR | root | model.safetensors: 100%|##########| 967M/967M [00:04<00:00, 217MB/s]
+2025-07-27 17:33:58,460 |   ERROR | root | generation_config.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:33:58,461 |   ERROR | root | generation_config.json: 2.99kB [00:00, 5.04MB/s]
+2025-07-27 17:33:58,712 |   ERROR | root | preprocessor_config.json:   0%|          | 0.00/356 [00:00<?, ?B/s]
+2025-07-27 17:33:58,714 |   ERROR | root | preprocessor_config.json: 100%|##########| 356/356 [00:00<00:00, 653kB/s]
+2025-07-27 17:33:58,951 |   ERROR | root | tokenizer_config.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:33:58,956 |   ERROR | root | tokenizer_config.json: 283kB [00:00, 59.7MB/s]
+2025-07-27 17:33:59,216 |   ERROR | root | vocab.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:33:59,253 |   ERROR | root | vocab.json: 1.04MB [00:00, 28.8MB/s]
+2025-07-27 17:33:59,623 |   ERROR | root | merges.txt: 0.00B [00:00, ?B/s]
+2025-07-27 17:33:59,639 |   ERROR | root | merges.txt: 494kB [00:00, 30.5MB/s]
+2025-07-27 17:33:59,865 |   ERROR | root | normalizer.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:33:59,867 |   ERROR | root | normalizer.json: 52.7kB [00:00, 34.8MB/s]
+2025-07-27 17:34:00,098 |   ERROR | root | added_tokens.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:34:00,099 |   ERROR | root | added_tokens.json: 34.6kB [00:00, 35.4MB/s]
+2025-07-27 17:34:00,334 |   ERROR | root | special_tokens_map.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:34:00,335 |   ERROR | root | special_tokens_map.json: 2.19kB [00:00, 4.59MB/s]
+2025-07-27 17:34:02,217 |    INFO | root | ✅ Model loaded successfully
+2025-07-27 17:34:02,217 |    INFO | root | 
+🔄 Evaluating on MLS (871 samples)...
+2025-07-27 17:34:02,218 |   ERROR | root | Processing MLS:   0%|          | 0/871 [00:00<?, ?it/s]
+2025-07-27 17:34:03,544 |   ERROR | root | Processing MLS:   0%|          | 0/871 [00:01<?, ?it/s]
+2025-07-27 17:34:03,544 |    INFO | root | ❌ Error evaluating on MLS: You have explicitly specified `forced_decoder_ids`. Please remove the `forced_decoder_ids` argument in favour of `input_ids` or `decoder_input_ids` respectively.
+2025-07-27 17:34:03,681 |    INFO | root | 
+================================================================================
+2025-07-27 17:34:03,682 |    INFO | root | 🤖 EVALUATING MODEL 2/4: yuriyvnv/whisper-small-cv-only-pt
+2025-07-27 17:34:03,682 |    INFO | root | ================================================================================
+2025-07-27 17:34:03,682 |    INFO | root | Loading model... 🎯
+2025-07-27 17:34:03,909 |   ERROR | root | config.json: 0.00B [00:00, ?B/s]
+2025-07-27 17:34:03,910 |   ERROR | root | config.json: 1.33kB [00:00, 2.53MB/s]
+2025-07-27 17:34:04,369 |   ERROR | root | model.safetensors:   0%|          | 0.00/967M [00:00<?, ?B/s]
+2025-07-27 17:34:05,592 |   ERROR | root | model.safetensors:   0%|          | 1.18M/967M [00:01<16:42, 964kB/s]
+2025-07-27 17:34:05,734 |   ERROR | root | model.safetensors:  17%|#6        | 162M/967M [00:01<00:04, 162MB/s]
+2025-07-27 17:34:05,857 |   ERROR | root | model.safetensors:  31%|###       | 296M/967M [00:01<00:02, 301MB/s]
+2025-07-27 17:34:05,965 |   ERROR | root | model.safetensors:  45%|####4     | 430M/967M [00:01<00:01, 450MB/s]
+2025-07-27 17:34:06,090 |   ERROR | root | model.safetensors:  58%|#####8    | 565M/967M [00:01<00:00, 579MB/s]
+2025-07-27 17:34:06,140 |   ERROR | root | Traceback (most recent call last):
+2025-07-27 17:34:06,140 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 627, in xet_get
+2025-07-27 17:34:06,141 |   ERROR | root | download_files(
+2025-07-27 17:34:06,142 |   ERROR | root | KeyboardInterrupt
+2025-07-27 17:34:06,142 |   ERROR | root | During handling of the above exception, another exception occurred:
+2025-07-27 17:34:06,142 |   ERROR | root | Traceback (most recent call last):
+2025-07-27 17:34:06,142 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_fleurs_librispeech_pt.py", line 217, in <module>
+2025-07-27 17:34:06,143 |   ERROR | root | main()
+2025-07-27 17:34:06,143 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_fleurs_librispeech_pt.py", line 157, in main
+2025-07-27 17:34:06,143 |   ERROR | root | model = WhisperForConditionalGeneration.from_pretrained(model_name)
+2025-07-27 17:34:06,144 |   ERROR | root | ^
+2025-07-27 17:34:06,144 |   ERROR | root | ^
+2025-07-27 17:34:06,144 |   ERROR | root | ^
+2025-07-27 17:34:06,144 |   ERROR | root | ^
+2025-07-27 17:34:06,144 |   ERROR | root | ^
+2025-07-27 17:34:06,144 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,145 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,146 |   ERROR | root | ^
+2025-07-27 17:34:06,147 |   ERROR | root | ^
+2025-07-27 17:34:06,147 |   ERROR | root | ^
+2025-07-27 17:34:06,147 |   ERROR | root | ^
+2025-07-27 17:34:06,147 |   ERROR | root | ^
+2025-07-27 17:34:06,147 |   ERROR | root | ^
+2025-07-27 17:34:06,147 |   ERROR | root | ^
+2025-07-27 17:34:06,147 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,148 |   ERROR | root | ^
+2025-07-27 17:34:06,149 |   ERROR | root | ^
+2025-07-27 17:34:06,149 |   ERROR | root | ^
+2025-07-27 17:34:06,149 |   ERROR | root | ^
+2025-07-27 17:34:06,149 |   ERROR | root | ^
+2025-07-27 17:34:06,149 |   ERROR | root | ^
+2025-07-27 17:34:06,149 |   ERROR | root | ^
+2025-07-27 17:34:06,149 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,150 |   ERROR | root | ^
+2025-07-27 17:34:06,151 |   ERROR | root | ^
+2025-07-27 17:34:06,151 |   ERROR | root | ^
+2025-07-27 17:34:06,151 |   ERROR | root | ^
+2025-07-27 17:34:06,151 |   ERROR | root | ^
+2025-07-27 17:34:06,151 |   ERROR | root | ^
+2025-07-27 17:34:06,151 |   ERROR | root | ^
+2025-07-27 17:34:06,151 |   ERROR | root | ^
+2025-07-27 17:34:06,152 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 272, in _wrapper
+2025-07-27 17:34:06,152 |   ERROR | root | return func(*args, **kwargs)
+2025-07-27 17:34:06,152 |   ERROR | root | ^
+2025-07-27 17:34:06,152 |   ERROR | root | ^
+2025-07-27 17:34:06,153 |   ERROR | root | ^
+2025-07-27 17:34:06,153 |   ERROR | root | ^
+2025-07-27 17:34:06,153 |   ERROR | root | ^
+2025-07-27 17:34:06,153 |   ERROR | root | ^
+2025-07-27 17:34:06,153 |   ERROR | root | ^
+2025-07-27 17:34:06,153 |   ERROR | root | ^
+2025-07-27 17:34:06,153 |   ERROR | root | ^
+2025-07-27 17:34:06,154 |   ERROR | root | ^
+2025-07-27 17:34:06,154 |   ERROR | root | ^
+2025-07-27 17:34:06,154 |   ERROR | root | ^
+2025-07-27 17:34:06,154 |   ERROR | root | ^
+2025-07-27 17:34:06,154 |   ERROR | root | ^
+2025-07-27 17:34:06,154 |   ERROR | root | ^
+2025-07-27 17:34:06,154 |   ERROR | root | ^
+2025-07-27 17:34:06,155 |   ERROR | root | ^
+2025-07-27 17:34:06,155 |   ERROR | root | ^
+2025-07-27 17:34:06,155 |   ERROR | root | ^
+2025-07-27 17:34:06,155 |   ERROR | root | ^
+2025-07-27 17:34:06,155 |   ERROR | root | ^
+2025-07-27 17:34:06,155 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4317, in from_pretrained
+2025-07-27 17:34:06,157 |   ERROR | root | checkpoint_files, sharded_metadata = _get_resolved_checkpoint_files(
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,158 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,159 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root | ^
+2025-07-27 17:34:06,160 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/modeling_utils.py", line 1027, in _get_resolved_checkpoint_files
+2025-07-27 17:34:06,161 |   ERROR | root | resolved_archive_file = cached_file(pretrained_model_name_or_path, filename, **cached_file_kwargs)
+2025-07-27 17:34:06,161 |   ERROR | root | ^
+2025-07-27 17:34:06,161 |   ERROR | root | ^
+2025-07-27 17:34:06,161 |   ERROR | root | ^
+2025-07-27 17:34:06,161 |   ERROR | root | ^
+2025-07-27 17:34:06,161 |   ERROR | root | ^
+2025-07-27 17:34:06,161 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,162 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,163 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,164 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,165 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,166 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 266, in cached_file
+2025-07-27 17:34:06,167 |   ERROR | root | file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,167 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,168 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,169 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,170 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root | ^
+2025-07-27 17:34:06,171 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/utils/hub.py", line 424, in cached_files
+2025-07-27 17:34:06,171 |   ERROR | root | hf_hub_download(
+2025-07-27 17:34:06,171 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+2025-07-27 17:34:06,171 |   ERROR | root | return fn(*args, **kwargs)
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,172 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1008, in hf_hub_download
+2025-07-27 17:34:06,173 |   ERROR | root | return _hf_hub_download_to_cache_dir(
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,173 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,174 |   ERROR | root | ^
+2025-07-27 17:34:06,175 |   ERROR | root | ^
+2025-07-27 17:34:06,175 |   ERROR | root | ^
+2025-07-27 17:34:06,175 |   ERROR | root | ^
+2025-07-27 17:34:06,175 |   ERROR | root | ^
+2025-07-27 17:34:06,175 |   ERROR | root | ^
+2025-07-27 17:34:06,175 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1161, in _hf_hub_download_to_cache_dir
+2025-07-27 17:34:06,175 |   ERROR | root | _download_to_tmp_and_move(
+2025-07-27 17:34:06,175 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1710, in _download_to_tmp_and_move
+2025-07-27 17:34:06,176 |   ERROR | root | xet_get(
+2025-07-27 17:34:06,176 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 622, in xet_get
+2025-07-27 17:34:06,176 |   ERROR | root | with progress_cm as progress:
+2025-07-27 17:34:06,176 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/tqdm/std.py", line 1138, in __exit__
+2025-07-27 17:34:06,177 |   ERROR | root | def __exit__(self, exc_type, exc_value, traceback):
+2025-07-27 17:34:06,177 |   ERROR | root | KeyboardInterrupt

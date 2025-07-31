@@ -1,4 +1,3 @@
-# synthetic_cv17_pt_generator_enhanced_logging.py
 """
 Generate a **synthetic Portuguese transcription corpus** whose word-count
 distribution mirrors the *train* split of Mozilla Common Voice 17.
@@ -43,14 +42,14 @@ load_dotenv()
 
 
 # ───────────────────────── CONFIG ─────────────────────────
-LANG_CFG      = "pt"
+LANG_CFG      = "nl"
 GPT_MODEL     = "gpt-4o-mini"
 BATCH_SIZE    = 25               # sentences per request
 ROUND_SIZE    = 10               # concurrent GPT calls before updating ban-list
 BAN_TOP_K     = 10              # most frequent tokens to ban
 SCALE_FACTOR  = 1.0              # 1.0=replicate CV hours; >1 to augment
 DEV_RATIO     = TEST_RATIO = 0.10
-OUT_DIR       = Path("synthetic_cv17_pt_text_only")
+OUT_DIR       = Path("synthetic_cv17_nl_text_only")
 LOG_DIR       = Path("histogram_logs")
 MAX_RETRIES   = 3
 LOG_INTERVAL  = 50               # log comparison every N sentences
@@ -462,26 +461,27 @@ async def enhanced_gpt_call(messages: List[Dict]) -> List[str]:
 
 # ───────────────────────── PROMPTS ─────────────────────────
 SYSTEM_MSG = (
-    "Você é um redator profissional de português brasileiro."
-    " Escreva frases independentes, naturais, adequadas para leitura em voz alta."
+    "Je bent een professionele schrijver van het Nederlands."
+    " Schrijf onafhankelijke, natuurlijke zinnen die geschikt zijn om hardop voor te lezen."
 )
 
 PROMPT_BASE = """
-TAREFA: Gere exatamente {N} frases independentes, cada uma com EXATAMENTE {W} palavras.
+TAAK: Genereer exact {N} onafhankelijke zinnen, elk met EXACT {W} woorden.
 
-REGRAS OBRIGATÓRIAS:
-✅ Cada frase deve ter exatamente {W} palavras (conte cuidadosamente)
-✅ Frases completas com pontuação final (. ? !)
-✅ Conteúdo natural para leitura em voz alta
-✅ Vocabulário cotidiano (evite marcas/nomes próprios)
-✅ Sem aspas ou formatação especial
-✅ Resposta: array JSON puro de strings
+VERPLICHTE REGELS:
+✅ Elke zin moet exact {W} woorden hebben (tel zorgvuldig)
+✅ Volledige zinnen met eindinterpunctie (. ? !)
+✅ Natuurlijke inhoud voor hardop lezen
+✅ Alledaags vocabulaire (vermijd merken/eigennamen)
+✅ Geen aanhalingstekens of speciale opmaak
+✅ Antwoord: pure JSON array van strings
 
-EXEMPLO de formato correto para {W} palavras:
+VOORBEELD van correct formaat voor {W} woorden:
 {example_format}
 
-Responda APENAS com o array JSON:
+Antwoord ALLEEN met de JSON array:
 """.strip()
+
 
 def create_correction_msg(word_count: int, batch_size: int, error_details: Dict) -> str:
     """Create specific feedback based on actual errors encountered"""
@@ -587,7 +587,7 @@ async def main():
                     prompt += correction + "\n"
                 
                 # Create example format for current word count
-                example_words = ["O", "tempo", "está", "muito", "bom", "hoje", "aqui", "em", "casa", "nossa"][:wc]
+                example_words = ["Het", "is", "mooi", "vandaag", "in", "de", "buurt", "van", "mijn", "werk"][:wc]
                 if len(example_words) < wc:
                     example_words.extend([f"palavra{i}" for i in range(len(example_words), wc)])
                 example_sentence = " ".join(example_words) + "."

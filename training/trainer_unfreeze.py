@@ -80,7 +80,7 @@ class EnhancedProjection(nn.Module):
         activation="gelu"
     ):
         super().__init__()
-        
+        ### DEEMED  to be Successful from paper chen2020simple SimCLR  especially for contrastive learning. 
         if hidden_dim is None:
             hidden_dim = projection_dim * 2
         
@@ -282,7 +282,9 @@ class WordLevelAlignmentModule(nn.Module):
         """
         batch_size, text_len, _ = text_hidden_states.shape
         _, audio_len, _ = audio_hidden_states.shape
-        
+        print("________________________________________________________")
+        print("USING ALIGNMENT")
+        print("________________________________________________________")
         # Project text and audio
         text_proj = self.text_projection(text_hidden_states)
         audio_proj = self.audio_projection(audio_hidden_states)
@@ -892,7 +894,7 @@ class CommonVoiceDataset(Dataset):
         words = text.split()
         if len(words) <= 1:
             #Add a single word to the text
-            random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma", "tua", "qualquer", "coisa", "deveria", "gostaria", "imaginemos"])
+            random_word = random.choice(["ja", "nee", "en", "de", "het", "een", "van", "is", "dat", "ik", "je", "we", "maar", "ook", "nog", "wel", "niet", "zijn", "was", "hebben", "komen", "gaan", "maken", "doen", "kunnen", "willen", "moeten", "zou", "al", "meer", "zeer", "waar", "hier", "daar", "nu", "dan", "dus", "want", "omdat", "zoals", "misschien", "natuurlijk", "eigenlijk", "die", "deze", "dit", "ben", "hem", "hen", "haar", "er", "voor", "door", "toen", "ton", "kan", "ken", "man", "men", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien", "eh", "ehm", "nou", "tja", "hoor", "zeg", "om", "op", "in", "uit", "bij", "met", "naar", "na", "over", "onder", "tussen", "tegen", "zonder", "tot", "af", "aan"])
             correctness = 0.5
             return text + " " + random_word ,  correctness
             
@@ -902,7 +904,7 @@ class CommonVoiceDataset(Dataset):
         if corruption_type == "replace":
             # Replace a random word with a different word
             replace_idx = random.randint(0, len(words) - 1)
-            random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma", "tua", "qualquer", "coisa", "deveria", "gostaria", "imaginemos"])
+            random_word = random.choice(["ja", "nee", "en", "de", "het", "een", "van", "is", "dat", "ik", "je", "we", "maar", "ook", "nog", "wel", "niet", "zijn", "was", "hebben", "komen", "gaan", "maken", "doen", "kunnen", "willen", "moeten", "zou", "al", "meer", "zeer", "waar", "hier", "daar", "nu", "dan", "dus", "want", "omdat", "zoals", "misschien", "natuurlijk", "eigenlijk", "die", "deze", "dit", "ben", "hem", "hen", "haar", "er", "voor", "door", "toen", "ton", "kan", "ken", "man", "men", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien", "eh", "ehm", "nou", "tja", "hoor", "zeg", "om", "op", "in", "uit", "bij", "met", "naar", "na", "over", "onder", "tussen", "tegen", "zonder", "tot", "af", "aan"])
             words[replace_idx] = random_word
             correctness = (len(words) - 1) / len(words)
 
@@ -934,7 +936,7 @@ class CommonVoiceDataset(Dataset):
             original_length = len(words)
             # Add a random word
             insert_idx = random.randint(0, len(words))
-            random_word = random.choice(["sim", "não", "e", "o", "de", "um", "uma"])
+            random_word = random.choice(["ja", "nee", "en", "de", "het", "een", "van", "is", "dat", "ik", "je", "we", "maar", "ook", "nog", "wel", "niet", "zijn", "was", "hebben", "komen", "gaan", "maken", "doen", "kunnen", "willen", "moeten", "zou", "al", "meer", "zeer", "waar", "hier", "daar", "nu", "dan", "dus", "want", "omdat", "zoals", "misschien", "natuurlijk", "eigenlijk", "die", "deze", "dit", "ben", "hem", "hen", "haar", "er", "voor", "door", "toen", "ton", "kan", "ken", "man", "men", "twee", "drie", "vier", "vijf", "zes", "zeven", "acht", "negen", "tien", "eh", "ehm", "nou", "tja", "hoor", "zeg", "om", "op", "in", "uit", "bij", "met", "naar", "na", "over", "onder", "tussen", "tegen", "zonder", "tot", "af", "aan"])
             words.insert(insert_idx, random_word)
             correctness= insert_idx/(original_length+1)
 
@@ -1052,7 +1054,7 @@ def custom_collate_fn(batch):
 
 def to_human_readable(cosine: torch.Tensor,
                       temperature: float = 0.1,
-                      scale: str = "prob") -> torch.Tensor:
+                      scale: str = "0to1") -> torch.Tensor:
     """
     Convert raw cosine similarities (-1 … 1) to something intuitive.
 
@@ -1264,8 +1266,8 @@ def train_epoch(
 
         # 5) Track similarities on CPU (use original loss for reporting)
 
-        s_pos_hr= to_human_readable(s_pos, temperature=0.1, scale="prob")
-        s_neg_hr= to_human_readable(s_neg, temperature=0.1, scale="prob")
+        s_pos_hr= to_human_readable(s_pos, temperature=0.1, scale="0to1")
+        s_neg_hr= to_human_readable(s_neg, temperature=0.1, scale="0to1")
         clean_sims.extend(s_pos_hr.detach().cpu().tolist())
         corrupt_sims.extend(s_neg_hr.detach().cpu().tolist())
         
@@ -1278,8 +1280,8 @@ def train_epoch(
         sample_count += batch_size
         
         # Convert similarities to human-readable format for progress bar
-        hr_pos = to_human_readable(s_pos, temperature=0.1, scale="prob")
-        hr_neg = to_human_readable(s_neg, temperature=0.1, scale="prob")
+        hr_pos = to_human_readable(s_pos, temperature=0.1, scale="0to1")
+        hr_neg = to_human_readable(s_neg, temperature=0.1, scale="0to1")
 
         # 7) Update progress bar
         avg_loss = total_loss / sample_count
@@ -1385,8 +1387,8 @@ def evaluate(model,
                             model.last_neg_alignment_scores.mean(dim=1).cpu().numpy()
                         )
 
-                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale='prob')
-                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale='prob')
+                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale='0to1')
+                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale='0to1')
                 # Collect similarities
                 all_similarities.extend(s_pos_hr.cpu().numpy())  # Use positive similarities for general metrics
                 clean_similarities.extend(s_pos_hr.cpu().numpy())
@@ -1404,12 +1406,13 @@ def evaluate(model,
                 avg_bce = total_bce_loss / sample_count
                 avg_clean = np.mean(clean_similarities) if clean_similarities else 0.0
                 avg_corrupt = np.mean(corrupt_similarities) if corrupt_similarities else 0.0
-                clean_hr = to_human_readable(s_pos, temperature=0.1, scale='prob')
-                corr_hr  = to_human_readable(s_neg, temperature=0.1, scale='prob')
+                clean_hr = to_human_readable(s_pos, temperature=0.1, scale='0to1')
+                corr_hr  = to_human_readable(s_neg, temperature=0.1, scale='0to1')
 
                 progress_bar.set_postfix({
                     "loss": f"{avg_loss:.4f}",
                     "BCE": f"{avg_bce:.4f}",
+                    "wBCE": f"{total_weighted_bce / sample_count:.4f}",  
                     "clean_sim": f"{clean_hr.mean().item():.3f}",
                     "corrupt_sim": f"{corr_hr.mean().item():.3f}",
                     "gap": f"{(clean_hr.mean()-corr_hr.mean()).item():.3f}"
@@ -1443,11 +1446,14 @@ def evaluate(model,
 
     logger.info(f"{split} metrics:")
     logger.info(f"  Loss: {total_loss / sample_count:.4f}")
+    logger.info(f"  BCE Loss: {total_bce_loss / sample_count:.4f}")
+    logger.info(f"  Weighted BCE Loss: {total_weighted_bce / sample_count:.4f}")  
     logger.info(f"  Average similarity: {avg_similarity:.4f}")
     logger.info(f"  Median similarity: {median_similarity:.4f}")
     logger.info(f"  Clean sample similarity: {avg_clean:.4f}")
     logger.info(f"  Corrupted sample similarity: {avg_corrupt:.4f}")
     logger.info(f"  Similarity gap (clean - corrupt): {similarity_gap:.4f}")
+    
 
     metrics = {
         "loss": total_loss / sample_count,
@@ -1807,6 +1813,8 @@ def train_and_evaluate_model(
                 f"Epoch {epoch}/{num_epochs} - "
                 f"Train Loss: {train_metrics['loss']:.4f}, "
                 f"Val Loss: {val_metrics['loss']:.4f}, "
+                f"Val BCE: {val_metrics['bce_loss']:.4f}, "
+                f"Val wBCE: {val_metrics['weighted_bce']:.4f}, "
                 f"Clean Sim: {val_metrics['clean_similarity']:.4f}, "
                 f"Corrupt Sim: {val_metrics['corrupt_similarity']:.4f}, "
                 f"Gap: {val_metrics['similarity_gap']:.4f}, "
@@ -1898,8 +1906,8 @@ def train_and_evaluate_model(
                         s_neg = (aud_emb * txt_neg_emb).sum(dim=1)
                         
                         # Convert to human readable
-                        s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="prob")
-                        s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="prob")
+                        s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="0to1")
+                        s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="0to1")
                         
                         clean_sim_hr.extend(s_pos_hr.cpu().numpy())
                         corrupt_sim_hr.extend(s_neg_hr.cpu().numpy())
@@ -2010,8 +2018,8 @@ def train_and_evaluate_model(
                 s_neg = (aud_emb * txt_neg_emb).sum(dim=1)
                 
                 # Convert to human readable
-                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="prob")
-                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="prob")
+                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="0to1")
+                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="0to1")
                 
                 clean_sim_hr.extend(s_pos_hr.cpu().numpy())
                 corrupt_sim_hr.extend(s_neg_hr.cpu().numpy())
@@ -2053,8 +2061,8 @@ def train_and_evaluate_model(
                 s_neg = (aud_emb * txt_neg_emb).sum(dim=1)
                 
                 # Convert to human readable
-                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="prob")
-                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="prob")
+                s_pos_hr = to_human_readable(s_pos, temperature=0.1, scale="0to1")
+                s_neg_hr = to_human_readable(s_neg, temperature=0.1, scale="0to1")
                 
                 clean_sim_hr.extend(s_pos_hr.cpu().numpy())
                 corrupt_sim_hr.extend(s_neg_hr.cpu().numpy())
@@ -2189,7 +2197,7 @@ def main():
     logger.info("Loading Common Voice dataset...")
     
     try:
-        dataset = load_dataset("mozilla-foundation/common_voice_17_0", "pt", token=True)
+        dataset = load_dataset("mozilla-foundation/common_voice_17_0", "nl", trust_remote_code=True,token=True)
         
         # Cast to Audio column with 16kHz sampling rate
         dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))

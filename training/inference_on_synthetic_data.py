@@ -163,7 +163,7 @@ class DatasetSimilarityCalculator:
         """Process a batch of texts"""
         text_encodings = self.tokenizer(
             texts, 
-            max_length=128, 
+            max_length=300, 
             padding="max_length", 
             truncation=True, 
             return_tensors="pt"
@@ -226,8 +226,8 @@ class DatasetSimilarityCalculator:
         
         return similarities, alignment_scores
 
-    def process_dataset(self, dataset_name="yuriyvnv/synthetic_transcript_pt", 
-                       split="train", output_file="dataset_similarities.json",
+    def process_dataset(self, dataset_name="yuriyvnv/synthetic_transcript_nl", 
+                       split="train", output_file="dataset_similarities_nl.json",
                        save_every=100, max_samples=None):
         """Process the entire dataset and calculate similarities"""
         
@@ -372,9 +372,9 @@ class DatasetSimilarityCalculator:
 
 def main():
     # 🔧 EDIT THESE SETTINGS:
-    checkpoint_path = "/home/yperezhohin/speech_transcript_embeddings/training/3_alignment_MHGLU_twoWay_loss/best_model_gap.pt"
-    dataset_name = "yuriyvnv/synthetic_transcript_pt"
-    output_file = "dataset_similarities.json"
+    checkpoint_path = "/home/yperezhohin/speech_transcript_embeddings/training/3_alignment_MHGLU_Dutch/best_model_gap.pt"
+    dataset_name = "yuriyvnv/synthetic_transcript_nl"
+    output_file = "dataset_similarities_nl.json"
     
     # 🔧 DEBUG MODE - Set to True for testing, False for full run
     debug_mode = False  # Change to False for full dataset

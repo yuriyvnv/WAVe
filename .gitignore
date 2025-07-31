@@ -21,6 +21,15 @@ training_ASR/trained_models/
 training_ASR/wandb/
 common_voice_data/
 cv_results/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/synthetic_audio_files_nl/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/synthetic_cv17_nl_with_audio/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/histogram_logs/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/synthetic_cv17_nl_text_only/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/synthetic_audio_files_nl/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/synthetic_cv17_nl_with_audio/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/histogram_logs/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/synthetic_cv17_nl_text_only/
+/home/yperezhohin/speech_transcript_embeddings/synthetic_audio/synthetic_audio_files_nl/
 .env
 *.env
 *.env.local
@@ -69,3 +78,11 @@ training_ASR/wandb_logs_backup_4/
 training_ASR/wandb_logs_backup_5/
 training_ASR/wandb_logs_backup_6/
 training/dataset_subsets/
+synthetic_audio/synthetic_audio_files_nl/
+synthetic_audio/synthetic_cv17_nl_with_audio/
+synthetic_audio/histogram_logs/
+synthetic_audio/synthetic_cv17_nl_text_only/
+synthetic_audio/synthetic_audio_files_nl/
+synthetic_audio/synthetic_cv17_nl_with_audio/
+synthetic_audio/histogram_logs/
+synthetic_audio/synthetic_cv17_nl_text_only/

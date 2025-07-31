@@ -1,0 +1,27 @@
+2025-07-17 08:15:36,139 - ✅ Mixed dataset loaded:
+2025-07-17 08:15:36,139 -    🤖 Train (Synthetic): 21,968 samples
+2025-07-17 08:15:36,139 -    🎤 Validation (Real CV): 9,464 samples
+2025-07-17 08:15:36,139 -    🎤 Test (Real CV): 9,467 samples
+2025-07-17 08:15:37,249 - 🔧 PRE-PROCESSING DATASETS...
+2025-07-17 08:15:37,249 - 🔧 PRE-PROCESSING DATASETS...
+2025-07-17 08:15:38,289 - ✅ Preprocessing complete!
+2025-07-17 08:15:38,290 - Loading Whisper model...
+2025-07-17 08:15:41,296 - Setting up trainer...
+2025-07-17 08:15:41,433 - 🎯 Using final trained model from: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-large-v3-cv-only-pt/checkpoint-150
+2025-07-17 08:15:41,433 - 🎯 Final evaluation on validation set using: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-large-v3-cv-only-pt/checkpoint-150
+2025-07-17 08:15:43,247 -    Computing validation loss...
+2025-07-17 08:40:28,434 -    Computing WER on 9464 validation samples...
+2025-07-17 09:10:11,721 - 🎯 Final evaluation on test set using: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-large-v3-cv-only-pt/checkpoint-150
+2025-07-17 09:10:12,619 -    Computing test loss...
+2025-07-17 09:35:01,874 -    Computing WER on 9467 test samples...
+2025-07-17 10:04:46,734 - 
+🎉 FINAL RESULTS:
+2025-07-17 10:04:46,734 -    Final model path: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-large-v3-cv-only-pt/checkpoint-150
+2025-07-17 10:04:46,734 -    Validation Loss: 0.1256
+2025-07-17 10:04:46,734 -    Validation WER: 9.55%
+2025-07-17 10:04:46,734 -    Test Loss: 0.1365
+2025-07-17 10:04:46,734 -    Test WER: 10.12%
+2025-07-17 10:04:46,734 -    Results saved to: /root/speech_transcript_embeddings/training_ASR/trained_models/whisper-large-v3-cv-only-pt/final_evaluation_results.json
+2025-07-17 10:04:46,734 - 
+🔬 EVALUATION COMPLETE:
+2025-07-17 10:04:46,734 -    Final model evaluated on both validation and test sets!
