@@ -47,16 +47,16 @@ from transformers import logging as hf_logging
 hf_logging.set_verbosity_info()
 
 # Set device
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device.type}")
 
 # Models to evaluate
 MODELS = [
-    "yuriyvnv/whisper-tiny-high-mixed-pt",
-    "yuriyvnv/whisper-tiny-cv-only-pt", 
-    "yuriyvnv/whisper-tiny-mixed-pt",
-    "yuriyvnv/whisper-tiny-cv-full-synthetic-pt"
+    "yuriyvnv/whisper-small-high-mixed-pt",
+    "yuriyvnv/whisper-small-cv-only-pt", 
+    "yuriyvnv/whisper-small-mixed-pt",
+    "yuriyvnv/whisper-small-cv-full-synthetic-pt"
 ]
 
 def prepare_dataset(batch, text_column="sentence"):
@@ -75,8 +75,8 @@ def prepare_dataset(batch, text_column="sentence"):
     return batch
 
 def load_datasets():
-    """Load both FLEURS and multilingual_librispeech datasets for Portuguese"""
-    
+    """Load multilingual_librispeech datasets for Portuguese"""
+
     print("Loading Multilingual LibriSpeech dataset for Portuguese... 📚")
     try:
         mls_dataset = load_dataset("facebook/multilingual_librispeech", "portuguese", trust_remote_code=True)
@@ -169,6 +169,7 @@ def main():
         
         model_results = {}
         
+        
         # Evaluate on MLS if available
         if mls_dataset is not None:
             try:
@@ -196,6 +197,8 @@ def main():
     
     for model_name, results in all_results.items():
         print(f"\n🤖 {model_name}:")
+        if "fleurs" in results:
+            print(f"   FLEURS WER: {results['fleurs']['wer']:.4f} ({results['fleurs']['wer']:.2%})")
         if "mls" in results:
             print(f"   MLS WER: {results['mls']['wer']:.4f} ({results['mls']['wer']:.2%})")
     

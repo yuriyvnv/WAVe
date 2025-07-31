@@ -80,7 +80,7 @@ class EnhancedProjection(nn.Module):
         activation="gelu"
     ):
         super().__init__()
-        
+        ### DEEMED  to be Successful from paper chen2020simple SimCLR  especially for contrastive learning. 
         if hidden_dim is None:
             hidden_dim = projection_dim * 2
         
@@ -282,7 +282,9 @@ class WordLevelAlignmentModule(nn.Module):
         """
         batch_size, text_len, _ = text_hidden_states.shape
         _, audio_len, _ = audio_hidden_states.shape
-        
+        print("________________________________________________________")
+        print("USING ALIGNMENT")
+        print("________________________________________________________")
         # Project text and audio
         text_proj = self.text_projection(text_hidden_states)
         audio_proj = self.audio_projection(audio_hidden_states)
@@ -2195,7 +2197,7 @@ def main():
     logger.info("Loading Common Voice dataset...")
     
     try:
-        dataset = load_dataset("mozilla-foundation/common_voice_17_0", "nl", token=True)
+        dataset = load_dataset("mozilla-foundation/common_voice_17_0", "nl", trust_remote_code=True,token=True)
         
         # Cast to Audio column with 16kHz sampling rate
         dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
