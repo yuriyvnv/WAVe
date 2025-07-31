@@ -8,10 +8,16 @@ import pandas as pd
 import json
 from transformers import AutoTokenizer, AutoFeatureExtractor
 import librosa
-from datasets import load_dataset
+from datasets import load_dataset, Audio
 from tqdm import tqdm
 from trainer_unfreeze import EnhancedAudioTextModel
 import warnings
+import tempfile
+import subprocess
+from pydub import AudioSegment
+import io
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import multiprocessing
 warnings.filterwarnings("ignore")
 
 # 🔧 EDIT THESE SETTINGS
@@ -19,10 +25,13 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"  # Change to your GPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class DatasetSimilarityCalculator:
-    def __init__(self, checkpoint_path, batch_size=8):
+    def __init__(self, checkpoint_path, batch_size=8, convert_to_mp3=True, mp3_quality='medium', num_workers=4):
         self.checkpoint_path = checkpoint_path
         self.batch_size = batch_size
         self.device = device
+        self.convert_to_mp3 = convert_to_mp3
+        self.mp3_quality = mp3_quality
+        self.num_workers = min(num_workers, multiprocessing.cpu_count())
         
         # Load model
         print(f"Loading model from {checkpoint_path}...")
@@ -47,13 +56,106 @@ class DatasetSimilarityCalculator:
         self.feature_extractor = AutoFeatureExtractor.from_pretrained("facebook/w2v-bert-2.0")
         
         print("Model loaded successfully!")
+        if self.convert_to_mp3:
+            print(f"🎵 MP3 conversion enabled with quality: {self.mp3_quality}")
+            print(f"🔧 Using {self.num_workers} workers for parallel MP3 conversion")
+
+    def check_audio_format_info(self, dataset, num_samples=5):
+        """Check current audio format and properties"""
+        print("\n🔍 CHECKING AUDIO FORMAT INFORMATION")
+        print("=" * 50)
+        
+        for i in range(min(num_samples, len(dataset))):
+            sample = dataset[i]
+            audio_info = sample['audio']
+            
+            print(f"\nSample {i}:")
+            print(f"  Audio keys: {list(audio_info.keys())}")
+            print(f"  Sampling rate: {audio_info['sampling_rate']} Hz")
+            print(f"  Array shape: {np.array(audio_info['array']).shape}")
+            print(f"  Array dtype: {np.array(audio_info['array']).dtype}")
+            print(f"  Duration: {len(audio_info['array']) / audio_info['sampling_rate']:.2f} seconds")
+            
+            # Check if there's a 'path' field (indicates original file format)
+            if 'path' in audio_info:
+                print(f"  Original file: {audio_info['path']}")
+                file_ext = os.path.splitext(audio_info['path'])[1].lower()
+                print(f"  Original format: {file_ext}")
+            else:
+                print("  No original file path found (audio is preprocessed)")
+        
+        print(f"\n📊 Dataset audio feature info:")
+        print(f"  Feature type: {type(dataset.features['audio'])}")
+        if hasattr(dataset.features['audio'], 'sampling_rate'):
+            print(f"  Default sampling rate: {dataset.features['audio'].sampling_rate}")
+
+    def convert_single_audio_to_mp3(self, audio_data_tuple):
+        """Convert a single audio array to MP3 format and back"""
+        audio_array, sampling_rate, idx = audio_data_tuple
+        
+        try:
+            # Convert to AudioSegment
+            audio_segment = AudioSegment(
+                (audio_array * 32767).astype(np.int16).tobytes(),
+                frame_rate=sampling_rate,
+                sample_width=2,
+                channels=1
+            )
+            
+            # Convert to MP3 and back
+            mp3_buffer = io.BytesIO()
+            audio_segment.export(mp3_buffer, format="mp3")
+            mp3_buffer.seek(0)
+            
+            mp3_audio = AudioSegment.from_mp3(mp3_buffer)
+            converted_array = np.array(mp3_audio.get_array_of_samples(), dtype=np.float32) / 32767.0
+            
+            return idx, converted_array, mp3_audio.frame_rate, True
+            
+        except Exception as e:
+            return idx, audio_array, sampling_rate, False
+
+    def convert_audio_batch_to_mp3(self, audio_batch_data):
+        """Convert a batch of audio arrays to MP3 format in parallel"""
+        if not self.convert_to_mp3:
+            # Return original data if conversion is disabled
+            return [(data[0], data[1], False) for data in audio_batch_data]
+        
+        # Prepare data for parallel processing
+        audio_tuples = []
+        for idx, (audio_array, sampling_rate) in enumerate(audio_batch_data):
+            audio_tuples.append((audio_array, sampling_rate, idx))
+        
+        converted_results = [None] * len(audio_tuples)
+        conversion_success_count = 0
+        
+        # Use ThreadPoolExecutor for parallel MP3 conversion
+        with ThreadPoolExecutor(max_workers=self.num_workers) as executor:
+            # Submit all conversion tasks
+            future_to_idx = {
+                executor.submit(self.convert_single_audio_to_mp3, audio_tuple): audio_tuple[2] 
+                for audio_tuple in audio_tuples
+            }
+            
+            # Collect results as they complete
+            for future in as_completed(future_to_idx):
+                idx, converted_audio, new_sr, success = future.result()
+                converted_results[idx] = (converted_audio, new_sr, success)
+                if success:
+                    conversion_success_count += 1
+        
+        print(f"🎵 MP3 batch conversion: {conversion_success_count}/{len(audio_tuples)} successful")
+        return converted_results
 
     def process_audio_batch(self, audio_arrays):
-        """Process a batch of audio arrays - FIXED VERSION"""
+        """Process a batch of audio arrays with batch MP3 conversion"""
+        # First, convert entire batch to MP3 if enabled
+        converted_audio_data = self.convert_audio_batch_to_mp3(audio_arrays)
+        
         audio_features_batch = []
         audio_masks_batch = []
         
-        for i, audio_array in enumerate(audio_arrays):
+        for i, (audio_array, current_sr, mp3_converted) in enumerate(converted_audio_data):
             try:
                 # Ensure audio is numpy array and 1D
                 audio_array = np.array(audio_array, dtype=np.float32)
@@ -64,6 +166,10 @@ class DatasetSimilarityCalculator:
                 if len(audio_array) == 0:
                     print(f"Warning: Empty audio array at index {i}, skipping")
                     continue
+                
+                # Resample to 16kHz if needed
+                if current_sr != 16000:
+                    audio_array = librosa.resample(audio_array, orig_sr=current_sr, target_sr=16000)
                 
                 audio_features = self.feature_extractor(
                     audio_array, 
@@ -102,10 +208,6 @@ class DatasetSimilarityCalculator:
         time_lengths = [af.shape[0] for af in audio_features_batch]
         max_time_length = max(time_lengths)
         
-        print(f"Audio tensor shapes: {[af.shape for af in audio_features_batch[:3]]}...")  # Show first 3
-        print(f"Time lengths: {time_lengths}")
-        print(f"Max time length for padding: {max_time_length}")
-        
         padded_audio = []
         padded_masks = []
         
@@ -123,7 +225,7 @@ class DatasetSimilarityCalculator:
                 
                 padded_audio.append(af)
                 
-                # 🔧 FIXED: Handle masks - also pad in TIME dimension
+                # Handle masks - also pad in TIME dimension
                 if i < len(audio_masks_batch):
                     mask = audio_masks_batch[i]
                     if mask.shape[0] < max_time_length:  # If mask time < max time
@@ -163,7 +265,7 @@ class DatasetSimilarityCalculator:
         """Process a batch of texts"""
         text_encodings = self.tokenizer(
             texts, 
-            max_length=300, 
+            max_length=400, 
             padding="max_length", 
             truncation=True, 
             return_tensors="pt"
@@ -226,13 +328,16 @@ class DatasetSimilarityCalculator:
         
         return similarities, alignment_scores
 
-    def process_dataset(self, dataset_name="yuriyvnv/synthetic_transcript_nl", 
-                       split="train", output_file="dataset_similarities_nl.json",
+    def process_dataset(self, dataset_name="my-north-ai/capes_synthetic_audio_PT", 
+                       split="train", output_file="capes_synthetic_dataset_similarities.json",
                        save_every=100, max_samples=None):
         """Process the entire dataset and calculate similarities"""
         
         print(f"Loading dataset {dataset_name}...")
         dataset = load_dataset(dataset_name, split=split)
+        
+        # Check audio format information
+        self.check_audio_format_info(dataset)
         
         # Limit dataset size if in debug mode
         if max_samples is not None:
@@ -240,17 +345,23 @@ class DatasetSimilarityCalculator:
             dataset = dataset.select(range(min(max_samples, len(dataset))))
         
         print(f"Dataset loaded. Total samples: {len(dataset)}")
+        print(f"MP3 conversion enabled: {self.convert_to_mp3}")
+        print(f"Batch size: {self.batch_size}")
+        print(f"Workers for MP3 conversion: {self.num_workers}")
         
         results = []
         processed_count = 0
+        total_batches = (len(dataset) + self.batch_size - 1) // self.batch_size
         
         # Process in batches
-        for i in tqdm(range(0, len(dataset), self.batch_size), desc="Processing batches"):
+        for i in tqdm(range(0, len(dataset), self.batch_size), 
+                     desc="Processing batches", 
+                     total=total_batches):
             batch_end = min(i + self.batch_size, len(dataset))
             batch_samples = dataset[i:batch_end]
             
             try:
-                # Extract audio and text from batch
+                # Extract audio and translation from batch
                 audio_arrays = []
                 texts = []
                 
@@ -263,14 +374,11 @@ class DatasetSimilarityCalculator:
                     if not isinstance(audio_data, np.ndarray):
                         audio_data = np.array(audio_data, dtype=np.float32)
                     
-                    # Resample to 16kHz if needed
-                    if sample_rate != 16000:
-                        audio_data = librosa.resample(audio_data, orig_sr=sample_rate, target_sr=16000)
-                    
-                    audio_arrays.append(audio_data)
-                    texts.append(batch_samples['text'][j])
+                    # Store audio with its original sample rate
+                    audio_arrays.append((audio_data, sample_rate))
+                    texts.append(batch_samples['translation'][j])
                 
-                # Process audio and text
+                # Process audio and text (includes batch MP3 conversion)
                 audio_batch, audio_masks = self.process_audio_batch(audio_arrays)
                 
                 # Skip batch if audio processing failed
@@ -289,16 +397,18 @@ class DatasetSimilarityCalculator:
                 for j, (sim, align) in enumerate(zip(similarities, alignment_scores)):
                     sample_idx = i + j
                     result = {
-                        "sample_index": int(sample_idx),  # Convert to Python int
+                        "sample_index": int(sample_idx),
                         "text": texts[j],
-                        "similarity": float(sim),  # Convert to Python float
-                        "alignment_score": float(align) if align is not None else None,  # Convert to Python float
-                        "audio_duration": float(len(audio_arrays[j]) / 16000)  # Convert to Python float
+                        "similarity": float(sim),
+                        "alignment_score": float(align) if align is not None else None,
+                        "audio_duration": float(len(audio_arrays[j][0]) / audio_arrays[j][1]),
+                        "original_sample_rate": int(audio_arrays[j][1]),
+                        "mp3_converted": bool(self.convert_to_mp3)
                     }
                     
                     # Add any other fields from the original dataset
                     for key in batch_samples.keys():
-                        if key not in ['audio', 'text']:
+                        if key not in ['audio', 'translation']:
                             if j < len(batch_samples[key]):  # Safety check
                                 value = batch_samples[key][j]
                                 # Convert numpy types to Python types for JSON serialization
@@ -316,7 +426,7 @@ class DatasetSimilarityCalculator:
                 # Save intermediate results
                 if processed_count % save_every == 0:
                     self.save_results(results, f"{output_file}.temp")
-                    print(f"Saved intermediate results: {processed_count} samples processed")
+                    print(f"💾 Saved intermediate results: {processed_count} samples processed")
                 
             except Exception as e:
                 print(f"Error processing batch {i}-{batch_end}: {e}")
@@ -347,6 +457,7 @@ class DatasetSimilarityCalculator:
         print("="*50)
         print(f"Total samples processed: {len(results)}")
         print(f"Valid similarities: {len(similarities)}")
+        print(f"MP3 conversion used: {results[0]['mp3_converted'] if results else 'N/A'}")
         
         if similarities:
             print(f"Mean similarity: {np.mean(similarities):.4f}")
@@ -372,53 +483,53 @@ class DatasetSimilarityCalculator:
 
 def main():
     # 🔧 EDIT THESE SETTINGS:
-    checkpoint_path = "/home/yperezhohin/speech_transcript_embeddings/training/3_alignment_MHGLU_Dutch/best_model_gap.pt"
-    dataset_name = "yuriyvnv/synthetic_transcript_nl"
-    output_file = "dataset_similarities_nl.json"
+    checkpoint_path = "/home/yperezhohin/speech_transcript_embeddings/training/3_alignment_MHGLU_twoWay_loss/best_model_gap.pt"
+    dataset_name = "my-north-ai/capes_synthetic_audio_PT"
+    output_file = "capes_synthetic_dataset_similarities_mp3.json"
     
-    # 🔧 DEBUG MODE - Set to True for testing, False for full run
-    debug_mode = False  # Change to False for full dataset
+    # 🔧 AUDIO CONVERSION SETTINGS
+    convert_to_mp3 = True  # Set to True to enable MP3 conversion, False to use original format
+    num_workers = 12  # Number of parallel workers for MP3 conversion
     
-    if debug_mode:
-        print("🧪 DEBUG MODE: Processing only first 100 samples")
-        max_samples = 100
-        batch_size = 4
-        save_every = 20
-    else:
-        print("🚀 PRODUCTION MODE: Processing full dataset")
-        max_samples = None
-        batch_size = 150  # Adjust based on your GPU memory
-        save_every = 150
+    # 🔧 FULL DATASET PROCESSING
+    print("🚀 FULL DATASET MODE: Processing entire dataset")
+    max_samples = None  # Process ALL samples
+    batch_size = 32  # Larger batch size for efficiency
+    save_every = 500  # Save every 500 samples
     
     # Initialize calculator
     calculator = DatasetSimilarityCalculator(
         checkpoint_path=checkpoint_path,
-        batch_size=batch_size
+        batch_size=batch_size,
+        convert_to_mp3=convert_to_mp3,
+        num_workers=num_workers
     )
     
     # Process dataset
     results = calculator.process_dataset(
         dataset_name=dataset_name,
-        split="train",  # Change to "test" or "validation" if needed
+        split="train",
         output_file=output_file,
         save_every=save_every,
         max_samples=max_samples
     )
     
-    print(f"\nProcessing complete! Results saved to {output_file}")
+    print(f"\n✅ Processing complete! Results saved to {output_file}")
     
-    # Optionally, save as CSV for easier analysis
+    # Save as CSV for easier analysis
     if results:
         df = pd.DataFrame(results)
         csv_output = output_file.replace('.json', '.csv')
         df.to_csv(csv_output, index=False)
-        print(f"Results also saved as CSV: {csv_output}")
+        print(f"📊 Results also saved as CSV: {csv_output}")
         
-        # Show preview
-        print(f"\nPreview of results:")
-        print(df[['sample_index', 'similarity', 'alignment_score']].head())
+        # Show final statistics
+        print(f"\n📈 FINAL STATISTICS:")
+        print(f"  Total samples processed: {len(results):,}")
+        print(f"  Average similarity: {np.mean([r['similarity'] for r in results]):.4f}")
+        print(f"  MP3 conversion: {'✅ Enabled' if convert_to_mp3 else '❌ Disabled'}")
     else:
-        print("No results to save!")
+        print("❌ No results to save!")
 
 if __name__ == "__main__":
     main()

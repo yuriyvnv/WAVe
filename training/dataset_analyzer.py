@@ -129,7 +129,7 @@ class SimilarityAnalyzer:
         print(f"\nSimilarity by text length:")
         print(length_stats)
     
-    def save_filtered_datasets(self, output_dir="filtered_datasets"):
+    def save_filtered_datasets(self, output_dir="filtered_datasets_nl"):
         """Save filtered datasets based on similarity thresholds"""
         Path(output_dir).mkdir(exist_ok=True)
         
@@ -241,7 +241,7 @@ class SimilarityAnalyzer:
 
 def main():
     # Configuration
-    results_file = "dataset_similarities.json"  # Change to your results file
+    results_file = "dataset_similarities_nl.json"  # Change to your results file
     
     if not Path(results_file).exists():
         print(f"Results file {results_file} not found!")

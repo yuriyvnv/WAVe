@@ -1,0 +1,43 @@
+2025-07-27 22:01:22,027 |    INFO | __main__ | 🔖 Logging to logs/whisper_tiny_multi_eval_pt_20250727_220122.log
+2025-07-27 22:01:22,042 |    INFO | root | Using device: cuda
+2025-07-27 22:01:22,043 |    INFO | root | Loading Multilingual LibriSpeech dataset for Portuguese... 📚
+2025-07-27 22:01:26,503 |   ERROR | root | Resolving data files:   0%|          | 0/48 [00:00<?, ?it/s]
+2025-07-27 22:01:27,110 |   ERROR | root | Resolving data files:  23%|##2       | 11/48 [00:00<00:02, 18.17it/s]
+2025-07-27 22:01:27,458 |   ERROR | root | Resolving data files:  27%|##7       | 13/48 [00:00<00:02, 12.58it/s]
+2025-07-27 22:01:27,464 |   ERROR | root | Resolving data files: 100%|##########| 48/48 [00:00<00:00, 50.04it/s]
+2025-07-27 22:01:29,520 |    INFO | root | ✅ MLS loaded: 871 test samples
+2025-07-27 22:01:29,524 |   ERROR | root | Traceback (most recent call last):
+2025-07-27 22:01:29,524 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_librispeech_pt.py", line 217, in <module>
+2025-07-27 22:01:29,524 |   ERROR | root | main()
+2025-07-27 22:01:29,525 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_librispeech_pt.py", line 143, in main
+2025-07-27 22:01:29,525 |   ERROR | root | fleurs_dataset, mls_dataset = load_datasets()
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,525 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ^
+2025-07-27 22:01:29,526 |   ERROR | root | ValueError
+2025-07-27 22:01:29,526 |   ERROR | root | :
+2025-07-27 22:01:29,526 |   ERROR | root | too many values to unpack (expected 2)

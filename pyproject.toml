@@ -18,6 +18,7 @@ dependencies = [
     "numpy==2.0",
     "openai>=1.95.1",
     "psutil>=7.0.0",
+    "pydub>=0.25.1",
     "seaborn>=0.13.2",
     "setuptools==77.0.1",
     "soundfile==0.12.1",

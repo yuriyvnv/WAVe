@@ -18,7 +18,7 @@ def analyze_current_situation():
     print("-" * 40)
     
     try:
-        current_dataset = load_dataset("yuriyvnv/synthetic_transcript_pt")
+        current_dataset = load_dataset("yuriyvnv/synthetic_transcript_nl")
         print(f"✅ Successfully loaded current dataset")
         
         for split_name, split_data in current_dataset.items():
@@ -36,7 +36,7 @@ def analyze_current_situation():
     print("\n2. FILTERED SYNTHETIC DATA ANALYSIS")
     print("-" * 40)
     
-    filtered_dir = Path("filtered_datasets")
+    filtered_dir = Path("filtered_datasets_nl")
     if filtered_dir.exists():
         print(f"✅ Found filtered datasets directory")
         

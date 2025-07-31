@@ -27,11 +27,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ───────────────────────── CONFIG ─────────────────────────
-DATASET_REPO = "yuriyvnv/synthetic_transcript_pt"
+DATASET_REPO = "yuriyvnv/synthetic_transcript_nl"
 TTS_MODEL = "tts-1"  # Options: "tts-1", "tts-1-hd", or "gpt-4o-mini-tts"
-AUDIO_DIR = Path("synthetic_audio_files")
-OUTPUT_DATASET_DIR = Path("synthetic_cv17_pt_with_audio")
-HUB_REPO_AUDIO = "yuriyvnv/synthetic_transcript_pt"  # Same repo, will update with audio
+AUDIO_DIR = Path("synthetic_audio_files_nl")
+OUTPUT_DATASET_DIR = Path("synthetic_cv17_nl_with_audio")
+HUB_REPO_AUDIO = "yuriyvnv/synthetic_transcript_nl"  # Same repo, will update with audio
 
 # OpenAI TTS available voices (9 voices actually supported by API)
 TTS_VOICES = ["alloy", "ash", "coral", "echo", "fable", "nova", "onyx", "sage", "shimmer"]

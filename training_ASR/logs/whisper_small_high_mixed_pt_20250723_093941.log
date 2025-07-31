@@ -1,0 +1,191 @@
+2025-07-23 09:39:41,597 |    INFO | __main__ | 🔖  Logging to logs/whisper_small_high_mixed_pt_20250723_093941.log
+2025-07-23 09:39:41,612 |    INFO | root | Using device: cuda
+2025-07-23 09:39:41,612 |    INFO | root | Using model: yuriyvnv/whisper-small-high-mixed-pt
+2025-07-23 09:39:41,612 |    INFO | root | Loading model... 🎯
+2025-07-23 09:39:44,486 |    INFO | root | Using device: cuda 💻
+2025-07-23 09:39:44,487 |    INFO | root | Loading Common Voice 17.0 dataset... 📊
+2025-07-23 09:39:46,127 |    INFO | root | 
+============================================================
+2025-07-23 09:39:46,127 |    INFO | root | 🔍 EVALUATING ON VALIDATION SET
+2025-07-23 09:39:46,127 |    INFO | root | ============================================================
+2025-07-23 09:39:46,127 |    INFO | root | 
+🔄 Evaluating validation split (9464 samples)...
+2025-07-23 09:39:46,128 |   ERROR | root | Processing validation:   0%|          | 0/9464 [00:00<?, ?it/s]
+2025-07-23 09:39:47,811 |   ERROR | root | Processing validation:   0%|          | 0/9464 [00:01<?, ?it/s]
+2025-07-23 09:39:47,812 |   ERROR | root | Traceback (most recent call last):
+2025-07-23 09:39:47,812 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_results.py", line 154, in <module>
+2025-07-23 09:39:47,812 |   ERROR | root | val_results = evaluate_split("validation", dataset["validation"])
+2025-07-23 09:39:47,812 |   ERROR | root | ^
+2025-07-23 09:39:47,812 |   ERROR | root | ^
+2025-07-23 09:39:47,812 |   ERROR | root | ^
+2025-07-23 09:39:47,812 |   ERROR | root | ^
+2025-07-23 09:39:47,812 |   ERROR | root | ^
+2025-07-23 09:39:47,812 |   ERROR | root | ^
+2025-07-23 09:39:47,812 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,813 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,814 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_results.py", line 121, in evaluate_split
+2025-07-23 09:39:47,815 |   ERROR | root | generated_ids = model.generate(
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,815 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/models/whisper/generation_whisper.py", line 774, in generate
+2025-07-23 09:39:47,816 |   ERROR | root | ) = self.generate_with_fallback(
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,816 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root | ^
+2025-07-23 09:39:47,817 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/models/whisper/generation_whisper.py", line 950, in generate_with_fallback
+2025-07-23 09:39:47,817 |   ERROR | root | seek_outputs = super().generate(
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root | ^
+2025-07-23 09:39:47,818 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+2025-07-23 09:39:47,818 |   ERROR | root | return func(*args, **kwargs)
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,819 |   ERROR | root | ^
+2025-07-23 09:39:47,820 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 2219, in generate
+2025-07-23 09:39:47,820 |   ERROR | root | prepared_logits_processor = self._get_logits_processor(
+2025-07-23 09:39:47,820 |   ERROR | root | ^
+2025-07-23 09:39:47,820 |   ERROR | root | ^
+2025-07-23 09:39:47,820 |   ERROR | root | ^
+2025-07-23 09:39:47,820 |   ERROR | root | ^
+2025-07-23 09:39:47,820 |   ERROR | root | ^
+2025-07-23 09:39:47,820 |   ERROR | root | ^
+2025-07-23 09:39:47,820 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root | ^
+2025-07-23 09:39:47,821 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 1083, in _get_logits_processor
+2025-07-23 09:39:47,822 |   ERROR | root | raise ValueError(
+2025-07-23 09:39:47,822 |   ERROR | root | ValueError
+2025-07-23 09:39:47,822 |   ERROR | root | :
+2025-07-23 09:39:47,822 |   ERROR | root | You have explicitly specified `forced_decoder_ids`. Please remove the `forced_decoder_ids` argument in favour of `input_ids` or `decoder_input_ids` respectively.

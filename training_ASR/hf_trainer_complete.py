@@ -1,6 +1,6 @@
 import torch
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 print(torch.cuda.is_available())
 torch.cuda.empty_cache()
 print(torch.cuda.current_device())
@@ -8,7 +8,7 @@ print(torch.cuda.get_device_name(torch.cuda.current_device()))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 from transformers.utils import is_torch_sdpa_available
 print(is_torch_sdpa_available())
-MODEL_NAME = "whisper-large-v3-mixed-pt"
+MODEL_NAME = "whisper-tiny-mixed-pt"
 
 import json
 from datasets import load_dataset, Audio
@@ -39,14 +39,14 @@ def log_print(message):
     logging.info(message) 
 load_dotenv()
 os.environ["WANDB_API_KEY"] = os.getenv("WANDB_API_KEY")
-PROJECT_NAME = "whisper-large-v3-training"
+PROJECT_NAME = "whisper-tiny-training"
 os.environ["WANDB_PROJECT"] = PROJECT_NAME
 HF_TOKEN = os.getenv("HF_TOKEN")
 os.environ["HF_TOKEN"] = HF_TOKEN
 
 
 
-dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN,download_mode="force_redownload")
+dataset = load_dataset("yuriyvnv/synthetic_transcript_pt", "mixed_cv_synthetic",token=HF_TOKEN)
 dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
 train_dataset = dataset["train"]
@@ -59,13 +59,24 @@ log_print(f"   🤖 Train (Synthetic): {len(train_dataset):,} samples")
 log_print(f"   🎤 Validation (Real CV): {len(val_dataset):,} samples") 
 log_print(f"   🎤 Test (Real CV): {len(test_dataset):,} samples")
 
-model_pretrained = "openai/whisper-large-v3"
+model_pretrained = "openai/whisper-tiny"
 feature_extractor = WhisperFeatureExtractor.from_pretrained(model_pretrained, token=HF_TOKEN)
 tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
 processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
 log_print("🔧 PRE-PROCESSING DATASETS...")
 
 def prepare_dataset(batch):
+    transcription= batch["text"]
+    if transcription.startswith('"') and transcription.endswith('"'):
+    # we can remove trailing quotation marks as they do not affect the transcription
+        transcription = transcription[1:-1]
+    
+    if transcription[-1] not in [".", "?", "!"]:
+        # append a full-stop to sentences that do not end in punctuation
+        transcription = transcription + "."
+    
+    batch["text"] = transcription
+    
     audio = batch["audio"]
     batch["input_features"] = feature_extractor(
         audio["array"], sampling_rate=audio["sampling_rate"]
@@ -106,7 +117,7 @@ class DataCollatorSpeechSeq2SeqWithPadding:
         batch["labels"] = labels
         return batch
 
-checkpoint_folder = f"/root/speech_transcript_embeddings/training_ASR/trained_models/{MODEL_NAME}"
+checkpoint_folder = f"/home/yperezhohin/speech_transcript_embeddings/training_ASR/trained_models/{MODEL_NAME}"
 
 # Load model
 log_print("Loading Whisper model...")
@@ -126,13 +137,14 @@ data_collator = DataCollatorSpeechSeq2SeqWithPadding(
 training_args = Seq2SeqTrainingArguments(
     output_dir=checkpoint_folder,
     gradient_checkpointing=True,
-    per_device_train_batch_size=256,
+    per_device_train_batch_size=60,
     per_device_eval_batch_size=8,
-    learning_rate=1e-5,
+    eval_accumulation_steps=10,
+    learning_rate=5e-6,
     num_train_epochs=10,
     warmup_ratio=0.1,
     bf16=True,
-    dataloader_num_workers=32,
+    dataloader_num_workers=9,
 
     
     # Evaluation settings
@@ -144,7 +156,8 @@ training_args = Seq2SeqTrainingArguments(
     
     # Save settings
     save_strategy="steps",
-    save_total_limit=1,
+    save_steps=50,
+    save_total_limit=3,
     load_best_model_at_end=True,
     
     logging_steps=25,
