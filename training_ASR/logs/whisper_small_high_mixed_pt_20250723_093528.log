@@ -1,303 +1,0 @@
-2025-07-23 09:35:28,515 |    INFO | __main__ | 🔖  Logging to logs/whisper_small_high_mixed_pt_20250723_093528.log
-2025-07-23 09:35:28,540 |    INFO | root | Using device: cuda
-2025-07-23 09:35:28,541 |    INFO | root | Using model: yuriyvnv/whisper-small-high-mixed-pt
-2025-07-23 09:35:28,541 |    INFO | root | Loading model... 🎯
-2025-07-23 09:35:29,056 |   ERROR | root | config.json: 0.00B [00:00, ?B/s]
-2025-07-23 09:35:29,057 |   ERROR | root | config.json: 1.33kB [00:00, 1.93MB/s]
-2025-07-23 09:35:29,737 |   ERROR | root | model.safetensors:   0%|          | 0.00/967M [00:00<?, ?B/s]
-2025-07-23 09:35:30,438 |   ERROR | root | model.safetensors:   1%|1         | 10.5M/967M [00:00<01:03, 15.0MB/s]
-2025-07-23 09:35:30,705 |   ERROR | root | model.safetensors:   2%|2         | 21.0M/967M [00:00<00:40, 23.5MB/s]
-2025-07-23 09:35:30,984 |   ERROR | root | model.safetensors:   3%|3         | 31.5M/967M [00:01<00:32, 28.4MB/s]
-2025-07-23 09:35:31,249 |   ERROR | root | model.safetensors:   4%|4         | 41.9M/967M [00:01<00:28, 31.9MB/s]
-2025-07-23 09:35:31,529 |   ERROR | root | model.safetensors:   5%|5         | 52.4M/967M [00:01<00:27, 33.8MB/s]
-2025-07-23 09:35:31,799 |   ERROR | root | model.safetensors:   7%|6         | 62.9M/967M [00:02<00:25, 35.4MB/s]
-2025-07-23 09:35:32,066 |   ERROR | root | model.safetensors:   8%|7         | 73.4M/967M [00:02<00:24, 36.5MB/s]
-2025-07-23 09:35:32,336 |   ERROR | root | model.safetensors:   9%|8         | 83.9M/967M [00:02<00:23, 37.2MB/s]
-2025-07-23 09:35:32,605 |   ERROR | root | model.safetensors:  10%|9         | 94.4M/967M [00:02<00:23, 37.8MB/s]
-2025-07-23 09:35:32,872 |   ERROR | root | model.safetensors:  11%|#         | 105M/967M [00:03<00:22, 38.2MB/s]
-2025-07-23 09:35:33,144 |   ERROR | root | model.safetensors:  12%|#1        | 115M/967M [00:03<00:22, 38.3MB/s]
-2025-07-23 09:35:33,416 |   ERROR | root | model.safetensors:  13%|#3        | 126M/967M [00:03<00:21, 38.4MB/s]
-2025-07-23 09:35:33,696 |   ERROR | root | model.safetensors:  14%|#4        | 136M/967M [00:03<00:21, 38.1MB/s]
-2025-07-23 09:35:33,969 |   ERROR | root | model.safetensors:  15%|#5        | 147M/967M [00:04<00:21, 38.2MB/s]
-2025-07-23 09:35:34,243 |   ERROR | root | model.safetensors:  16%|#6        | 157M/967M [00:04<00:21, 38.2MB/s]
-2025-07-23 09:35:34,523 |   ERROR | root | model.safetensors:  17%|#7        | 168M/967M [00:04<00:21, 38.0MB/s]
-2025-07-23 09:35:34,779 |   ERROR | root | model.safetensors:  18%|#8        | 178M/967M [00:05<00:20, 38.8MB/s]
-2025-07-23 09:35:35,048 |   ERROR | root | model.safetensors:  20%|#9        | 189M/967M [00:05<00:20, 38.9MB/s]
-2025-07-23 09:35:35,350 |   ERROR | root | model.safetensors:  21%|##        | 199M/967M [00:05<00:20, 37.5MB/s]
-2025-07-23 09:35:35,614 |   ERROR | root | model.safetensors:  22%|##1       | 210M/967M [00:05<00:19, 38.1MB/s]
-2025-07-23 09:35:35,876 |   ERROR | root | model.safetensors:  23%|##2       | 220M/967M [00:06<00:19, 38.7MB/s]
-2025-07-23 09:35:36,159 |   ERROR | root | model.safetensors:  24%|##3       | 231M/967M [00:06<00:19, 38.2MB/s]
-2025-07-23 09:35:36,416 |   ERROR | root | model.safetensors:  25%|##4       | 241M/967M [00:06<00:18, 38.9MB/s]
-2025-07-23 09:35:36,717 |   ERROR | root | model.safetensors:  26%|##6       | 252M/967M [00:06<00:19, 37.6MB/s]
-2025-07-23 09:35:36,998 |   ERROR | root | model.safetensors:  27%|##7       | 262M/967M [00:07<00:18, 37.5MB/s]
-2025-07-23 09:35:37,255 |   ERROR | root | model.safetensors:  28%|##8       | 273M/967M [00:07<00:18, 38.4MB/s]
-2025-07-23 09:35:37,522 |   ERROR | root | model.safetensors:  29%|##9       | 283M/967M [00:07<00:17, 38.7MB/s]
-2025-07-23 09:35:37,790 |   ERROR | root | model.safetensors:  30%|###       | 294M/967M [00:08<00:17, 38.8MB/s]
-2025-07-23 09:35:38,058 |   ERROR | root | model.safetensors:  31%|###1      | 304M/967M [00:08<00:17, 38.9MB/s]
-2025-07-23 09:35:38,326 |   ERROR | root | model.safetensors:  33%|###2      | 315M/967M [00:08<00:16, 39.0MB/s]
-2025-07-23 09:35:38,597 |   ERROR | root | model.safetensors:  34%|###3      | 325M/967M [00:08<00:16, 38.9MB/s]
-2025-07-23 09:35:38,892 |   ERROR | root | model.safetensors:  35%|###4      | 336M/967M [00:09<00:16, 37.9MB/s]
-2025-07-23 09:35:39,152 |   ERROR | root | model.safetensors:  36%|###5      | 346M/967M [00:09<00:16, 38.5MB/s]
-2025-07-23 09:35:39,433 |   ERROR | root | model.safetensors:  37%|###6      | 357M/967M [00:09<00:16, 38.1MB/s]
-2025-07-23 09:35:39,691 |   ERROR | root | model.safetensors:  38%|###7      | 367M/967M [00:09<00:15, 38.9MB/s]
-2025-07-23 09:35:39,959 |   ERROR | root | model.safetensors:  39%|###9      | 377M/967M [00:10<00:15, 39.0MB/s]
-2025-07-23 09:35:40,225 |   ERROR | root | model.safetensors:  40%|####      | 388M/967M [00:10<00:14, 39.1MB/s]
-2025-07-23 09:35:40,495 |   ERROR | root | model.safetensors:  41%|####1     | 398M/967M [00:10<00:14, 39.0MB/s]
-2025-07-23 09:35:40,777 |   ERROR | root | model.safetensors:  42%|####2     | 409M/967M [00:11<00:14, 38.4MB/s]
-2025-07-23 09:35:41,039 |   ERROR | root | model.safetensors:  43%|####3     | 419M/967M [00:11<00:14, 38.9MB/s]
-2025-07-23 09:35:41,325 |   ERROR | root | model.safetensors:  44%|####4     | 430M/967M [00:11<00:14, 38.2MB/s]
-2025-07-23 09:35:41,580 |   ERROR | root | model.safetensors:  46%|####5     | 440M/967M [00:11<00:13, 39.0MB/s]
-2025-07-23 09:35:41,860 |   ERROR | root | model.safetensors:  47%|####6     | 451M/967M [00:12<00:13, 38.5MB/s]
-2025-07-23 09:35:42,137 |   ERROR | root | model.safetensors:  48%|####7     | 461M/967M [00:12<00:13, 38.3MB/s]
-2025-07-23 09:35:42,399 |   ERROR | root | model.safetensors:  49%|####8     | 472M/967M [00:12<00:12, 38.9MB/s]
-2025-07-23 09:35:42,679 |   ERROR | root | model.safetensors:  50%|####9     | 482M/967M [00:12<00:12, 38.4MB/s]
-2025-07-23 09:35:42,941 |   ERROR | root | model.safetensors:  51%|#####     | 493M/967M [00:13<00:12, 38.9MB/s]
-2025-07-23 09:35:43,208 |   ERROR | root | model.safetensors:  52%|#####2    | 503M/967M [00:13<00:11, 39.0MB/s]
-2025-07-23 09:35:43,475 |   ERROR | root | model.safetensors:  53%|#####3    | 514M/967M [00:13<00:11, 39.1MB/s]
-2025-07-23 09:35:43,743 |   ERROR | root | model.safetensors:  54%|#####4    | 524M/967M [00:14<00:11, 39.1MB/s]
-2025-07-23 09:35:44,015 |   ERROR | root | model.safetensors:  55%|#####5    | 535M/967M [00:14<00:11, 38.9MB/s]
-2025-07-23 09:35:44,325 |   ERROR | root | model.safetensors:  56%|#####6    | 545M/967M [00:14<00:11, 37.3MB/s]
-2025-07-23 09:35:44,590 |   ERROR | root | model.safetensors:  57%|#####7    | 556M/967M [00:14<00:10, 37.9MB/s]
-2025-07-23 09:35:44,854 |   ERROR | root | model.safetensors:  59%|#####8    | 566M/967M [00:15<00:10, 38.4MB/s]
-2025-07-23 09:35:45,124 |   ERROR | root | model.safetensors:  60%|#####9    | 577M/967M [00:15<00:10, 38.6MB/s]
-2025-07-23 09:35:45,394 |   ERROR | root | model.safetensors:  61%|######    | 587M/967M [00:15<00:09, 38.7MB/s]
-2025-07-23 09:35:45,663 |   ERROR | root | model.safetensors:  62%|######1   | 598M/967M [00:15<00:09, 38.7MB/s]
-2025-07-23 09:35:45,954 |   ERROR | root | model.safetensors:  63%|######2   | 608M/967M [00:16<00:09, 37.9MB/s]
-2025-07-23 09:35:46,226 |   ERROR | root | model.safetensors:  64%|######3   | 619M/967M [00:16<00:09, 38.1MB/s]
-2025-07-23 09:35:46,485 |   ERROR | root | model.safetensors:  65%|######5   | 629M/967M [00:16<00:08, 38.8MB/s]
-2025-07-23 09:35:46,755 |   ERROR | root | model.safetensors:  66%|######6   | 640M/967M [00:17<00:08, 38.8MB/s]
-2025-07-23 09:35:47,040 |   ERROR | root | model.safetensors:  67%|######7   | 650M/967M [00:17<00:08, 38.2MB/s]
-2025-07-23 09:35:47,307 |   ERROR | root | model.safetensors:  68%|######8   | 661M/967M [00:17<00:07, 38.5MB/s]
-2025-07-23 09:35:47,574 |   ERROR | root | model.safetensors:  69%|######9   | 671M/967M [00:17<00:07, 38.7MB/s]
-2025-07-23 09:35:47,872 |   ERROR | root | model.safetensors:  70%|#######   | 682M/967M [00:18<00:07, 37.6MB/s]
-2025-07-23 09:35:48,141 |   ERROR | root | model.safetensors:  72%|#######1  | 692M/967M [00:18<00:07, 38.0MB/s]
-2025-07-23 09:35:48,399 |   ERROR | root | model.safetensors:  73%|#######2  | 703M/967M [00:18<00:06, 38.7MB/s]
-2025-07-23 09:35:48,666 |   ERROR | root | model.safetensors:  74%|#######3  | 713M/967M [00:18<00:06, 38.9MB/s]
-2025-07-23 09:35:48,933 |   ERROR | root | model.safetensors:  75%|#######4  | 724M/967M [00:19<00:06, 39.0MB/s]
-2025-07-23 09:35:49,199 |   ERROR | root | model.safetensors:  76%|#######5  | 734M/967M [00:19<00:05, 39.1MB/s]
-2025-07-23 09:35:49,504 |   ERROR | root | model.safetensors:  77%|#######6  | 744M/967M [00:19<00:05, 37.6MB/s]
-2025-07-23 09:35:49,781 |   ERROR | root | model.safetensors:  78%|#######8  | 755M/967M [00:20<00:05, 37.6MB/s]
-2025-07-23 09:35:50,047 |   ERROR | root | model.safetensors:  79%|#######9  | 765M/967M [00:20<00:05, 38.2MB/s]
-2025-07-23 09:35:50,310 |   ERROR | root | model.safetensors:  80%|########  | 776M/967M [00:20<00:04, 38.7MB/s]
-2025-07-23 09:35:50,592 |   ERROR | root | model.safetensors:  81%|########1 | 786M/967M [00:20<00:04, 38.2MB/s]
-2025-07-23 09:35:50,847 |   ERROR | root | model.safetensors:  82%|########2 | 797M/967M [00:21<00:04, 39.0MB/s]
-2025-07-23 09:35:51,143 |   ERROR | root | model.safetensors:  83%|########3 | 807M/967M [00:21<00:04, 37.9MB/s]
-2025-07-23 09:35:51,420 |   ERROR | root | model.safetensors:  85%|########4 | 818M/967M [00:21<00:03, 37.9MB/s]
-2025-07-23 09:35:51,672 |   ERROR | root | model.safetensors:  86%|########5 | 828M/967M [00:21<00:03, 38.9MB/s]
-2025-07-23 09:35:51,941 |   ERROR | root | model.safetensors:  87%|########6 | 839M/967M [00:22<00:03, 39.0MB/s]
-2025-07-23 09:35:52,210 |   ERROR | root | model.safetensors:  88%|########7 | 849M/967M [00:22<00:03, 39.0MB/s]
-2025-07-23 09:35:52,479 |   ERROR | root | model.safetensors:  89%|########8 | 860M/967M [00:22<00:02, 39.0MB/s]
-2025-07-23 09:35:52,768 |   ERROR | root | model.safetensors:  90%|######### | 870M/967M [00:23<00:02, 38.2MB/s]
-2025-07-23 09:35:53,038 |   ERROR | root | model.safetensors:  91%|#########1| 881M/967M [00:23<00:02, 38.3MB/s]
-2025-07-23 09:35:53,300 |   ERROR | root | model.safetensors:  92%|#########2| 891M/967M [00:23<00:01, 38.8MB/s]
-2025-07-23 09:35:53,568 |   ERROR | root | model.safetensors:  93%|#########3| 902M/967M [00:23<00:01, 38.9MB/s]
-2025-07-23 09:35:53,837 |   ERROR | root | model.safetensors:  94%|#########4| 912M/967M [00:24<00:01, 38.9MB/s]
-2025-07-23 09:35:54,104 |   ERROR | root | model.safetensors:  95%|#########5| 923M/967M [00:24<00:01, 39.0MB/s]
-2025-07-23 09:35:54,393 |   ERROR | root | model.safetensors:  97%|#########6| 933M/967M [00:24<00:00, 38.2MB/s]
-2025-07-23 09:35:54,654 |   ERROR | root | model.safetensors:  98%|#########7| 944M/967M [00:24<00:00, 38.8MB/s]
-2025-07-23 09:35:54,935 |   ERROR | root | model.safetensors:  99%|#########8| 954M/967M [00:25<00:00, 38.3MB/s]
-2025-07-23 09:35:55,193 |   ERROR | root | model.safetensors: 100%|#########9| 965M/967M [00:25<00:00, 39.0MB/s]
-2025-07-23 09:35:55,537 |   ERROR | root | model.safetensors: 100%|##########| 967M/967M [00:25<00:00, 37.5MB/s]
-2025-07-23 09:35:56,296 |   ERROR | root | generation_config.json: 0.00B [00:00, ?B/s]
-2025-07-23 09:35:56,297 |   ERROR | root | generation_config.json: 2.99kB [00:00, 5.07MB/s]
-2025-07-23 09:35:56,774 |   ERROR | root | preprocessor_config.json:   0%|          | 0.00/356 [00:00<?, ?B/s]
-2025-07-23 09:35:56,775 |   ERROR | root | preprocessor_config.json: 100%|##########| 356/356 [00:00<00:00, 1.23MB/s]
-2025-07-23 09:35:57,339 |   ERROR | root | tokenizer_config.json: 0.00B [00:00, ?B/s]
-2025-07-23 09:35:57,350 |   ERROR | root | tokenizer_config.json: 283kB [00:00, 26.4MB/s]
-2025-07-23 09:35:57,794 |   ERROR | root | vocab.json: 0.00B [00:00, ?B/s]
-2025-07-23 09:35:57,867 |   ERROR | root | vocab.json: 1.04MB [00:00, 14.4MB/s]
-2025-07-23 09:35:58,823 |   ERROR | root | merges.txt: 0.00B [00:00, ?B/s]
-2025-07-23 09:35:58,900 |   ERROR | root | merges.txt: 494kB [00:00, 6.48MB/s]
-2025-07-23 09:35:59,436 |   ERROR | root | normalizer.json: 0.00B [00:00, ?B/s]
-2025-07-23 09:35:59,439 |   ERROR | root | normalizer.json: 52.7kB [00:00, 29.9MB/s]
-2025-07-23 09:35:59,849 |   ERROR | root | added_tokens.json: 0.00B [00:00, ?B/s]
-2025-07-23 09:35:59,850 |   ERROR | root | added_tokens.json: 34.6kB [00:00, 32.0MB/s]
-2025-07-23 09:36:00,268 |   ERROR | root | special_tokens_map.json: 0.00B [00:00, ?B/s]
-2025-07-23 09:36:00,269 |   ERROR | root | special_tokens_map.json: 2.19kB [00:00, 4.91MB/s]
-2025-07-23 09:36:02,100 |    INFO | root | Using device: cuda 💻
-2025-07-23 09:36:02,100 |    INFO | root | Loading Common Voice 17.0 dataset... 📊
-2025-07-23 09:36:03,441 |    INFO | root | 
-============================================================
-2025-07-23 09:36:03,441 |    INFO | root | 🔍 EVALUATING ON VALIDATION SET
-2025-07-23 09:36:03,441 |    INFO | root | ============================================================
-2025-07-23 09:36:03,441 |    INFO | root | 
-🔄 Evaluating validation split (9464 samples)...
-2025-07-23 09:36:03,442 |   ERROR | root | Processing validation:   0%|          | 0/9464 [00:00<?, ?it/s]
-2025-07-23 09:36:04,978 |   ERROR | root | Processing validation:   0%|          | 0/9464 [00:01<?, ?it/s]
-2025-07-23 09:36:04,979 |   ERROR | root | Traceback (most recent call last):
-2025-07-23 09:36:04,979 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_results.py", line 154, in <module>
-2025-07-23 09:36:04,979 |   ERROR | root | val_results = evaluate_split("validation", dataset["validation"])
-2025-07-23 09:36:04,979 |   ERROR | root | ^
-2025-07-23 09:36:04,979 |   ERROR | root | ^
-2025-07-23 09:36:04,979 |   ERROR | root | ^
-2025-07-23 09:36:04,979 |   ERROR | root | ^
-2025-07-23 09:36:04,979 |   ERROR | root | ^
-2025-07-23 09:36:04,979 |   ERROR | root | ^
-2025-07-23 09:36:04,979 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,980 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,981 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root | ^
-2025-07-23 09:36:04,982 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_results.py", line 123, in evaluate_split
-2025-07-23 09:36:04,983 |   ERROR | root | generated_ids = model.generate(
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,983 |   ERROR | root | ^
-2025-07-23 09:36:04,984 |   ERROR | root | ^
-2025-07-23 09:36:04,984 |   ERROR | root | ^
-2025-07-23 09:36:04,984 |   ERROR | root | ^
-2025-07-23 09:36:04,984 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/models/whisper/generation_whisper.py", line 774, in generate
-2025-07-23 09:36:04,984 |   ERROR | root | ) = self.generate_with_fallback(
-2025-07-23 09:36:04,984 |   ERROR | root | ^
-2025-07-23 09:36:04,984 |   ERROR | root | ^
-2025-07-23 09:36:04,984 |   ERROR | root | ^
-2025-07-23 09:36:04,984 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,985 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root | ^
-2025-07-23 09:36:04,986 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/models/whisper/generation_whisper.py", line 950, in generate_with_fallback
-2025-07-23 09:36:04,987 |   ERROR | root | seek_outputs = super().generate(
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,987 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
-2025-07-23 09:36:04,988 |   ERROR | root | return func(*args, **kwargs)
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,988 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root | ^
-2025-07-23 09:36:04,989 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 2219, in generate
-2025-07-23 09:36:04,990 |   ERROR | root | prepared_logits_processor = self._get_logits_processor(
-2025-07-23 09:36:04,990 |   ERROR | root | ^
-2025-07-23 09:36:04,990 |   ERROR | root | ^
-2025-07-23 09:36:04,990 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,991 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root | ^
-2025-07-23 09:36:04,992 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/.venv/lib/python3.11/site-packages/transformers/generation/utils.py", line 1083, in _get_logits_processor
-2025-07-23 09:36:04,993 |   ERROR | root | raise ValueError(
-2025-07-23 09:36:04,993 |   ERROR | root | ValueError
-2025-07-23 09:36:04,993 |   ERROR | root | :
-2025-07-23 09:36:04,993 |   ERROR | root | You have explicitly specified `forced_decoder_ids`. Please remove the `forced_decoder_ids` argument in favour of `input_ids` or `decoder_input_ids` respectively.

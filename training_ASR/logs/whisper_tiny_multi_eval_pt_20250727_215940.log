@@ -1,52 +1,0 @@
-2025-07-27 21:59:40,081 |    INFO | __main__ | 🔖 Logging to logs/whisper_tiny_multi_eval_pt_20250727_215940.log
-2025-07-27 21:59:40,110 |    INFO | root | Using device: cuda
-2025-07-27 21:59:40,111 |    INFO | root | Loading Multilingual LibriSpeech dataset for Portuguese... 📚
-2025-07-27 21:59:43,507 |   ERROR | root | Resolving data files:   0%|          | 0/48 [00:00<?, ?it/s]
-2025-07-27 21:59:44,036 |   ERROR | root | Resolving data files:  23%|##2       | 11/48 [00:00<00:01, 21.01it/s]
-2025-07-27 21:59:44,086 |   ERROR | root | Resolving data files: 100%|##########| 48/48 [00:00<00:00, 83.54it/s]
-2025-07-27 21:59:45,506 |   ERROR | root | apply preprocessing MLS test:   0%|          | 0/871 [00:00<?, ? examples/s]
-2025-07-27 21:59:45,734 |   ERROR | root | apply preprocessing MLS test: 100%|##########| 871/871 [00:00<00:00, 3826.51 examples/s]
-2025-07-27 21:59:45,739 |   ERROR | root | apply preprocessing MLS test: 100%|##########| 871/871 [00:00<00:00, 3748.85 examples/s]
-2025-07-27 21:59:45,742 |    INFO | root | ✅ MLS loaded: 871 test samples
-2025-07-27 21:59:45,743 |   ERROR | root | Traceback (most recent call last):
-2025-07-27 21:59:45,743 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_librispeech_pt.py", line 233, in <module>
-2025-07-27 21:59:45,743 |   ERROR | root | main()
-2025-07-27 21:59:45,743 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_librispeech_pt.py", line 143, in main
-2025-07-27 21:59:45,744 |   ERROR | root | fleurs_dataset, mls_dataset = load_datasets()
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root |   File "/home/yperezhohin/speech_transcript_embeddings/training_ASR/evaluate_librispeech_pt.py", line 95, in load_datasets
-2025-07-27 21:59:45,744 |   ERROR | root | return fleurs_dataset, mls_dataset
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,744 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | ^
-2025-07-27 21:59:45,745 |   ERROR | root | NameError
-2025-07-27 21:59:45,745 |   ERROR | root | :
-2025-07-27 21:59:45,745 |   ERROR | root | name 'fleurs_dataset' is not defined
-2025-07-27 21:59:45,745 |   ERROR | root | . Did you mean: '
-2025-07-27 21:59:45,745 |   ERROR | root | mls_dataset
-2025-07-27 21:59:45,745 |   ERROR | root | '?
