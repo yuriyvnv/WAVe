@@ -2,6 +2,15 @@
 
 This repository contains the implementation and experiments for learning aligned embeddings between speech audio and text transcripts using word-level alignment mechanisms.
 
+## Supplementary Materials
+
+The following supplementary materials referenced in the paper are available in this repository:
+
+- **Corruption_Strategies.pdf**: Details the corruption strategies used for training WAVe model
+- **synthetic_data_generation_prompts.pdf**: Describes the prompts and methodology for generating synthetic training data
+- **WAVe_Configurations_training.pdf**: Configuration details for WAVe model training
+- **Whisper_Finetuning_config.pdf**: Configuration specifications for Whisper model fine-tuning
+
 ## Repository Structure
 
 This repository is organized into several main directories, each containing specific components of our research:
@@ -44,6 +53,8 @@ Contains training logs and visualization scripts:
 1. **For multimodal embedding training**: See [`training_multimodal/README.md`](./training_multimodal/README.md)
 2. **For ASR training and evaluation**: See [`training_ASR/README.md`](./training_ASR/README.md)
 3. **For synthetic audio generation**: See [`synthetic_audio/README.md`](./synthetic_audio/README.md)
+
+
 
 ## Requirements
 
