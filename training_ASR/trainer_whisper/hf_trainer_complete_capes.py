@@ -69,6 +69,7 @@ tokenizer = WhisperTokenizer.from_pretrained(model_pretrained, language="pt", ta
 processor = WhisperProcessor.from_pretrained(model_pretrained, language="pt", task="transcribe", token=HF_TOKEN)
 log_print("🔧 PRE-PROCESSING DATASETS...")
 
+# THIS IS COMMON VOICE PREPROCESSING CODE AS SPECIFIED IN THE HUGGUING FACE OFFICIAL REPO CARD
 def prepare_dataset(batch):
     audio = batch["audio"]
     transcription = batch["sentence"]
