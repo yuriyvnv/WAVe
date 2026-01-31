@@ -1,6 +1,43 @@
-# Speech-Transcript Embedding Alignment
+# WAVe: Word-Aligned Verification of Synthetic Speech for ASR
 
-This repository contains the implementation and experiments for learning aligned embeddings between speech audio and text transcripts using word-level alignment mechanisms.
+**Solving the Synthetic Audio Quality Bottleneck**
+
+Training robust ASR systems requires massive amounts of high-quality audio data. Synthetic audio generation offers a promising solution, but introduces a critical challenge: *how do you automatically identify when synthesized audio is good enough to train on?*
+
+## Why WAVe?
+
+**The Problem:** Not all synthetic audio is created equal. Poor-quality synthetic samples can degrade ASR model performance, yet manually filtering thousands of hours of audio is impractical. Traditional approaches rely on ASR metrics (WER/CER) or simple heuristics, which often fail to capture subtle quality issues.
+
+**Our Solution:** WAVe introduces a novel multimodal embedding model that learns to measure speech-transcript alignment quality at the **word level**. By learning what "good alignment" looks like from real data, WAVe effectively identifies synthetic samples that deviate from natural speech patterns.
+
+**The Results:**
+- **34% reduction** in training steps while maintaining or improving ASR performance
+- **Up to 50% improvement** in cross-domain generalization (e.g., MLS benchmark: 13.54% → 6.89% WER)
+- **30% less synthetic data** needed compared to previous filtering methods, with superior results
+- Effective detection of localized synthesis errors that sentence-level methods miss
+
+### Key Innovation: Word-Level Alignment
+
+Unlike conventional sentence-level filtering, WAVe operates at finer granularity through attention-based word-level alignment. This enables detection of:
+- Unnatural prosody or timing
+- Mispronunciations or incorrect audio synthesis
+- Text-audio mismatches
+- Poor audio quality that would hurt ASR training
+
+The result? **Cleaner synthetic training data → Better downstream ASR models → Faster training.**
+
+---
+
+## 🔗 Trained Models
+
+All trained models are available on Hugging Face: **[yuriyvnv](https://huggingface.co/yuriyvnv)**
+
+Including:
+- WAVe multimodal embedding models (Dutch & Portuguese)
+- Fine-tuned Whisper models (Tiny, Small, Large-v3) across multiple configurations
+- Models trained on filtered synthetic data, unfiltered data, and CommonVoice-only baselines
+
+---
 
 ## Supplementary Materials
 
