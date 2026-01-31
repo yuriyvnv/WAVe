@@ -4,7 +4,8 @@ This repository contains the implementation and experiments for learning aligned
 
 ## Supplementary Materials
 
-The following supplementary materials referenced in the paper are available in this repository:
+The following pdf files help guide the user how the models were trained to replicate our results. 
+A static seed of 42 was used across all runs.
 
 - **Corruption_Strategies.pdf**: Details the corruption strategies used for training WAVe model
 - **synthetic_data_generation_prompts.pdf**: Describes the prompts and methodology for generating synthetic training data
