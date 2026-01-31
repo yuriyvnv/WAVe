@@ -102,3 +102,6 @@ Contains training logs and visualization scripts:
 - CUDA-compatible GPU (recommended)
 
 Detailed requirements are provided in each subfolder's README.
+
+## Citation
+- Paper will be available soon for citation of this work
