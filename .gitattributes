@@ -1,2 +1,0 @@
-/root/speech_transcript_embeddings/training/audio_text_model_optimized_unfreeze_3_layers_wo_alignment_correct_encoder/best_model_gap.pt filter=lfs diff=lfs merge=lfs -text
-/root/speech_transcript_embeddings/training/audio_text_model_optimized_unfreeze_3_layers_wo_alignment_correct_encoder/best_model_loss.pt filter=lfs diff=lfs merge=lfs -text
