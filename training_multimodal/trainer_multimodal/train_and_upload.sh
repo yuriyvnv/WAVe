@@ -8,12 +8,12 @@ uv run ./run_embedding_trainer_unfreeze.sh
 
 echo "=== Pushing logs to GitHub ==="
 git add .
-git commit -m "Training completed without alignmetn for dutch : $(date)"
+git commit -m "Training completed  with word alignment for portuguese : $(date)"
 git push
 
 echo "=== Uploading to Hugging Face Hub ==="
-huggingface-cli upload ANONYMOUS_USER/3layers_NO_Alignment_Dutch 3layers_NO_Alignment_Dutch .
+huggingface-cli upload yuriyvnv/3layers_wt_alignment_PT_100_epochs .
 
 echo "=== All done! Shutting down instance ==="
-vastai stop instance 23186166 --api-key 8ae7bf55c0e0d706ec35e022dfcc991547b70da038b169380ef994c802f32b43
+vastai stop instance # --api-key #
 

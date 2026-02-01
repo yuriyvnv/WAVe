@@ -8,12 +8,12 @@ set -e
 
 # Default values
 DATA_DIR="./common_voice_data"
-OUTPUT_DIR="./3layers_NO_Alignment_Dutch"
+OUTPUT_DIR="./3layers_wt_alignment_PT_100_epochs"
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
 BATCH_SIZE=48 # 35*76 = 760 with accumulation steps
-NUM_EPOCHS=30
+NUM_EPOCHS=100
 LEARNING_RATE=0.0008
 WEIGHT_DECAY=0.01
 TEMPERATURE=0.1
@@ -28,7 +28,7 @@ FP16_FLAG="--no_fp16"
 FREEZE_STRATEGY="partial"  # New: default to partial freezing
 TEXT_LAYERS_TO_UNFREEZE=3  # New: default unfreezing 3 text layers
 AUDIO_LAYERS_TO_UNFREEZE=3 # New: default unfreezing 3 audio layers
-USE_WORD_ALIGNMENT=FALSE    # New: TRUE or FALSE for word alignment
+USE_WORD_ALIGNMENT=TRUE    # New: TRUE or FALSE for word alignment
 DEBUG_FLAG=""
 BUCKET_FLAG=""
 VALIDATE_GRADIENTS_FLAG=""
