@@ -1,0 +1,6 @@
+{
+  "auto_map": {
+    "AutoProcessor": "processing_wave.WAVeProcessor"
+  },
+  "processor_class": "WAVeProcessor"
+}

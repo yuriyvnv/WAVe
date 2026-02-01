@@ -87,3 +87,4 @@ synthetic_audio/synthetic_cv17_nl_with_audio/
 synthetic_audio/histogram_logs/
 synthetic_audio/synthetic_cv17_nl_text_only/
 wave_hf/wave-portuguese/**
+test.ipynb

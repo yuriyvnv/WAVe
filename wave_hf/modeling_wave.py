@@ -13,22 +13,25 @@ import torch.nn.functional as F
 from transformers import PreTrainedModel, AutoModel
 from transformers.modeling_outputs import ModelOutput
 
-try:
-    from .configuration_wave import WAVeConfig
-    from .modules import (
-        EnhancedProjection,
-        CrossModalAttention,
-        AttentivePooling,
-        WordLevelAlignmentModule
-    )
-except ImportError:
-    from configuration_wave import WAVeConfig
-    from modules import (
-        EnhancedProjection,
-        CrossModalAttention,
-        AttentivePooling,
-        WordLevelAlignmentModule
-    )
+# coding=utf-8
+# Handle imports - HuggingFace will download these files to the same directory
+import os
+import sys
+
+# Add current directory to path for imports
+if __name__ != "__main__":
+    import_path = os.path.dirname(os.path.abspath(__file__))
+    if import_path not in sys.path:
+        sys.path.insert(0, import_path)
+
+# Use relative imports so HuggingFace recognizes these as local files
+from .configuration_wave import WAVeConfig
+from .modules import (
+    EnhancedProjection,
+    CrossModalAttention,
+    AttentivePooling,
+    WordLevelAlignmentModule
+)
 
 
 # ===== MODEL OUTPUTS =====
@@ -176,14 +179,14 @@ class WAVeModel(WAVePreTrainedModel):
         self.config = config
 
         # ===== ENCODERS =====
-        # Load pretrained encoders directly (no wrapping)
-        self.text_encoder = AutoModel.from_pretrained(
-            config.text_model_name_or_path,
-            add_pooling_layer=False  # We'll do our own pooling
-        )
-        self.audio_encoder = AutoModel.from_pretrained(
-            config.audio_model_name_or_path
-        )
+        # Initialize encoders from config (weights will be loaded from safetensors)
+        from transformers import AutoConfig, AutoModel
+
+        text_config = AutoConfig.from_pretrained(config.text_model_name_or_path)
+        audio_config = AutoConfig.from_pretrained(config.audio_model_name_or_path)
+
+        self.text_encoder = AutoModel.from_config(text_config, add_pooling_layer=False)
+        self.audio_encoder = AutoModel.from_config(audio_config)
 
         # Get actual hidden sizes from loaded models
         self.text_hidden_size = self.text_encoder.config.hidden_size

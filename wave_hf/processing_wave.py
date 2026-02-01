@@ -126,13 +126,15 @@ class WAVeProcessor(ProcessorMixin):
 
         # ===== PROCESS TEXT =====
         if text is not None:
+            # Filter out audio-specific kwargs before passing to tokenizer
+            text_kwargs = {k: v for k, v in kwargs.items() if k not in ['audio', 'sampling_rate']}
             text_inputs = self.tokenizer(
                 text,
                 return_tensors=return_tensors,
                 padding=padding,
                 max_length=max_length,
                 truncation=truncation,
-                **kwargs
+                **text_kwargs
             )
             encoded_inputs.update(text_inputs)
 
