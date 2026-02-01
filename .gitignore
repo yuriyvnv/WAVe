@@ -88,3 +88,4 @@ synthetic_audio/histogram_logs/
 synthetic_audio/synthetic_cv17_nl_text_only/
 wave_hf/wave-portuguese/**
 test.ipynb
+training_multimodal/trainer_multimodal/train_and_upload.sh
