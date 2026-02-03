@@ -1,0 +1,30 @@
+{
+  "best_loss_model": {
+    "loss": 0.21340952305692018,
+    "bce_loss": 0.1506044946660509,
+    "weighted_bce": 0.04548604725350758,
+    "avg_similarity": 0.7286205887794495,
+    "median_similarity": 0.7416569590568542,
+    "std_similarity": 0.17735029757022858,
+    "clean_similarity": 0.7286205887794495,
+    "corrupt_similarity": 0.20581960678100586,
+    "similarity_gap": 0.5228009819984436,
+    "avg_pos_alignment": 0.17417959868907928,
+    "avg_neg_alignment": 0.06048630550503731,
+    "alignment_gap": 0.11369329690933228
+  },
+  "best_gap_model": {
+    "loss": 0.21751771016679747,
+    "bce_loss": 0.15318916829483328,
+    "weighted_bce": 0.04626667858243562,
+    "avg_similarity": 0.782835066318512,
+    "median_similarity": 0.8065471649169922,
+    "std_similarity": 0.17109191417694092,
+    "clean_similarity": 0.782835066318512,
+    "corrupt_similarity": 0.23304322361946106,
+    "similarity_gap": 0.5497918128967285,
+    "avg_pos_alignment": 0.18464617431163788,
+    "avg_neg_alignment": 0.06657964736223221,
+    "alignment_gap": 0.11806652694940567
+  }
+}

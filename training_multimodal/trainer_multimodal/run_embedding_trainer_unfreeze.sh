@@ -12,7 +12,7 @@ OUTPUT_DIR="./3layers_wt_alignment_PT_100_epochs"
 TEXT_MODEL="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 AUDIO_MODEL="facebook/w2v-bert-2.0"
 PROJECTION_DIM=768
-BATCH_SIZE=48 # 35*76 = 760 with accumulation steps
+BATCH_SIZE=36 # 35*76 = 760 with accumulation steps
 NUM_EPOCHS=100
 LEARNING_RATE=0.0008
 WEIGHT_DECAY=0.01
