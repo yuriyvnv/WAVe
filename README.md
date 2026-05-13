@@ -104,4 +104,22 @@ Contains training logs and visualization scripts:
 Detailed requirements are provided in each subfolder's README.
 
 ## Citation
-- Paper will be available soon for citation of this work
+
+@article{perezhohin2026wave,
+  title={WAVe: Word-aligned verification of synthetic speech for ASR},
+  author={Perezhohin, Yuriy and Castelli, Mauro},
+  journal={Information Sciences},
+  pages={123591},
+  year={2026},
+  publisher={Elsevier}
+}
+&
+@article{perezhohin2024enhancing,
+  title={Enhancing automatic speech recognition: effects of semantic audio filtering on models performance},
+  author={Perezhohin, Yuriy and Santos, Tiago and Costa, Victor and Peres, Fernando and Castelli, Mauro},
+  journal={IEEE Access},
+  volume={12},
+  pages={155136--155150},
+  year={2024},
+  publisher={IEEE}
+}
